@@ -18,8 +18,6 @@ public class User {
 	private boolean admin;
 	private LocalDateTime regiDate;
 	
-	
-	
 	public boolean matchPassword(String password) {
 		// TODO Auto-generated method stub
 		return false;
