@@ -2,26 +2,25 @@ package spring.auth;
 
 public class AuthInfo {
 
-	private Long id;
-	private String email;
+	private String id;
 	private String name;
+	private boolean admin;
 
-	public AuthInfo(Long id, String email, String name) {
+	public AuthInfo(String id, String name, boolean admin) {
 		this.id = id;
-		this.email = email;
 		this.name = name;
+		this.admin = admin;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
-	}
-
-	public String getEmail() {
-		return email;
 	}
 
 	public String getName() {
 		return name;
 	}
 
+	public boolean getAdmin() {
+		return admin;
+	}
 }

@@ -2,16 +2,16 @@ package controller.login;
 
 public class LoginCommand {
 
-	private String email;
+	private String id;
 	private String password;
-	private boolean rememberEmail;	//쿠키 저장 유무 객체
+	private boolean rememberId;	
 
-	public String getEmail() {
-		return email;
+	public String getId() {
+		return id;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getPassword() {
@@ -22,12 +22,12 @@ public class LoginCommand {
 		this.password = password;
 	}
 
-	public boolean isRememberEmail() {
-		return rememberEmail;
+	public boolean isRememberId() {
+		return rememberId;
 	}
 
-	public void setRememberEmail(boolean rememberEmail) {
-		this.rememberEmail = rememberEmail;
+	public void setRememberId(boolean rememberId) {
+		this.rememberId = rememberId;
 	}
 
 }
