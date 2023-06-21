@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="spring.auth.AuthInfo" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -27,7 +28,11 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <c:if test="${sessionScope.authInfo.getAdmin()}">
+                        <li><a class="dropdown-item" href="#!">Manage Settings</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        </c:if>
+                        <li><a class="dropdown-item" href="<c:url value = "/logout"/>">Logout</a></li>
                     </ul>
                 </li>
             </ul>

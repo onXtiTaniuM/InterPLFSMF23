@@ -4,6 +4,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
+	<%
+		//session checker
+		if(session.getAttribute("authInfo") != null){
+			response.sendRedirect("main");
+		}
+	%>
 	<head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />

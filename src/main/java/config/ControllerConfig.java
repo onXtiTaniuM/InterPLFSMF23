@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import controller.login.LogoutController;
 import controller.login.LoginController;
 import spring.auth.AuthService;
 
@@ -18,6 +19,11 @@ public class ControllerConfig {
 		LoginController controller = new LoginController();
 		controller.setAuthService(authService);
 		return controller;
+	}
+	
+	@Bean
+	public LogoutController logoutController() {
+		return new LogoutController();
 	}
 	
 }
