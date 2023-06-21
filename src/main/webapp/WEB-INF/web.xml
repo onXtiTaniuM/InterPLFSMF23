@@ -22,7 +22,7 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				config.MemberConfig
+				config.db.OracleDbConfig
 				config.MvcConfig
 				config.ControllerConfig
 			</param-value>
@@ -35,7 +35,11 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
+	
+	<session-config>
+    	<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>

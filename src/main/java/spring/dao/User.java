@@ -18,29 +18,62 @@ public class User {
 	private boolean admin;
 	private LocalDateTime regiDate;
 	
+	public User(Long empno, 
+			String id, 
+			String password, 
+			String name, 
+			String rank, 
+			boolean admin, 
+			LocalDateTime regidate) {
+		this.empNo = empno;
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.rank = rank;
+		this.admin = admin;
+		this.regiDate = regidate;
+	}
+	
 	public boolean matchPassword(String password) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public Long getEmpNo() {
+		return empNo;
 	}
 
-	public String getEmail() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getId() {
+		return id;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
-	public boolean getAdmin() {
-		// TODO Auto-generated method stub
-		return false;
+	public String getRank() {
+		return rank;
 	}
 
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public LocalDateTime getRegiDate() {
+		return regiDate;
+	}
+
+	
+	public void setUserNo(Long userNo) {
+		this.userNo = userNo;
+	}
+
+	public Long getUserNo() {
+		return userNo;
+	}
+	
 }

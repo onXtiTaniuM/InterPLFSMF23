@@ -1,6 +1,7 @@
 package spring.dao;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class UserDao {
 
@@ -8,10 +9,12 @@ public class UserDao {
 	 * Dao for user data
 	 */
 	
-	public UserDao(DataSource dataSource) {
-		// TODO Auto-generated constructor stub
-	}
+	private JdbcTemplate jdbcTemplate;
 
+	public UserDao(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	}
+	
 	public User selectByEmail(String email) {
 		// TODO Auto-generated method stub
 		return null;
