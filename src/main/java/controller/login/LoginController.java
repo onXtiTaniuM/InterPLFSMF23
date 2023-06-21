@@ -60,9 +60,9 @@ public class LoginController {
 			}
 			response.addCookie(rememberCookie);
 
-            return "/";
+            return "";
         } catch (WrongIdPasswordException e) {
-            errors.reject("IdPasswordNotMatching");
+            errors.reject("idPasswordNotMatching");
             return "login/loginPage";
         }
     }

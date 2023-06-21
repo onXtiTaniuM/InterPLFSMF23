@@ -33,11 +33,6 @@ public class User {
 		this.admin = admin;
 		this.regiDate = regidate;
 	}
-	
-	public boolean matchPassword(String password) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	public Long getEmpNo() {
 		return empNo;
@@ -76,4 +71,7 @@ public class User {
 		return userNo;
 	}
 	
+	public boolean matchPassword(String password) {
+		return this.password.equals(password);
+	}
 }

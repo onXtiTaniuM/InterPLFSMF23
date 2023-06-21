@@ -23,25 +23,23 @@ public class UserDao {
 
 	public User selectById(String id) {
 		Object[] where = new Object[] {id};
-		
 		List<User> results = jdbcTemplate.query(
-				"select * from MEMBER where EMAIL = ?", where,
+				"select * from e_user where id = ?", where,
 				new RowMapper<User>() {
 					@Override
 					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 						User user = new User(
 								rs.getLong("empno"),
 								rs.getString("id"),
-								rs.getString("password"),
+								rs.getString("pw"),
 								rs.getString("name"),
 								rs.getString("rank"),
-								rs.getBoolean("admin"),
+								(1 == rs.getLong("admin")),
 								rs.getTimestamp("regidate").toLocalDateTime());
 						user.setuserNo(rs.getLong("userNo"));
 						return user;
 					}
 				});
-
 		return results.isEmpty() ? null : results.get(0);
 	}
 

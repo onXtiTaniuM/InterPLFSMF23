@@ -25,14 +25,16 @@
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                     <div class="card-body">
                                          <form:form modelAttribute="loginCommand">
-									     <form:errors />
                                             <div class="form-floating mb-3">
                                                 <form:input class="form-control" placeholder="Your ID" path="id" />
                                                 <label for="inputID">ID를 입력해 주세요</label>
+                                                <form:errors path="id"/>
                                             </div>
                                             <div class="form-floating mb-3">
                                                 <form:password class="form-control" placeholder="Password" path="password" />
                                                 <label for="inputPassword">비밀번호를 입력해 주세요</label>
+                                                <form:errors path="password"/>
+									     		<form:errors />
                                             </div>
                                             <div class="form-check mb-3">
                                                 <form:checkbox class="form-check-input" path="rememberId"/> 
