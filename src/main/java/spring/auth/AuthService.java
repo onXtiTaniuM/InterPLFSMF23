@@ -22,7 +22,7 @@ public class AuthService {
 		}
 		return new AuthInfo(user.getId(),
 				user.getName(),
-				user.getAdmin());
+				user.isAdmin());
 	}
 
 }

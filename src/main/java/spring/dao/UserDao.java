@@ -1,7 +1,13 @@
 package spring.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+
 
 public class UserDao {
 
@@ -14,15 +20,29 @@ public class UserDao {
 	public UserDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-	
-	public User selectByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public User selectById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] where = new Object[] {id};
+		
+		List<User> results = jdbcTemplate.query(
+				"select * from MEMBER where EMAIL = ?", where,
+				new RowMapper<User>() {
+					@Override
+					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+						User user = new User(
+								rs.getLong("empno"),
+								rs.getString("id"),
+								rs.getString("password"),
+								rs.getString("name"),
+								rs.getString("rank"),
+								rs.getBoolean("admin"),
+								rs.getTimestamp("regidate").toLocalDateTime());
+						user.setuserNo(rs.getLong("userNo"));
+						return user;
+					}
+				});
+
+		return results.isEmpty() ? null : results.get(0);
 	}
 
 }

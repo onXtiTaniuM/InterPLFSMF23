@@ -68,11 +68,11 @@ public class User {
 	}
 
 	
-	public void setUserNo(Long userNo) {
+	public void setuserNo(Long userNo) {
 		this.userNo = userNo;
 	}
 
-	public Long getUserNo() {
+	public Long getuserNo() {
 		return userNo;
 	}
 	

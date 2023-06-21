@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -23,23 +24,24 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                     <div class="card-body">
-                                        <form>
+                                         <form:form modelAttribute="loginCommand">
+									     <form:errors />
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputID" type="text" placeholder="Your ID" />
+                                                <form:input class="form-control" placeholder="Your ID" path="id" />
                                                 <label for="inputID">ID를 입력해 주세요</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                                                <form:password class="form-control" placeholder="Password" path="password" />
                                                 <label for="inputPassword">비밀번호를 입력해 주세요</label>
                                             </div>
                                             <div class="form-check mb-3">
-                                                <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                                                <label class="form-check-label" for="inputRememberPassword">Remember ID</label>
+                                                <form:checkbox class="form-check-input" path="rememberId"/> 
+                                                <label class="form-check-label" for="rememberId">Remember ID</label>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="btn btn-primary" href="<c:url value = "/main"/>">Login</a>
+                                                <input type="submit" class="btn btn-primary" value="Login" />
                                             </div>
-                                        </form>
+                                        </form:form>
                                     </div>
                                 </div>
                             </div>

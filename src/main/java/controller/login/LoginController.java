@@ -16,8 +16,6 @@ import exeptions.WrongIdPasswordException;
 import spring.auth.AuthService;
 import spring.auth.AuthInfo;
 
-
-
 @Controller
 @RequestMapping("/login")
 public class LoginController {
@@ -43,7 +41,7 @@ public class LoginController {
     		HttpServletResponse response) {
         new LoginCommandValidator().validate(loginCommand, errors);
         if (errors.hasErrors()) {
-            return "login/loginForm";
+            return "login/loginPage";
         }
         try {
             AuthInfo authInfo = authService.authenticate(
@@ -65,7 +63,7 @@ public class LoginController {
             return "/";
         } catch (WrongIdPasswordException e) {
             errors.reject("IdPasswordNotMatching");
-            return "login/loginForm";
+            return "login/loginPage";
         }
     }
 }
