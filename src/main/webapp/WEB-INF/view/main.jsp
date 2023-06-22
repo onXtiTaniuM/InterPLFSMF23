@@ -11,16 +11,22 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Main</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="resources/css/styles.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
+        <script src="resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="/SMFPlatform/main">Platform Name</a>
+            <a class="navbar-brand ps-3" href="<c:url value = "/main"/>">Platform Name</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Clock !!!need to fix css to visibility-->
+            <div class="navbar-clock justify-content-end align-items-md-end" id="navbar-clock">
+		        <div id="date" class="date"></div>
+		        <div id="time" class="time"></div>
+            </div>
             <!-- Navbar-->
             <ul class="navbar-nav justify-content-end align-items-md-end">
                 <li class="nav-item dropdown">
@@ -28,9 +34,10 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
+                        <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
-                        <li><a class="dropdown-item" href="#!">Manage Settings</a></li>
-                        <li><hr class="dropdown-divider" /></li>
+	                        <li><a class="dropdown-item" href="#!">Manage Settings</a></li>
+	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
                         <li><a class="dropdown-item" href="<c:url value = "/logout"/>">Logout</a></li>
                     </ul>
@@ -223,16 +230,6 @@
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
                 </footer>
             </div>
         </div>

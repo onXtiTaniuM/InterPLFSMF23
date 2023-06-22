@@ -3753,6 +3753,10 @@ textarea.form-control-lg {
   --bs-navbar-brand-margin-end: 1rem;
   --bs-navbar-brand-font-size: 1.25rem;
   --bs-navbar-brand-color: rgba(0, 0, 0, 0.9);
+  --bs-navbar-clock-padding-y: 0.2rem;
+  --bs-navbar-clock-margin-end: 0rem;
+  --bs-navbar-clock-font-size: 0.2rem;
+  --bs-navbar-clock-color: rgba(0, 0, 0, 0.9);
   --bs-navbar-brand-hover-color: rgba(0, 0, 0, 0.9);
   --bs-navbar-nav-link-padding-x: 0.5rem;
   --bs-navbar-toggler-padding-y: 0.25rem;
@@ -3794,7 +3798,23 @@ textarea.form-control-lg {
 .navbar-brand:hover, .navbar-brand:focus {
   color: var(--bs-navbar-brand-hover-color);
 }
-
+.date{
+    font-size: 0.2rem; 
+    color: var(--bs-navbar-clock-color);
+}
+.time{
+    font-size: 0.3rem;
+    font-weight: bold;
+    color: var(--bs-navbar-clock-color);
+}
+.navbar-clock{
+  padding-top: var(--bs-navbar-clock-padding-y);
+  padding-bottom: var(--bs-navbar-clock-padding-y);
+  margin-right: var(--bs-navbar-clock-margin-end);
+  color: var(--bs-navbar-clock-color);
+  text-decoration: none;
+  white-space: nowrap;
+}
 .navbar-nav {
   --bs-nav-link-padding-x: 0;
   --bs-nav-link-padding-y: 0.5rem;
@@ -3806,7 +3826,7 @@ textarea.form-control-lg {
   flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
-  margin-left: auto;
+  margin-left: 0;
   list-style: none;
 }
 .navbar-nav .show > .nav-link,
@@ -4159,8 +4179,10 @@ textarea.form-control-lg {
   --bs-navbar-color: rgba(255, 255, 255, 0.55);
   --bs-navbar-hover-color: rgba(255, 255, 255, 0.75);
   --bs-navbar-disabled-color: rgba(255, 255, 255, 0.25);
+  --bs-navbar-clock-color: rgba(255, 255, 255, 0.25);
   --bs-navbar-active-color: #fff;
   --bs-navbar-brand-color: #fff;
+  --bs-navbar-clock-color: #fff;
   --bs-navbar-brand-hover-color: #fff;
   --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.1);
   --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
