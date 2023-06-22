@@ -12,6 +12,7 @@
         <meta name="author" content="" />
         <title>Main</title>
         <link href="resources/css/styles.css" rel="stylesheet" />
+        <link href="resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
@@ -22,8 +23,8 @@
             <a class="navbar-brand ps-3" href="<c:url value = "/main"/>">Platform Name</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Clock !!!need to fix css to visibility-->
-            <div class="navbar-clock justify-content-end align-items-md-end" id="navbar-clock">
+            <!-- Navbar Clock !!! not completed need to fix position !!! -->
+            <div class="navbar-clock justify-content-end align-items-md-end text-end" id="navbar-clock">
 		        <div id="date" class="date"></div>
 		        <div id="time" class="time"></div>
             </div>
