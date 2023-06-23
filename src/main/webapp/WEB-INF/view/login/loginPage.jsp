@@ -44,7 +44,7 @@
                                             </div>
                                             <div class="form-check mb-3">
                                                 <form:checkbox class="form-check-input" path="rememberId"/> 
-                                                <label class="form-check-label" for="rememberId">Remember ID</label>
+                                                <label class="form-check-label" for="rememberId">ID 저장</label>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <input type="submit" class="btn btn-primary" value="Login" />
