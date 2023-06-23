@@ -12,8 +12,8 @@ public class AuthService {
 		this.userDao = userDao;
 	}
 
-	public AuthInfo authenticate(String email, String password) {
-		User user = userDao.selectByEmail(email);
+	public AuthInfo authenticate(String id, String password) {
+		User user = userDao.selectById(id);
 		if (user == null) {
 			throw new WrongIdPasswordException();
 		}
@@ -21,8 +21,8 @@ public class AuthService {
 			throw new WrongIdPasswordException();
 		}
 		return new AuthInfo(user.getId(),
-				user.getEmail(),
-				user.getName());
+				user.getName(),
+				user.isAdmin());
 	}
 
 }

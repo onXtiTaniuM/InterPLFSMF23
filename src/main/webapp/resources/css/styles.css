@@ -3753,6 +3753,10 @@ textarea.form-control-lg {
   --bs-navbar-brand-margin-end: 1rem;
   --bs-navbar-brand-font-size: 1.25rem;
   --bs-navbar-brand-color: rgba(0, 0, 0, 0.9);
+  --bs-navbar-clock-padding-y: 0.2rem;
+  --bs-navbar-clock-margin-end: 0rem;
+  --bs-navbar-clock-font-size: 0.2rem;
+  --bs-navbar-clock-color: rgba(0, 0, 0, 0.9);
   --bs-navbar-brand-hover-color: rgba(0, 0, 0, 0.9);
   --bs-navbar-nav-link-padding-x: 0.5rem;
   --bs-navbar-toggler-padding-y: 0.25rem;
@@ -3794,7 +3798,6 @@ textarea.form-control-lg {
 .navbar-brand:hover, .navbar-brand:focus {
   color: var(--bs-navbar-brand-hover-color);
 }
-
 .navbar-nav {
   --bs-nav-link-padding-x: 0;
   --bs-nav-link-padding-y: 0.5rem;
@@ -3806,7 +3809,7 @@ textarea.form-control-lg {
   flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
-  margin-left: auto;
+  margin-left: 0;
   list-style: none;
 }
 .navbar-nav .show > .nav-link,

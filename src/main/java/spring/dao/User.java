@@ -1,25 +1,77 @@
 package spring.dao;
 
+import java.time.LocalDateTime;
+
 public class User {
 
-	public boolean matchPassword(String password) {
-		// TODO Auto-generated method stub
-		return false;
+	/*
+	 * Bean for contains user data
+	 */
+	
+	//basic method
+	private Long userNo;
+	private Long empNo;
+	private String id;
+	private String password;
+	private String name;
+	private String rank;
+	private boolean admin;
+	private LocalDateTime regiDate;
+	
+	public User(Long empno, 
+			String id, 
+			String password, 
+			String name, 
+			String rank, 
+			boolean admin, 
+			LocalDateTime regidate) {
+		this.empNo = empno;
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.rank = rank;
+		this.admin = admin;
+		this.regiDate = regidate;
 	}
 
-	public Long getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public Long getEmpNo() {
+		return empNo;
 	}
 
-	public String getEmail() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getId() {
+		return id;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
+	public String getRank() {
+		return rank;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public LocalDateTime getRegiDate() {
+		return regiDate;
+	}
+
+	
+	public void setuserNo(Long userNo) {
+		this.userNo = userNo;
+	}
+
+	public Long getuserNo() {
+		return userNo;
+	}
+	
+	public boolean matchPassword(String password) {
+		return this.password.equals(password);
+	}
 }
