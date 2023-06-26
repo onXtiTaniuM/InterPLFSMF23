@@ -63,6 +63,4 @@ public class ControllerConfig {
 		return new TestController();
 	}
 	
-	
-	
 }
