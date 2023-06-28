@@ -7,10 +7,12 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import interceptor.AdminCheckInterceptor;
 import interceptor.AuthCheckInterceptor;
 
 @Configuration
@@ -34,16 +36,29 @@ public class MvcConfig implements WebMvcConfigurer {
 	}
 
 	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
+    }
+	
+	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(authCheckInterceptor())
 			.addPathPatterns("/**")
 			.excludePathPatterns("/login/**")
 			.excludePathPatterns("/test/**");
+		registry.addInterceptor(adminCheckInterceptor())
+			.addPathPatterns("/manage/**");
 	}
 
 	@Bean
 	public AuthCheckInterceptor authCheckInterceptor() {
 		return new AuthCheckInterceptor();
+	}
+	
+	@Bean
+	public AdminCheckInterceptor adminCheckInterceptor() {
+		return new AdminCheckInterceptor();
 	}
 
 	@Bean
