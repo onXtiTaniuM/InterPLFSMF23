@@ -6,6 +6,10 @@ public class AuthInfo {
 	private String name;
 	private boolean admin;
 
+	public AuthInfo() {
+		
+	}
+	
 	public AuthInfo(String id, String name, boolean admin) {
 		this.id = id;
 		this.name = name;

@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import spring.auth.AuthInfo;
+
 public class AdminCheckInterceptor implements HandlerInterceptor {
 
 	/*
@@ -18,12 +20,15 @@ public class AdminCheckInterceptor implements HandlerInterceptor {
 		if (session != null) {	
 			Object authInfo = session.getAttribute("authInfo");	
 			if (authInfo != null) {
-				return true;
+				AuthInfo auth = new AuthInfo();
+				auth = (AuthInfo)authInfo;
+				if(auth.getAdmin()) {
+					return true;
+				}
 			}
 		}
-		response.sendRedirect(request.getContextPath() + "/login");
+		response.sendRedirect(request.getContextPath() + "/main");
 		return false;
-
 	}
 
 }
