@@ -34,12 +34,6 @@ public class MvcConfig implements WebMvcConfigurer {
 		registry.addViewController("/main").setViewName("main");
 		registry.addViewController("/").setViewName("main");
 	}
-
-	@Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
-    }
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

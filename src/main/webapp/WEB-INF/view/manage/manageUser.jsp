@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="spring.auth.AuthInfo" %>
-<% String contextPath = request.getContextPath(); %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,12 +12,12 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Manage</title>
-        <link href="<%=contextPath%>/resources/css/styles.css" rel="stylesheet" />
-        <link href="<%=contextPath%>/resources/css/customstyle.css" rel="stylesheet" />
+        <link href="${path}/resources/css/styles.css" rel="stylesheet" />
+        <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    	<link href="<%=contextPath%>/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
-        <script src="<%=contextPath%>/resources/js/jquery-3.6.0.js"></script>
-    	<script src="<%=contextPath%>/resources/js/jquery.dataTables.js"></script>
+    	<link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
+        <script src="${path}/resources/js/jquery-3.6.0.js"></script>
+    	<script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script> <!-- datatables js script -->
 	    	$(document).ready(function () {
@@ -30,7 +30,7 @@
         <script src="resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="<%=contextPath%>">Platform Name</a>
+            <a class="navbar-brand ps-3" href="${path}">Platform Name</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
             <!-- Navbar Clock -->
@@ -47,10 +47,10 @@
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
-	                        <li><a class="dropdown-item" href="<%=contextPath%>/manage">Manage Settings</a></li>
+	                        <li><a class="dropdown-item" href="${path}/manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
-                        <li><a class="dropdown-item" href="<%=contextPath%>/logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="${path}/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -63,11 +63,11 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Menu</div>
-                            <a class="nav-link" href="<%=contextPath%>/plan">
+                            <a class="nav-link" href="${path}/plan">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 계획관리
                             </a>
-                            <a class="nav-link" href="<%=contextPath%>/inventory">
+                            <a class="nav-link" href="${path}/inventory">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 재고관리
                             </a>
@@ -78,11 +78,11 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="<%=contextPath%>/process">공정명령</a>
-                                    <a class="nav-link" href="<%=contextPath%>/report">공정결과</a>
+                                    <a class="nav-link" href="${path}/process">공정명령</a>
+                                    <a class="nav-link" href="${path}/report">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="<%=contextPath%>/logout">
+                            <a class="nav-link" href="${path}/logout">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 보고서관리
                             </a>
@@ -615,7 +615,7 @@
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="<%=contextPath%>/resources/js/scripts.js"></script>
+        <script src="${path}/resources/js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     </body>
