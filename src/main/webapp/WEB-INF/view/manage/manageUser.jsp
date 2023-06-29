@@ -27,7 +27,7 @@
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
-        <script src="resources/js/kor_clock.js"></script>
+        <script src="${path}/resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="${path}">Platform Name</a>
