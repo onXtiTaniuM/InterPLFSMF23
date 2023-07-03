@@ -19,15 +19,29 @@
         <script src="${path}/resources/js/jquery-3.6.0.js"></script>
     	<script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <script> <!-- datatables js script -->
+        <!-- script for jq link -->
+        <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
+        <script> <!-- page ready js script -->
 	    	$(document).ready(function () {
 	        	$('#example').DataTable();
+	    		$("#signup").jqxButton({ width: 100, height: 40 });
+	        	$("#jqxButton").on('click', function ()
+	        	            {
+	        	                $("#events").find('span').remove();
+	        	                $("#events").append('<span>Button Clicked</span');
+	        	            });
 	        });
     	</script>
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
-        <script src="resources/js/kor_clock.js"></script>
+        <script src="${path}/resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="${path}">Platform Name</a>
@@ -162,6 +176,9 @@
 							            </tr>
 							        </tfoot>
 							    </table>
+							    <div>
+       								<input type="button" value="사용자 신규등록" id='singup' />
+       							</div>
 						    </div>
 					    </div>
 					</div>

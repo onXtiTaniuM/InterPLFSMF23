@@ -26,9 +26,6 @@ public class ManageController {
 	@RequestMapping("/usermanagement")
     public String manageUser(Model model) {
 		List<User> list = manageS.allUserList();
-		for(User user : list) {
-			System.out.println(user);
-		}
 		model.addAttribute("userlist",list);
     	return "manage/manageUser";
     }
