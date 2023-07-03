@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="spring.auth.AuthInfo" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,14 +15,17 @@
         <link href="resources/css/styles.css" rel="stylesheet" />
         <link href="resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    	<link href="resources/css/jquery.dataTables.css" rel="stylesheet" />
+        <script src="resources/js/jquery-3.6.0.js"></script>
+    	<script src="resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
-        <script src="resources/js/kor_clock.js"></script>
+        <script src="${path}/resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="main">Platform Name</a>
+            <a class="navbar-brand ps-3" href="${path}">Platform Name</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
             <!-- Navbar Clock -->
@@ -54,11 +58,11 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Menu</div>
-                            <a class="nav-link" href="plan">
+                            <a class="nav-link" href="${path}/plan">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 계획관리
                             </a>
-                            <a class="nav-link" href="inventory">
+                            <a class="nav-link" href="${path}/inventory">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 재고관리
                             </a>
@@ -69,11 +73,11 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="process">공정명령</a>
-                                    <a class="nav-link" href="report">공정결과</a>
+                                    <a class="nav-link" href="${path}/process">공정명령</a>
+                                    <a class="nav-link" href="${path}/report">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="logout">
+                            <a class="nav-link" href="${path}/logout">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 보고서관리
                             </a>
@@ -113,6 +117,14 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Manage</li>
                         </ol>
+	    				<div class="row">
+		                    <div class="col-xl-3 col-md-6">
+			                    <div class="card mb-4">
+				                    <div class="card-body">사용자 관리</div>
+				                    <a class="small stretched-link" href="manage/usermanagement"></a>
+			                    </div>
+		                    </div>
+	                    </div>
                     </div>
                 </main>
             </div>
@@ -120,8 +132,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="resources/js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
     </body>

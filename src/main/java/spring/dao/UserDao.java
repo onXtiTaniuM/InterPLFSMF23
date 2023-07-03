@@ -21,10 +21,31 @@ public class UserDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	public User selectById(String id) {
+	public User selectById(String id) { //ID로 User 조회
 		Object[] where = new Object[] {id};
 		List<User> results = jdbcTemplate.query(
 				"select * from e_user where id = ?", where,
+				new RowMapper<User>() {
+					@Override
+					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+						User user = new User(
+								rs.getLong("empno"),
+								rs.getString("id"),
+								rs.getString("pw"),
+								rs.getString("name"),
+								rs.getString("rank"),
+								(1 == rs.getLong("admin")),
+								rs.getTimestamp("regidate").toLocalDateTime());
+						user.setuserNo(rs.getLong("userNo"));
+						return user;
+					}
+				});
+		return results.isEmpty() ? null : results.get(0);
+	}
+	
+	public User selectAll() { //User 전체 조회
+		List<User> results = jdbcTemplate.query(
+				"select * from e_user", 
 				new RowMapper<User>() {
 					@Override
 					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
