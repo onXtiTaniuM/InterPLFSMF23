@@ -13,12 +13,16 @@ import controller.TestController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
 import spring.auth.AuthService;
+import spring.manage.ManageService;
 
 @Configuration
 public class ControllerConfig {
 
 	@Autowired
 	private AuthService authService;
+	
+	@Autowired
+	private ManageService manageService;
 	
 	@Bean
 	public LoginController loginController() {
@@ -34,7 +38,9 @@ public class ControllerConfig {
 	
 	@Bean
 	public ManageController manageController() {
-		return new ManageController();
+		ManageController controller = new ManageController();
+		controller.setManageS(manageService);
+		return controller;
 	}
 	
 	@Bean

@@ -29,7 +29,7 @@ public class UserDao {
 					@Override
 					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 						User user = new User(
-								rs.getLong("empno"),
+								rs.getString("empno"),
 								rs.getString("id"),
 								rs.getString("pw"),
 								rs.getString("name"),
@@ -43,14 +43,14 @@ public class UserDao {
 		return results.isEmpty() ? null : results.get(0);
 	}
 	
-	public User selectAll() { //User 전체 조회
+	public List<User> selectAll() { //User 전체 조회
 		List<User> results = jdbcTemplate.query(
 				"select * from e_user", 
 				new RowMapper<User>() {
 					@Override
 					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 						User user = new User(
-								rs.getLong("empno"),
+								rs.getString("empno"),
 								rs.getString("id"),
 								rs.getString("pw"),
 								rs.getString("name"),
@@ -61,7 +61,8 @@ public class UserDao {
 						return user;
 					}
 				});
-		return results.isEmpty() ? null : results.get(0);
+		
+		return results;
 	}
 
 }

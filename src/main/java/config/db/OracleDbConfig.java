@@ -11,6 +11,7 @@ import config.db.OracleInfo;
 import spring.auth.AuthService;
 import spring.dao.UserDao;
 import spring.dao.UserRegisterService;
+import spring.manage.ManageService;
 
 @Configuration
 @EnableTransactionManagement
@@ -54,5 +55,12 @@ public class OracleDbConfig{
 		AuthService authService = new AuthService();
 		authService.setuserDao(userDao());
 		return authService;
+	}
+	
+	@Bean
+	public ManageService manageService() {
+		ManageService manageService = new ManageService();
+		manageService.setuserDao(userDao());
+		return manageService;
 	}
 }
