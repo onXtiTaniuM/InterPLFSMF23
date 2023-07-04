@@ -30,11 +30,13 @@
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
 	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
     	<script type="text/javascript"> //register user ajax func
+    		var reguser = $("#registerForm").serialize();
+    	
         	function fn_register() {
 	    		$.ajax({
 	       			type:"post",  
 	       			url:"localhost:8584/SMFPlatform/manage/usermanagement/register.do",
-	       			data:manageUserCommand,
+	       			data:reguser,
 	       			success:function (data, textStatus) {
 	       			},
 	       			complete:function(data,textStatus){
@@ -72,7 +74,7 @@
 						autoOpen: false,
 	                    position: { x: offset.left+250, y: offset.top } ,
 	                    showCollapseButton: true, 
-	                    height: 450, width: 500,
+	                    height: 530, width: 500,
 	                    initContent: function () {
 	                        $('#window').jqxWindow('focus');
 	                    }
@@ -252,40 +254,32 @@
 					                    	</span>
 					                	</div>
 						                <div style="overflow: hidden;" id="windowContent">
-				                            <form:form modelAttribute="manageUserCommand">
-				                            	<div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="empno" path="empNo" autocomplete = "off"/>
-	                                                <label for="inputEmpno">사번</label>
-	                                                <form:errors path="id"/>
-	                                            </div>
-				                            	<div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="User Name" path="name" autocomplete = "off"/>
-	                                                <label for="inputName">이름</label>
-	                                                <form:errors path="id"/>
+				                            <form id="registerForm">
+	                                            <div class="form-floating mb-3">
+	                                                <input class="form-control" id="empNo" type="text"  autocomplete = "off"/>
+	                                                <label for="empNo">사번</label>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="User ID" path="id" autocomplete = "off"/>
-	                                                <label for="inputID">ID</label>
-	                                                <form:errors path="id"/>
+	                                                <input class="form-control" id="name" type="text" autocomplete = "off" />
+	                                                <label for="name">이름</label>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:password class="form-control" placeholder="Password" path="password" />
-	                                                <label for="inputPassword">비밀번호</label>
-	                                                <form:errors path="password"/>
-										     		<form:errors />
+	                                                <input class="form-control" id="ID" type="text"  autocomplete = "off"/>
+	                                                <label for="ID">ID</label>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:password class="form-control" placeholder="PasswordCheck" path="passwordCheck"/>
-	                                                <label for="inputPasswordCheck">비밀번호 확인</label>
-	                                                <form:errors path="password"/>
-										     		<form:errors />
+	                                                <input class="form-control" id="password" type="password"  />
+	                                                <label for="password">비밀번호</label>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="Rank" path="rank"/>
-	                                                <label for="inputRank">직책</label>
-	                                                <form:errors path="id"/>
+	                                                <input class="form-control" id="passwordcheck" type="password"  />
+	                                                <label for="passwordcheck">비밀번호 확인</label>
 	                                            </div>
-	                                        </form:form>
+	                                            <div class="form-floating mb-3">
+	                                                <input class="form-control" id="rank" type="text"  />
+	                                                <label for="rank">직책</label>
+	                                            </div>
+	                                        </form>
   											<input type="button" value="입력" id="regsubmit"/>
 						                </div>
 							    	</div>
