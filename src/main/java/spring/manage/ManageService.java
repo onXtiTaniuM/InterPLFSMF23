@@ -2,6 +2,7 @@ package spring.manage;
 
 import java.util.List;
 
+import controller.manage.ManageUserCommand;
 import spring.dao.User;
 import spring.dao.UserDao;
 
@@ -17,5 +18,8 @@ public class ManageService {
 		return userlist;
 	}
 	
+	public void insertUser(ManageUserCommand newUser) {
+		userDao.insertUser(newUser);
+	}
 	
 }

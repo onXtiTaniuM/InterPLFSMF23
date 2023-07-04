@@ -1,12 +1,18 @@
 package spring.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+
+import controller.manage.ManageUserCommand;
 
 
 public class UserDao {
@@ -63,6 +69,24 @@ public class UserDao {
 				});
 		
 		return results;
+	}
+	
+	public void insertUser(ManageUserCommand user) {
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				// 파라미터로 전달받은 Connection을 이용해서 PreparedStatement 생성
+				PreparedStatement pstmt = con.prepareStatement(
+						"insert into e_user (userno, empno, name, id, pw, rank) " +
+						"values (user_seq.NEXTVAL, ?, ?, ?, ?, ?)");
+				pstmt.setString(1, user.getEmpNo());
+				pstmt.setString(2, user.getName());
+				pstmt.setString(3, user.getId());
+				pstmt.setString(4, user.getName());
+				pstmt.setString(5, user.getPassword());
+				return pstmt;
+			}
+		});
 	}
 
 }

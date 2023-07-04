@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="spring.auth.AuthInfo" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
@@ -27,16 +28,80 @@
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
-        <script> <!-- page ready js script -->
+	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
+    	<script type="text/javascript"> //register user ajax func
+        	function fn_register() {
+	    		$.ajax({
+	       			type:"post",  
+	       			url:"localhost:8584/SMFPlatform/manage/usermanagement/register.do",
+	       			data:manageUserCommand,
+	       			success:function (data, textStatus) {
+	       			},
+	       			complete:function(data,textStatus){
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("에러발생: " + data);
+	       			},
+	    		});
+        	};
+    	</script>
+        <script> 
+        	//popup elements
+        	var singupPop = (function () {
+	            //Adding event listeners
+	            function _addEventListeners() {
+	                $('#register').click(function () {
+	                    $('#window').jqxWindow('open');
+	                });
+	                $('#regsubmit').click(fn_register);
+	            };
+	
+	            //Creating all page elements which are jqxWidgets
+	            function _createElements() {
+	                $('#register').jqxButton({ width: 120, height: 40 });
+	                $('#regsubmit').jqxButton({ width: '65px' });
+	            };
+	
+	            //Creating the window
+	            function _createWindow() {
+	                var jqxWidget = $('#jqxWidget');
+	                var content = $('#userlist');
+	                var offset = content.offset();
+	
+	                $('#window').jqxWindow({
+						autoOpen: false,
+	                    position: { x: offset.left+250, y: offset.top } ,
+	                    showCollapseButton: true, 
+	                    height: 450, width: 500,
+	                    initContent: function () {
+	                        $('#window').jqxWindow('focus');
+	                    }
+	                });
+	                $('#window').jqxWindow('resizable', false);
+	                $('#window').jqxWindow('draggable', true);
+	            };
+	
+	            return {
+	                config: {
+	                    dragArea: null
+	                },
+	                init: function () {
+	                    //Creating all jqxWindgets except the window
+	                    _createElements();
+	                    //Attaching event listeners
+	                    _addEventListeners();
+	                    //Adding jqxWindow
+	                    _createWindow();
+	                }
+	            };
+	        } ());
+        	
+        	//page ready js script
 	    	$(document).ready(function () {
-	        	$('#example').DataTable();
-	    		$("#signup").jqxButton({ width: 100, height: 40 });
-	        	$("#jqxButton").on('click', function ()
-	        	            {
-	        	                $("#events").find('span').remove();
-	        	                $("#events").append('<span>Button Clicked</span');
-	        	            });
+	        	$('#userlist').DataTable();
+	        	singupPop.init();
 	        });
+        	
     	</script>
     </head>
     <body class="sb-nav-fixed">
@@ -139,10 +204,10 @@
 	    				<div class="card mb-4">
 	                    	<div class="card-header">
 	                        	<i class="fas fa-table me-1"></i>
-	                                사용자 목록
+	                            사용자 목록
 	                        </div>
 	                    	<div class="card-body">
-			    				<table id="example" class="display" style="width:100%">
+			    				<table id="userlist" class="display" style="width:100%">
 							        <thead>
 							            <tr>
 							                <th>사번</th>
@@ -176,11 +241,57 @@
 							            </tr>
 							        </tfoot>
 							    </table>
-							    <div>
-       								<input type="button" value="사용자 신규등록" id='singup' />
-       							</div>
+							    <div id="jqxWidget">
+								    <div>
+	       								<input type="button" value="사용자 신규등록" id='register' />	
+	       							</div>
+							  		<div id="window">
+					                	<div id="windowHeader">
+					                    	<span>
+					                        	사용자 신규등록
+					                    	</span>
+					                	</div>
+						                <div style="overflow: hidden;" id="windowContent">
+				                            <form:form modelAttribute="manageUserCommand">
+				                            	<div class="form-floating mb-3">
+	                                                <form:input class="form-control" placeholder="empno" path="empNo" autocomplete = "off"/>
+	                                                <label for="inputEmpno">사번</label>
+	                                                <form:errors path="id"/>
+	                                            </div>
+				                            	<div class="form-floating mb-3">
+	                                                <form:input class="form-control" placeholder="User Name" path="name" autocomplete = "off"/>
+	                                                <label for="inputName">이름</label>
+	                                                <form:errors path="id"/>
+	                                            </div>
+	                                            <div class="form-floating mb-3">
+	                                                <form:input class="form-control" placeholder="User ID" path="id" autocomplete = "off"/>
+	                                                <label for="inputID">ID</label>
+	                                                <form:errors path="id"/>
+	                                            </div>
+	                                            <div class="form-floating mb-3">
+	                                                <form:password class="form-control" placeholder="Password" path="password" />
+	                                                <label for="inputPassword">비밀번호</label>
+	                                                <form:errors path="password"/>
+										     		<form:errors />
+	                                            </div>
+	                                            <div class="form-floating mb-3">
+	                                                <form:password class="form-control" placeholder="PasswordCheck" path="passwordCheck"/>
+	                                                <label for="inputPasswordCheck">비밀번호 확인</label>
+	                                                <form:errors path="password"/>
+										     		<form:errors />
+	                                            </div>
+	                                            <div class="form-floating mb-3">
+	                                                <form:input class="form-control" placeholder="Rank" path="rank"/>
+	                                                <label for="inputRank">직책</label>
+	                                                <form:errors path="id"/>
+	                                            </div>
+	                                        </form:form>
+  											<input type="button" value="입력" id="regsubmit"/>
+						                </div>
+							    	</div>
+						    	</div>
 						    </div>
-					    </div>
+						</div>
 					</div>
                 </main>
             </div>
