@@ -94,7 +94,7 @@
 		     }
 		  document.searchFrm.submit();
 		 }
-</script>
+	</script>
 </head>
 <body bgcolor="#FFFFCC">
 <div align="center">

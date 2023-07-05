@@ -83,9 +83,9 @@
         
         <link href="style.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript">
-		function list() {
-			document.listFrm.action = "<=%contextPath%>/boards/list.do";
-			document.listFrm.submit();
+		function plan() {
+			document.planFrm.action = "plan.do";
+			document.planFrm.submit();
 		}
 		
 		function pageing(page) {
@@ -113,11 +113,7 @@
 		  document.searchFrm.submit();
 		 }
 	</script>
-        <script type="text/javascript">
-	        function plan(){
-	        	location.reload();
-	        }
-        </script>
+	
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
@@ -312,12 +308,12 @@
 									</tr>
 								</table>
 							<hr width="600"/>
-							<form  name="searchFrm"  method="get" action="list.do">
+							<form  name="searchFrm"  method="get" action="plan.do">
 							<table width="600" cellpadding="4" cellspacing="0">
 						 		<tr>	
 						  			<td align="center" valign="bottom">
 						   				<select name="keyField" size="1" >
-						    				<option value="empName"> 이 름</option>
+						    				<option value="empName"> 담당자</option>
 						    				<option value="prodName"> 생산상품</option>
 						    				<option value="content"> 내 용</option>
 						   				</select>
@@ -328,7 +324,7 @@
 						 		</tr>
 							</table>
 							</form>
-							<form name="listFrm" method="post">
+							<form name="planFrm" method="post">
 								<input type="hidden" name="reload" value="true"> 
 								<input type="hidden" name="nowPage" value="1">
 							</form>
