@@ -80,7 +80,7 @@
  <tr>
   <td align="center" colspan="2"> 
  <hr/>
- [ <a href="javascript:list()" >리스트</a> | 
+ [ <a href="javascript:plan()" >리스트</a> | 
  <a href="update.do?nowPage=<%=nowPage%>&num=<%=num%>" >수 정</a> |
  <a href="reply.do?nowPage=<%=nowPage%>" >답 변</a> |
  <a href="delete.do?nowPage=<%=nowPage%>&num=<%=num%>">삭 제</a> ]<br/>
@@ -92,7 +92,7 @@
 	<input type="hidden" name="filename">
 </form>
 
-<form name="listFrm" method="post" action="list.do">
+<form name="planFrm" method="post" action="plan.do">
 	<input type="hidden" name="nowPage" value="<%=nowPage%>">
 	<%if(!(keyWord==null || keyWord.equals(""))){ %>
 	<input type="hidden" name="keyField" value="<%=keyField%>">

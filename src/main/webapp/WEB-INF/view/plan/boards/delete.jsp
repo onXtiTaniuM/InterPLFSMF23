@@ -17,7 +17,7 @@
 		
 		if (inPass.equals(dbPass)) {
 			bMgr.deleteBoard(num);
-			String url = "list.do?nowPage=" + nowPage;
+			String url = "plan.do?nowPage=" + nowPage;
 			response.sendRedirect(url);
 		} else {
 %>

@@ -1,4 +1,4 @@
-package boards.controller;
+package config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,7 @@ import controller.plan.PReportController;
 import controller.plan.PlanController;
 import controller.process.ProcessController;
 import controller.TestController;
+import controller.board.BoardController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
 import spring.auth.AuthService;
@@ -63,6 +64,10 @@ public class ControllerConfig {
 		return new TestController();
 	}
 	
-	
+
+	@Bean
+	public BoardController boardController() {
+		return new BoardController();
+	}
 	
 }

@@ -1,4 +1,4 @@
-package boards.controller;
+package controller.board;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,69 +22,69 @@ import boards.dao.BoardDAO;
 @RequestMapping("/boards")
 public class BoardController {
 
-	@GetMapping(value={ "/", "/list.do" } )
+	@GetMapping(value={ "/", "/plan.do" } )
 	public String boards(Model model) {
-		System.out.println("[BoardController] : GET:/boards/list.do");
-		return "boards/list";
+		System.out.println("[BoardController] : GET:/plan.do");
+		return "plan/boards/plan";
 	}
 
-	@PostMapping("/list.do")
+	@PostMapping("/plan.do")
 	public String listPost(Model model) {
-		System.out.println("[BoardController] : POST:/list.do");
-		return "boards/list";
+		System.out.println("[BoardController] : POST:/plan.do");
+		return "plan/boards/plan";
 	}
 
 	@GetMapping("/read.do")
 	public String read(Model model) {
 		System.out.println("[BoardController] : GET:/boards/read.do");
-		return "boards/read";
+		return "plan/boards/read";
 	}
 	
 	@GetMapping("/update.do")
 	public String update(Model model) {
 		System.out.println("[BoardController] : GET:/boards/update.do");
-		return "boards/update";
+		return "plan/boards/update";
 	}
 
 	@GetMapping("/reply.do")
 	public String reply(Model model) {
 		System.out.println("[BoardController] : GET:/boards/reply.do");
-		return "boards/reply";
+		return "plan/boards/reply";
 	}
 
 	@RequestMapping("/delete.do")
 	public String delete(Model model) {
 		System.out.println("[BoardController] : /boards/delete.do");
-		return "boards/delete";
+		return "plan/boards/delete";
 	}
 	
 	@PostMapping("/download.do")
 	public String download(Model model) {
 		System.out.println("[BoardController] : POST:/boards/download.do");
-		return "boards/download";
+		return "plan/boards/download";
 	}
 
 	
 	@GetMapping("/writePost.do")
 	public String writePost(Model model) {
 		System.out.println("[BoardController] : /writePost.do");
-		return "boards/writePost";
+		return "plan/boards/writePost";
 	}
 
 	@PostMapping("/boardPost.do")	// @GetMapping("/writePost.do")에서 요청
 	public String boardPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		System.out.println("[BoardController] : POST:/boards/boardPost.do");
+		System.out.println("[BoardController] : POST:/boardPost.do");
 		request.setCharacterEncoding("UTF-8");
 		BoardDAO bMgr = new BoardDAO();
 		bMgr.insertBoard(request);
-		return "redirect:/boards/list.do";
+		return "redirect:/plan.do";
 	}
 	
 	@PostMapping("/boardReply.do")	// @GetMapping("/writePost.do")에서 요청
 	public String boardReply(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		System.out.println("[BoardController] : POST:/boards/boardReply.do");
+		System.out.println("[BoardController] : POST:/boardReply.do");
 		request.setCharacterEncoding("UTF-8");
 		BoardDAO bMgr = new BoardDAO();
 		BoardBean reBean = new BoardBean();
@@ -102,7 +102,7 @@ public class BoardController {
 		
 		String nowPage = request.getParameter("nowPage");
 		// response.sendRedirect("list.jsp?nowPage="+nowPage);
-		return "redirect:/boards/list.do?nowPage="+nowPage;
+		return "redirect:/plan.do?nowPage="+nowPage;
 	}	
 	
 	@PostMapping("/boardUpdate.do")
@@ -133,7 +133,7 @@ public class BoardController {
 
 		if (upPass.equals(inPass)) {
 			bMgr.updateBoard(upBean);
-			String url = "redirect:/boards/read.do?nowPage=" + nowPage + "&num=" + upBean.getNum();
+			String url = "redirect:plan/boards/read.do?nowPage=" + nowPage + "&num=" + upBean.getNum();
 			// response.sendRedirect(url);
 			return url;
 		} 
