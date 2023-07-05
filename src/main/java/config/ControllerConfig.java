@@ -9,6 +9,7 @@ import controller.manage.ManageController;
 import controller.plan.PReportController;
 import controller.plan.PlanController;
 import controller.process.ProcessController;
+import controller.RestJsonController;
 import controller.TestController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
@@ -61,6 +62,13 @@ public class ControllerConfig {
 	@Bean
 	public PReportController processreportController() {
 		return new PReportController();
+	}
+	
+	@Bean
+	public RestJsonController restjsonController() {
+		RestJsonController controller = new RestJsonController();
+		controller.setManageS(manageService);
+		return controller;
 	}
 	
 	//Bean For Test Page. Will Not Use.

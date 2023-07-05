@@ -2,6 +2,8 @@ package spring.dao;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
 
 	/*
@@ -12,6 +14,7 @@ public class User {
 	private Long userNo;
 	private String empNo;
 	private String id;
+	@JsonIgnore
 	private String password;
 	private String name;
 	private String rank;

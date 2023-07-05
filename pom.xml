@@ -69,6 +69,18 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
 			<artifactId>validation-api</artifactId>
 			<version>1.1.0.Final</version>
 		</dependency>
+		 <!-- pom.xml -->
+	  <dependency>
+	      <groupId>com.fasterxml.jackson.core</groupId>
+	      <artifactId>jackson-databind</artifactId>
+	      <version>2.9.4</version>
+	  </dependency>
+	  <!-- java8 date/time -->
+	  <dependency>
+	      <groupId>com.fasterxml.jackson.datatype</groupId>
+	      <artifactId>jackson-datatype-jsr310</artifactId>
+	      <version>2.9.4</version>
+	  </dependency>
 	</dependencies>
 
 	<build>

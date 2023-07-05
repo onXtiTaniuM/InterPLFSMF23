@@ -1,8 +1,12 @@
 package controller.manage;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,8 +41,11 @@ public class ManageController {
     }
 	
 	@PostMapping("/usermanagement/register.do")
-	public String newUser(HttpServletRequest httpServletRequest, ManageUserCommand manageUserCommand, Errors errors, Model model) {
+	public void newUser(HttpServletRequest httpServletRequest, HttpServletResponse response, ManageUserCommand manageUserCommand, Errors errors, Model model) throws ServletException, IOException{
 		System.out.println("[POST] /register.do");
+		httpServletRequest.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
 		
 		System.out.println("[register User req]" + httpServletRequest.getParameter("empNo")
 		+ httpServletRequest.getParameter("name")
@@ -60,13 +67,13 @@ public class ManageController {
 		new LoginCommandValidator().validate(manageUserCommand, errors);
 		if (errors.hasErrors()) {
 			System.out.println("[Validator] has error");
-			return "manage/manageUser";
+			writer.print("fail");
+			return;
         }
 		
 		manageS.insertUser(manageUserCommand);
 		List<User> list = manageS.allUserList();
 		model.addAttribute("userlist",list);
-		
-		return "manage/manageUser";
+		writer.print("success");
 	}
 }

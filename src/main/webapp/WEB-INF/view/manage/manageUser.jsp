@@ -42,13 +42,15 @@
 	       			url:form.attr("action"),
 	       			data:regiuser,
 	       			success:function (data, textStatus) {
-	       				reloadList();
+	       				alert("성공" + data);
+	       				//reloadList();
+	       				//$('#userlist').DataTable();
 	       				$("#registerForm")[0].reset();
 	       			},
 	       			complete:function(data,textStatus){
 	       			},
 	       			error:function(data, textStatus){
-	          			alert("에러발생: " + data.responseText);
+	          			alert("에러발생: " + data);
 	       			},
 	    		});
         	};
@@ -106,7 +108,9 @@
         	
         	//page ready js script
 	    	$(document).ready(function () {
-	        	$('#userlist').DataTable();
+	    		new DataTable('#userlist', {
+	    		    ajax: 'http://localhost:8584/SMFPlatform/api/userList'
+	    		});
 	        	singupPop.init();
 	        });
         	
@@ -215,8 +219,8 @@
 	                            사용자 목록
 	                        </div>
 	                    	<div class="card-body">
-			    				<table id="userlist" class="display" style="width:100%">
-							        <thead>
+			    				<table id="userlist" class="display responsive" style="width:100%">
+							          <!--<thead>
 							            <tr>
 							                <th>사번</th>
 							                <th>이름</th>
@@ -247,7 +251,7 @@
 							                <th>등록일</th>
 							                <th>관리자 권한</th>
 							            </tr>
-							        </tfoot>
+							        </tfoot>-->
 							    </table>
 							    <div id="jqxWidget">
 								    <div>
