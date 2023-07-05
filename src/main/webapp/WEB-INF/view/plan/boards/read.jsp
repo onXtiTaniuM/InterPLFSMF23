@@ -23,8 +23,8 @@
 <title>JSP Board</title>
 <link href="style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-	function list(){
-	    document.listFrm.submit();
+	function plan(){
+	    document.planFrm.submit();
 	 } 
 	
 	function down(filename){
@@ -33,7 +33,7 @@
 	}
 </script>
 </head>
-<body bgcolor="#FFFFCC">
+<body>
 <br/><br/>
 <table align="center" width="600" cellspacing="3">
  <tr>

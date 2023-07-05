@@ -6,23 +6,23 @@
 <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
-<body bgcolor="#FFFFCC">
+<body>
 <div align="center">
 <br/><br/>
-<table width="600" cellpadding="3">
+<table width="700" cellpadding="3">
 	<tr>
 		<td bgcolor="84F399" height="25" align="center">공정계획</td>
 	</tr>
 </table>
 <br/>
 <form name="postFrm" method="post" action="boardPost.do" enctype="multipart/form-data">
-<table width="600" cellpadding="3" align="center">
+<table width="700" cellpadding="3" align="center">
 	<tr>
 		<td align=center>
 		<table align="center">
 			
 			<tr>
-				<td>생성일자</td>
+				<td>생산계획</td>
 				<td>
 					<input type ="date" name="startdate" value="" max="9999-12-31" size="10" maxlength="30">&nbsp;&nbsp;~&nbsp;&nbsp;
 					<input type ="date" name="enddate" value="" max="9999-12-31" size="10" maxlength="30">

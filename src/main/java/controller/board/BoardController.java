@@ -72,8 +72,7 @@ public class BoardController {
 	}
 
 	@PostMapping("/boardPost.do")	// @GetMapping("/writePost.do")에서 요청
-	public String boardPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+	public String boardPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("[BoardController] : POST:/boardPost.do");
 		request.setCharacterEncoding("UTF-8");
 		BoardDAO bMgr = new BoardDAO();
