@@ -14,7 +14,11 @@ public class UserCommandValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "required");
-		ValidationUtils.rejectIfEmpty(errors, "password", "required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "empNo", "required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordCheck", "required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rank", "required");
 	}
 
 }
