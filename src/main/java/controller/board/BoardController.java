@@ -22,6 +22,8 @@ import boards.dao.BoardDAO;
 @RequestMapping("/boards")
 public class BoardController {
 
+	
+	
 	@GetMapping(value={ "/", "/plan.do" } )
 	public String boards(Model model) {
 		System.out.println("[BoardController] : GET:/plan.do");
@@ -32,6 +34,12 @@ public class BoardController {
 	public String listPost(Model model) {
 		System.out.println("[BoardController] : POST:/plan.do");
 		return "plan/boards/plan";
+	}
+	
+	@GetMapping("/popup.do")
+	public String popup(Model model) {
+		System.out.println("[BoardController] : GET:/boards/popupForm.do");
+		return "plan/boards/popup";
 	}
 
 	@GetMapping("/read.do")

@@ -66,7 +66,64 @@
 	totalBlock = (int)Math.ceil((double)totalPage / pagePerBlock);  //전체블럭계산
 %>
 <!-- /list.jsp Setting -->
-
+<!-- writepost.jsp -->
+<meta name="keywords" content="jQuery Window, Window Widget, Window" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />	
+    <script type="text/javascript" src="${path}/resources/js/jquery-3.6.0.js"></script>
+    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
+    <script type="text/javascript" src="${path}/resources/jqwidgets/demos.js"></script> 
+    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
+    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
+    <script type="text/javascript">
+        var basicDemo = (function () {
+        	
+        	function _addEventListeners() {
+          		 $('#writePost').click(function () {
+                       $('#window').jqxWindow('open');
+                   });
+          	 	}
+            
+            //Creating the demo window
+            function _createWindow() {
+                var writePost = $('#writePost');
+                var offset = writePost.offset();
+                $('#window').jqxWindow({
+                	autoOpen: false,
+                    position: { x: offset.left + 50, y: offset.top + 50} ,
+                    showCollapseButton: true, maxHeight: 800, maxWidth: 1000,
+                    						  minHeight: 400, minWidth: 400,
+                    						  height: 550, width: 1000,
+                    						  position: { x: '25%', y: '13%' },
+                    initContent: function () {
+                        /* $('#tab').jqxTabs({ height: '100%', width:  '100%' }); */
+                        $('#window').jqxWindow('focus');
+                    }
+                });
+            };
+                      
+            return {
+                config: {
+                    dragArea: null
+                },
+                init: function () {
+                	
+                	_addEventListeners();
+                	
+                    _createWindow();
+                }
+            };
+        } ());
+        $(document).ready(function () {  
+            //Initializing the demo
+            basicDemo.init();
+        });
+    </script>
+<!-- /writepost.jsp -->
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -113,6 +170,12 @@
 		  document.searchFrm.submit();
 		 }
 	</script>
+	
+	<style>
+		.new_form_table_col_1 {
+        margin: 20px;
+    	}
+	</style>
 	
     </head>
     <body class="sb-nav-fixed">
@@ -302,7 +365,9 @@
 						 				<!-- 페이징 및 블럭 처리 End-->
 										</td>
 										<td align="right">
+											<a href="popup.do">[팝업]</a>
 											<a href="writePost.do">[신규]</a>
+											<input type="button" value="신규" id="writePost"/>
 											<a href="javascript:plan()">[새로고침]</a>
 										</td>
 									</tr>
@@ -340,6 +405,127 @@
                 </main>
             </div>
         </div>
+        <!-- wirtePost_PopupForm -->
+        <div id="writePost">
+        <div style="width: 100%; height: 650px; margin-top: 50px;" id="mainDemoContainer">
+            <div id="window">
+                <div id="windowHeader">
+                    <span>
+				        공정계획
+				    </span>
+                </div>
+                <div style="overflow: hidden;" id="windowContent">
+                    <div>
+                        <div><!--context-->
+						<div>
+						<form name="postFrm" method="post" action="boardPost.do" enctype="multipart/form-data">
+						<table width="800" cellpadding="5" align="center">
+							<tr>
+								<td align=center>
+								<table align="center">
+									<tr class="new_form_table_col_1">
+										<br/>
+										<br/>
+										<td>생산기간&nbsp;</td>
+										<td>
+											<input type ="date" name="startdate" value="" max="9999-12-31" size="10" maxlength="30">&nbsp;&nbsp;~&nbsp;&nbsp;
+											<input type ="date" name="enddate" value="" max="9999-12-31" size="10" maxlength="30">
+										</td>
+									</tr>
+									<tr>
+									  	<td>생산상품</td>
+										<td>
+										    <select name="prodName">
+										      <option value="" disabled selected hidden>상품을 선택하세요</option>
+										      <option value="KBD001">Keyboard_click</option>
+										      <option value="KBD002">Keyboard_nclick</option>
+										      <option value="KBD003">Keyboard_linear</option>
+										      <option value="KBD003">KeyCap_Dye</option>
+										      <option value="KBD003">KeyCap_Shot</option>
+										    </select>
+										    &nbsp;&nbsp;상품코드<input name="prodNo" size="5" maxlength="8">
+										</td>
+									</tr>
+									<tr>
+										<td>생산계획</td>
+										<td><input name="prodCnt" size="7" maxlength="20">개</td>
+									</tr>
+									<tr>
+										<td>재고현황</td>
+										<td>
+											<input name="" size="10" maxlength="20">
+											<input name="" size="7" maxlength="20">개
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>
+											<input name="" size="10" maxlength="20">
+											<input name="" size="7" maxlength="20">개
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>
+											<input name="" size="10" maxlength="20">
+											<input name="" size="7" maxlength="20">개
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>
+											<input name="" size="10" maxlength="20">
+											<input name="" size="7" maxlength="20">개
+										</td>
+									</tr>
+									<tr>
+										<td>비 고</td>
+										<td><textarea name="content" rows="3" cols="50"></textarea></td>
+									</tr>
+									<tr>
+										<td width="10%">담당자</td>
+										<td width="90%">
+										<input name="empName" size="15" maxlength="8"></td>
+									</tr>
+									<tr>
+										<td>패스워드</td>
+										<td><input type="password" name="pass" size="15" maxlength="15"></td>
+									</tr>
+									<tr>
+									 <tr>
+						     			<td>파일찾기</td> 
+						     			<td><input type="file" name="filename" size="50" maxlength="50"></td>
+						    		</tr>
+						 			<tr>
+						 				<td>내용타입</td>
+						 				<td> HTML<input type=radio name="contentType" value="HTTP" >&nbsp;&nbsp;&nbsp;
+						  			 	TEXT<input type=radio name="contentType" value="TEXT" checked>
+						  			 	</td>
+						 			</tr>
+									<tr>
+										<td colspan="2"><hr/></td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											 <input type="submit" value="등록">
+											 <input type="reset" value="다시쓰기">
+											 <input type="button" value="리스트" onClick="javascript:location.href='plan.do'">
+										</td>
+									</tr>
+								</table>
+								</td>
+							</tr>
+						</table>
+						<input type="hidden" name="ip" value="<%=request.getRemoteAddr()%>">
+						</form>
+						</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /wirtePost_PopupForm -->    
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
