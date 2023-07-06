@@ -100,7 +100,7 @@ public class ManageController {
 		
 		jsonInfo.put("data", usersArray);
 		String data = jsonInfo.toJSONString();
-		System.out.print(data);
+		//System.out.print(data);
 		writer.print(data);
 	}
 }

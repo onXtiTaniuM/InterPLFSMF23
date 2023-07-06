@@ -64,13 +64,6 @@ public class ControllerConfig {
 		return new PReportController();
 	}
 	
-	@Bean
-	public RestJsonController restjsonController() {
-		RestJsonController controller = new RestJsonController();
-		controller.setManageS(manageService);
-		return controller;
-	}
-	
 	//Bean For Test Page. Will Not Use.
 	@Bean
 	public TestController testController() {

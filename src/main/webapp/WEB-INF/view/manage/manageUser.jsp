@@ -29,32 +29,86 @@
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
 	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
-    	<script type="text/javascript"> 
+	    <script type="text/javascript">
+	    	//password, id checker
+	    	var passchecked = false;
+	    	var passExpchecked = false;
+	    	var emptychecked = false;
+	    	
+	    	$("#passConfirm").css('display', 'none');
+	    	$("#passLength").css('display', 'none');
+	    	let passExp = new RegExp('(?=.{6,})');
+	    	
+	    	function passExpChecker(){
+	    		var password = document.getElementById("password");
+	    		 if(!passExp.test(password.value)){
+	    			 $("#passLength").css('display', 'inline-block');
+	    			 passExpchecked = false;
+	    		 }else{
+	    			 $("#passLength").css('display', 'none');
+	    			 passExpchecked = true;
+	    		 };
+	    	};
+	    
+	    	function passwordChecker(){
+	    		var password = document.getElementById("password");
+	    		var confirm_password = document.getElementById("passwordCheck");
+	    		if(password.value != confirm_password.value){
+	    			$("#passConfirm").css('display', 'inline-block');
+	    			passchecked = false;
+	    		}else{
+	    			$("#passConfirm").css('display', 'none');
+	    			passchecked = true;
+	    		};
+	    	};
+			
+	    	function fn_isempty(){
+	    		var empno = document.getElementById("empNo");
+	    		var id = document.getElementById("id");
+	    		var name = document.getElementById("name");
+	    		var rank = document.getElementById("rank");
+	    		
+	    		if (!(empno.value === "" || id.value === "" || name.value === "" || rank.value === "")) {
+	    		    emptychecked = true;
+	    		  };
+	    	};
+	    	
+    		//register user ajax func
     		var usertable;
     		
-    		//register user ajax func
     		function reloadList() {
 				usertable.ajax.reload();
     		};
     	
         	function fn_register() {
-    			var form = $("#registerForm")
-	    		var regiuser = form.serialize();
-	    		$.ajax({
-	       			type:"post",  
-	       			url:form.attr("action"),
-	       			data:regiuser,
-	       			success:function (data, textStatus) {
-	       				alert("입력완료");
-	       				reloadList();
-	       				$("#registerForm")[0].reset();
-	       			},
-	       			complete:function(data,textStatus){
-	       			},
-	       			error:function(data, textStatus){
-	          			alert("에러발생: " + data);
-	       			},
-	    		});
+        		fn_isempty();
+        		if(emptychecked==false){
+        			alert("입력되지 않은 값이 있습니다");
+        			return;
+        		}
+        		
+        		if((passExpchecked==false) || (passchecked==false)){
+        			alert("비밀번호를 확인하세요");
+        			return;
+        		}else{
+	    			var form = $("#registerForm")
+		    		var regiuser = form.serialize();
+		    		$.ajax({
+		       			type:"post",  
+		       			url:form.attr("action"),
+		       			data:regiuser,
+		       			success:function (data, textStatus) {
+		       				alert("입력완료");
+		       				reloadList();
+		       				$("#registerForm")[0].reset();
+		       			},
+		       			complete:function(data,textStatus){
+		       			},
+		       			error:function(data, textStatus){
+		          			alert("에러발생: " + data);
+		       			},
+		    		});
+	    		};
         	};
 
         	//popup elements
@@ -113,6 +167,7 @@
 	    		    ajax: 'http://localhost:8584/SMFPlatform/manage/userlist.json'
 	    		});
 	        	singupPop.init();
+	        	$("#passConfirm").css('display', 'none');
 	        });
         	
     	</script>
@@ -231,18 +286,6 @@
 							                <th>관리자 권한</th>
 							            </tr>
 							        </thead>
-							        <!--<tbody>
-							        	<c:forEach items="${userlist}" var="user">
-							        		<tr>
-							        			<td>${user.empNo}</td>
-							        			<td>${user.name}</td>
-							        			<td>${user.id}</td>
-							        			<td>${user.rank}</td>
-							        			<td>${user.regiDate}</td>
-							        			<td>${user.admin}</td>
-							        		</tr>
-							        	</c:forEach>
-							        </tbody> -->
 							        <tfoot>
 							            <tr>
 							                <th>사번</th>
@@ -267,39 +310,31 @@
 						                <div style="overflow: hidden;" id="windowContent">
 	                                        <form:form id="registerForm" modelAttribute="manageUserCommand" action="${path}/manage/usermanagement/register.do" method="post">
 	                                            <div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="EmpNo" path="empNo" autocomplete="off"/>
+	                                                <form:input class="form-control" placeholder="EmpNo" path="empNo" autocomplete="off" />
 	                                                <label for="empNo">사번</label>
-	                                                <form:errors path="empNo"/>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="Name" path="name" autocomplete="off"/>
+	                                                <form:input class="form-control" placeholder="Name" path="name" autocomplete="off" />
 	                                                <label for="name">이름</label>
-	                                                <form:errors path="name"/>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="ID" path="id" autocomplete="off"/>
+	                                                <form:input class="form-control" placeholder="ID" path="id" autocomplete="off" />
 	                                                <label for="id">ID</label>
-	                                                <form:errors path="id"/>
 	                                                <p>아이디확인</p>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:password class="form-control" placeholder="Password" path="password" />
+	                                                <form:password class="form-control" placeholder="Password" path="password" id="password" onkeyup="passExpChecker()"/>
 	                                                <label for="password">비밀번호</label>
-	                                                <form:errors path="password"/>
-										     		<form:errors />
-										     		<p>비밀번호확인</p>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:password class="form-control" placeholder="PasswordCheck" path="passwordCheck" />
+	                                                <form:password class="form-control" placeholder="PasswordCheck" path="passwordCheck" id="passwordCheck" onkeyup="passwordChecker()"/>
 	                                                <label for="passwordCheck">비밀번호 확인</label>
-	                                                <form:errors path="passwordCheck"/>
-										     		<form:errors />
-										     		<p>비밀번호확인</p>
+										     		<span id="passConfirm" display="none">비밀번호가 일치하지 않습니다.</span>
+										     		<span id="passLength" display="none">비밀번호는 6자리 이상이어야 합니다.</span>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
 	                                                <form:input class="form-control" placeholder="Rank" path="rank" />
 	                                                <label for="rank">직급</label>
-	                                                <form:errors path="rank"/>
 	                                            </div>
                                         	</form:form>
   											<input type="button" value="입력" id="regsubmit"/>
