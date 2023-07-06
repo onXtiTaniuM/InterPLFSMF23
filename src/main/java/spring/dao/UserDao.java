@@ -74,15 +74,14 @@ public class UserDao {
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				// 파라미터로 전달받은 Connection을 이용해서 PreparedStatement 생성
 				PreparedStatement pstmt = con.prepareStatement(
 						"insert into e_user (userno, empno, name, id, pw, rank) " +
 						"values (user_seq.NEXTVAL, ?, ?, ?, ?, ?)");
 				pstmt.setString(1, user.getEmpNo());
 				pstmt.setString(2, user.getName());
 				pstmt.setString(3, user.getId());
-				pstmt.setString(4, user.getName());
-				pstmt.setString(5, user.getPassword());
+				pstmt.setString(4, user.getPassword());
+				pstmt.setString(5, user.getRank());
 				return pstmt;
 			}
 		});

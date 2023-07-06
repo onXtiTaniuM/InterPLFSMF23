@@ -29,9 +29,12 @@
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
 	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
-    	<script type="text/javascript"> //register user ajax func
+    	<script type="text/javascript"> 
+    		var usertable;
+    		
+    		//register user ajax func
     		function reloadList() {
-    			$('#userlist').load(location.href + ' #userlist');
+				usertable.ajax.reload();
     		};
     	
         	function fn_register() {
@@ -42,9 +45,8 @@
 	       			url:form.attr("action"),
 	       			data:regiuser,
 	       			success:function (data, textStatus) {
-	       				alert("성공" + data);
-	       				//reloadList();
-	       				//$('#userlist').DataTable();
+	       				alert("입력완료");
+	       				reloadList();
 	       				$("#registerForm")[0].reset();
 	       			},
 	       			complete:function(data,textStatus){
@@ -54,8 +56,7 @@
 	       			},
 	    		});
         	};
-    	</script>
-        <script> 
+
         	//popup elements
         	var singupPop = (function () {
 	            //Adding event listeners
@@ -82,7 +83,7 @@
 						autoOpen: false,
 	                    position: { x: offset.left+250, y: offset.top } ,
 	                    showCollapseButton: true, 
-	                    height: 530, width: 500,
+	                    height: 560, width: 500,
 	                    initContent: function () {
 	                        $('#window').jqxWindow('focus');
 	                    }
@@ -108,8 +109,8 @@
         	
         	//page ready js script
 	    	$(document).ready(function () {
-	    		new DataTable('#userlist', {
-	    		    ajax: 'http://localhost:8584/SMFPlatform/api/userList'
+	    		usertable = new DataTable('#userlist', {
+	    		    ajax: 'http://localhost:8584/SMFPlatform/manage/userlist.json'
 	    		});
 	        	singupPop.init();
 	        });
@@ -219,8 +220,8 @@
 	                            사용자 목록
 	                        </div>
 	                    	<div class="card-body">
-			    				<table id="userlist" class="display responsive" style="width:100%">
-							          <!--<thead>
+			    				<table id="userlist" class="display" style="width:100%">
+							        <thead>
 							            <tr>
 							                <th>사번</th>
 							                <th>이름</th>
@@ -230,7 +231,7 @@
 							                <th>관리자 권한</th>
 							            </tr>
 							        </thead>
-							        <tbody>
+							        <!--<tbody>
 							        	<c:forEach items="${userlist}" var="user">
 							        		<tr>
 							        			<td>${user.empNo}</td>
@@ -241,7 +242,7 @@
 							        			<td>${user.admin}</td>
 							        		</tr>
 							        	</c:forEach>
-							        </tbody>
+							        </tbody> -->
 							        <tfoot>
 							            <tr>
 							                <th>사번</th>
@@ -251,7 +252,7 @@
 							                <th>등록일</th>
 							                <th>관리자 권한</th>
 							            </tr>
-							        </tfoot>-->
+							        </tfoot>
 							    </table>
 							    <div id="jqxWidget">
 								    <div>
@@ -266,31 +267,34 @@
 						                <div style="overflow: hidden;" id="windowContent">
 	                                        <form:form id="registerForm" modelAttribute="manageUserCommand" action="${path}/manage/usermanagement/register.do" method="post">
 	                                            <div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="EmpNo" path="empNo" />
+	                                                <form:input class="form-control" placeholder="EmpNo" path="empNo" autocomplete="off"/>
 	                                                <label for="empNo">사번</label>
 	                                                <form:errors path="empNo"/>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="Name" path="name" />
+	                                                <form:input class="form-control" placeholder="Name" path="name" autocomplete="off"/>
 	                                                <label for="name">이름</label>
 	                                                <form:errors path="name"/>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="ID" path="id" />
+	                                                <form:input class="form-control" placeholder="ID" path="id" autocomplete="off"/>
 	                                                <label for="id">ID</label>
 	                                                <form:errors path="id"/>
+	                                                <p>아이디확인</p>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
 	                                                <form:password class="form-control" placeholder="Password" path="password" />
 	                                                <label for="password">비밀번호</label>
 	                                                <form:errors path="password"/>
 										     		<form:errors />
+										     		<p>비밀번호확인</p>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
 	                                                <form:password class="form-control" placeholder="PasswordCheck" path="passwordCheck" />
 	                                                <label for="passwordCheck">비밀번호 확인</label>
 	                                                <form:errors path="passwordCheck"/>
 										     		<form:errors />
+										     		<p>비밀번호확인</p>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
 	                                                <form:input class="form-control" placeholder="Rank" path="rank" />

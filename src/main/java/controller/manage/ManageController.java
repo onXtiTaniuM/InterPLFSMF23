@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -72,8 +74,33 @@ public class ManageController {
         }
 		
 		manageS.insertUser(manageUserCommand);
-		List<User> list = manageS.allUserList();
-		model.addAttribute("userlist",list);
 		writer.print("success");
+	}
+	
+	@RequestMapping("/userlist.json")
+	public void alluserJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		JSONArray usersArray = new JSONArray();
+		JSONObject jsonInfo = new JSONObject();
+		
+		List<User> list = manageS.allUserList();
+		for(User user : list) {
+			JSONArray userInfo = new JSONArray();
+			userInfo.add(user.getEmpNo());
+			userInfo.add(user.getName());
+			userInfo.add(user.getId());
+			userInfo.add(user.getRank());
+			userInfo.add(manageS.userRegiDate(user));
+			userInfo.add(manageS.userAdminString(user));
+			usersArray.add(userInfo);
+		}
+		
+		jsonInfo.put("data", usersArray);
+		String data = jsonInfo.toJSONString();
+		System.out.print(data);
+		writer.print(data);
 	}
 }

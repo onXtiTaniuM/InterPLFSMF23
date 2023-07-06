@@ -1,5 +1,7 @@
 package spring.manage;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import controller.manage.ManageUserCommand;
@@ -22,4 +24,20 @@ public class ManageService {
 		userDao.insertUser(newUser);
 	}
 	
+	public String userAdminString(User user) {
+		if(user.isAdmin()) {
+			return "true";
+		}else {
+			return "false";
+		}
+	}
+	
+	public String userRegiDate(User user) {
+		String regidate;
+		LocalDateTime userDate = user.getRegiDate();
+		
+		regidate = userDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		
+		return regidate;
+	}
 }
