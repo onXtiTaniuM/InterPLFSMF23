@@ -1,8 +1,8 @@
-package boards.dao;
+package spring.plan;
 
 import java.sql.Date;
 
-public class BoardBean {
+public class PlanInfo {
 	
 	private int num;
 	private String empName;        

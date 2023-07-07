@@ -1,4 +1,4 @@
-package spring.dao;
+package spring.user;
 
 import java.time.LocalDateTime;
 

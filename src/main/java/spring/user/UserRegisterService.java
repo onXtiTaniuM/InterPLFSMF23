@@ -1,4 +1,6 @@
-package spring.dao;
+package spring.user;
+
+import spring.dao.UserDao;
 
 public class UserRegisterService {
 

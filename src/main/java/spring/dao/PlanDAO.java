@@ -1,7 +1,7 @@
 /*
  * BoardDAO : Oracle JDBC
  */
-package boards.dao;
+package spring.dao;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -24,8 +24,9 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import config.db.*;
 import config.db.DBConnectionMgr;
+import spring.plan.PlanInfo;
 
-public class BoardDAO {
+public class PlanDAO {
 	private static final String SAVEFOLDER = "D:\\Temp\\boards\\fileuploads";
 	private static final String ENCTYPE = "UTF-8";
 	private static int MAXSIZE = 5 * 1024 * 1024; // 5MB
@@ -33,7 +34,7 @@ public class BoardDAO {
 
 	private DBConnectionMgr pool;
 
-	public BoardDAO() {
+	public PlanDAO() {
 		try {
 			pool = DBConnectionMgr.getInstance();
 		} 
@@ -43,12 +44,12 @@ public class BoardDAO {
 	}
 
 	// 게시판 리스트
-		public Vector<BoardBean> getBoardList(String keyField, String keyWord, int start, int end) {
+		public Vector<PlanInfo> getBoardList(String keyField, String keyWord, int start, int end) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			String sql = null;
-			Vector<BoardBean> vlist = new Vector<BoardBean>();
+			Vector<PlanInfo> vlist = new Vector<PlanInfo>();
 			try {
 				con = pool.getConnection();
 				if (keyWord.equals("null") || keyWord.equals("")) {	//검색
@@ -73,7 +74,7 @@ public class BoardDAO {
 				}
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
-					BoardBean bean = new BoardBean();
+					PlanInfo bean = new PlanInfo();
 					bean.setNum(rs.getInt("num"));
 					bean.setRegdate(rs.getString("regdate"));
 					bean.setProdName(rs.getString("prodName"));
@@ -174,12 +175,12 @@ public class BoardDAO {
 		}
 		
 		// 게시물 리턴
-		public BoardBean getBoard(int num) {
+		public PlanInfo getBoard(int num) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			String sql = null;
-			BoardBean bean = new BoardBean();
+			PlanInfo bean = new PlanInfo();
 			try {
 				con = pool.getConnection();
 				sql = "select * from Board where num=?";
@@ -239,7 +240,7 @@ public class BoardDAO {
 		}
 
 		// 게시물 수정
-		public void updateBoard(BoardBean bean) {
+		public void updateBoard(PlanInfo bean) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			String sql = null;
@@ -260,7 +261,7 @@ public class BoardDAO {
 		}
 
 		// 게시물 답변
-		public void replyBoard(BoardBean bean) {
+		public void replyBoard(PlanInfo bean) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			String sql = null;
@@ -426,7 +427,7 @@ public class BoardDAO {
 		
 		// main
 		public static void main(String[] args) {
-			new BoardDAO().post1000();
+			new PlanDAO().post1000();
 			System.out.println("SUCCESS");
 		}
 	}

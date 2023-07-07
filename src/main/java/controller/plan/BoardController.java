@@ -1,4 +1,4 @@
-package controller.board;
+package controller.plan;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import boards.dao.BoardBean;
-import boards.dao.BoardDAO;
+import spring.dao.PlanDAO;
+import spring.plan.PlanInfo;
 
 @Controller
 @RequestMapping("/boards")
@@ -36,11 +36,6 @@ public class BoardController {
 		return "plan/boards/plan";
 	}
 	
-	@GetMapping("/popup.do")
-	public String popup(Model model) {
-		System.out.println("[BoardController] : GET:/boards/popupForm.do");
-		return "plan/boards/popup";
-	}
 
 	@GetMapping("/read.do")
 	public String read(Model model) {
@@ -72,18 +67,22 @@ public class BoardController {
 		return "plan/boards/download";
 	}
 
-	
-	@GetMapping("/writePost.do")
-	public String writePost(Model model) {
-		System.out.println("[BoardController] : /writePost.do");
-		return "plan/boards/writePost";
-	}
+	/*
+	 * @GetMapping("/popup.do") public String popup(Model model) {
+	 * System.out.println("[BoardController] : GET:/boards/popupForm.do"); return
+	 * "plan/boards/popup"; }
+	 *
+	 *
+	 * @GetMapping("/writePost.do") public String writePost(Model model) {
+	 * System.out.println("[BoardController] : /writePost.do"); return
+	 * "plan/boards/writePost"; }
+	 */
 
 	@PostMapping("/boardPost.do")	// @GetMapping("/writePost.do")에서 요청
 	public String boardPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("[BoardController] : POST:/boardPost.do");
 		request.setCharacterEncoding("UTF-8");
-		BoardDAO bMgr = new BoardDAO();
+		PlanDAO bMgr = new PlanDAO();
 		bMgr.insertBoard(request);
 		return "redirect:/plan.do";
 	}
@@ -93,8 +92,8 @@ public class BoardController {
 			throws ServletException, IOException {
 		System.out.println("[BoardController] : POST:/boardReply.do");
 		request.setCharacterEncoding("UTF-8");
-		BoardDAO bMgr = new BoardDAO();
-		BoardBean reBean = new BoardBean();
+		PlanDAO bMgr = new PlanDAO();
+		PlanInfo reBean = new PlanInfo();
 		reBean.setEmpName(request.getParameter("empname"));
 		reBean.setProdName(request.getParameter("prodName"));
 		reBean.setContent(request.getParameter("content"));
@@ -123,11 +122,11 @@ public class BoardController {
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter(); 
 
-		BoardDAO bMgr = new BoardDAO();
-		BoardBean bean = (BoardBean) session.getAttribute("bean");
+		PlanDAO bMgr = new PlanDAO();
+		PlanInfo bean = (PlanInfo) session.getAttribute("bean");
 		String nowPage = request.getParameter("nowPage");
 		
-		BoardBean upBean = new BoardBean();
+		PlanInfo upBean = new PlanInfo();
 		upBean.setNum(Integer.parseInt(request.getParameter("num")));
 		upBean.setEmpName(request.getParameter("empname"));
 		upBean.setProdName(request.getParameter("prodName"));

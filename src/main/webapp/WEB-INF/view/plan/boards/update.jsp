@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
- <%@ page import="boards.dao.BoardBean"%>
-<% 
-	  int num = Integer.parseInt(request.getParameter("num"));
+ <%@ page import="spring.plan.PlanInfo"%>
+<%
+int num = Integer.parseInt(request.getParameter("num"));
 	  String nowPage = request.getParameter("nowPage");
-	  BoardBean bean = (BoardBean)session.getAttribute("bean");
+	  PlanInfo bean = (PlanInfo)session.getAttribute("bean");
 	  String prodName = bean.getProdName();
 	  String empName = bean.getEmpName(); 
 	  String content = bean.getContent();

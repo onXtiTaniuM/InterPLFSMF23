@@ -1,14 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@page import="boards.dao.BoardBean"%>
-<jsp:useBean id="bMgr" class="boards.dao.BoardDAO" />
+<%@page import="spring.plan.PlanInfo"%>
+<jsp:useBean id="bMgr" class="spring.dao.PlanDAO" />
 <%
-	  request.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");
 	  int num = Integer.parseInt(request.getParameter("num"));
 	  String nowPage = request.getParameter("nowPage");
 	  String keyField = request.getParameter("keyField");
 	  String keyWord = request.getParameter("keyWord");
 	  
-	  BoardBean bean = bMgr.getBoard(num);//게시물 가져오기
+	  PlanInfo bean = bMgr.getBoard(num);//게시물 가져오기
 	  String empname = bean.getEmpName();
 	  String prodName = bean.getProdName();
       String regdate = bean.getRegdate();

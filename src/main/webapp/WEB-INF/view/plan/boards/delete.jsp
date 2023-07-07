@@ -1,24 +1,24 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@page import="boards.dao.BoardBean"%>
-<jsp:useBean id="bMgr" class="boards.dao.BoardDAO" />
+<%@page import="spring.plan.PlanInfo"%>
+<jsp:useBean id="bMgr" class="spring.dao.PlanDAO" />
 <html>
 <head>
 <title>Delete Board</title>
 <link href="style.css" rel="stylesheet" type="text/css">
 <%
-	request.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");
 	String nowPage = request.getParameter("nowPage");
 	int num = Integer.parseInt(request.getParameter("num"));
 	
 	if (request.getParameter("pass") != null) {
 		String inPass = request.getParameter("pass");
-		BoardBean bean = (BoardBean) session.getAttribute("bean");
+		PlanInfo bean = (PlanInfo) session.getAttribute("bean");
 		String dbPass = bean.getPass();
 		
 		if (inPass.equals(dbPass)) {
-			bMgr.deleteBoard(num);
-			String url = "plan.do?nowPage=" + nowPage;
-			response.sendRedirect(url);
+	bMgr.deleteBoard(num);
+	String url = "plan.do?nowPage=" + nowPage;
+	response.sendRedirect(url);
 		} else {
 %>
 <script type="text/javascript">

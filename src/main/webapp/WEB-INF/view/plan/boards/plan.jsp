@@ -4,17 +4,17 @@
 <%@ page import="spring.auth.AuthInfo" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <!-- list.jsp Setting-->
-<%@page import="boards.dao.BoardBean"%>
+<%@page import="spring.plan.PlanInfo"%>
 <%@page import="java.util.Vector"%>
 <%@page import="java.util.Date"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
-<jsp:useBean id="bMgr" class="boards.dao.BoardDAO" />
+<jsp:useBean id="bMgr" class="spring.dao.PlanDAO" />
 
-<%	
-	request.setCharacterEncoding("UTF-8");
+<%
+request.setCharacterEncoding("UTF-8");
 	
 	String contextPath = request.getContextPath();
 	System.out.println("contextPath : " + contextPath);
@@ -40,15 +40,15 @@
 	String keyWord = "",
 	keyField = ""; 
 	
-	Vector<BoardBean> vlist = null;		//게시글 목록, 즉 bean을 vector로 배열
+	Vector<PlanInfo> vlist = null;		//게시글 목록, 즉 bean을 vector로 배열
 	if (request.getParameter("keyWord") != null) {	//검색이 있을때 반영
 		keyWord = request.getParameter("keyWord");
 		keyField = request.getParameter("keyField");
 	}
 	if (request.getParameter("reload") != null){	//처음으로 상호작용시 반응
 		if(request.getParameter("reload").equals("true")) {
-			keyWord = "";
-			keyField = "";
+	keyWord = "";
+	keyField = "";
 		}
 	}
 	
@@ -97,7 +97,7 @@
                     position: { x: offset.left + 50, y: offset.top + 50} ,
                     showCollapseButton: true, maxHeight: 800, maxWidth: 1000,
                     						  minHeight: 400, minWidth: 400,
-                    						  height: 550, width: 1000,
+                    						  height: 760, width: 1000,
                     						  position: { x: '25%', y: '13%' },
                     initContent: function () {
                         /* $('#tab').jqxTabs({ height: '100%', width:  '100%' }); */
@@ -173,7 +173,13 @@
 	
 	<style>
 		.new_form_table_col_1 {
-        margin: 20px;
+        padding-right: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    	}
+    	
+    	.new_form_table_col_2 {
+        padding: 10px;
     	}
 	</style>
 	
@@ -284,11 +290,11 @@
 								<tr>
 									<td align="center" colspan="2">
 									<%
-										  vlist = bMgr.getBoardList(keyField, keyWord, start, end);
-										  listSize = vlist.size();//브라우저 화면에 보여질 게시물 번호
-										  if (vlist.isEmpty()) {
-											out.println("등록된 기사가 없습니다.");
-										  } else {
+									vlist = bMgr.getBoardList(keyField, keyWord, start, end);
+																																						  listSize = vlist.size();//브라우저 화면에 보여질 게시물 번호
+																																						  if (vlist.isEmpty()) {
+																																							out.println("등록된 기사가 없습니다.");
+																																						  } else {
 									%>
 										  <table width="100%" cellpadding="2" cellspacing="0">
 											<tr align="center" bgcolor="#D0D0D0" height="120%">
@@ -301,18 +307,18 @@
 												<td align="center" style="width: 70px;">담당자</td>
 											</tr>
 											<%
-												  for (int i = 0; i<numPerPage; i++) {
-													if (i == listSize) break;
-													BoardBean bean = vlist.get(i);
-													
-													int num = bean.getNum();
-													String empName = bean.getEmpName();							
-													String content = bean.getContent();
-													String prodName = bean.getProdName();
-													Date startdate = bean.getStartdate();
-													Date enddate = bean.getEnddate();
-													String regdate = bean.getRegdate();
-													int depth = bean.getDepth();
+											for (int i = 0; i<numPerPage; i++) {
+																																																	if (i == listSize) break;
+																																																	PlanInfo bean = vlist.get(i);
+																																																	
+																																																	int num = bean.getNum();
+																																																	String empName = bean.getEmpName();							
+																																																	String content = bean.getContent();
+																																																	String prodName = bean.getProdName();
+																																																	Date startdate = bean.getStartdate();
+																																																	Date enddate = bean.getEnddate();
+																																																	String regdate = bean.getRegdate();
+																																																	int depth = bean.getDepth();
 											%>
 											<tr>
 												<td align="center">
@@ -365,10 +371,11 @@
 						 				<!-- 페이징 및 블럭 처리 End-->
 										</td>
 										<td align="right">
-											<a href="popup.do">[팝업]</a>
-											<a href="writePost.do">[신규]</a>
+											<!-- <a href="popup.do">[팝업]</a>
+											<a href="writePost.do">[신규]</a> -->
 											<input type="button" value="신규" id="writePost"/>
-											<a href="javascript:plan()">[새로고침]</a>
+											<input type="button" varlue="리셋" onclick="plan()">새로고침</button>
+
 										</td>
 									</tr>
 								</table>
@@ -423,19 +430,19 @@
 							<tr>
 								<td align=center>
 								<table align="center">
-									<tr class="new_form_table_col_1">
+									<tr>
 										<br/>
 										<br/>
-										<td>생산기간&nbsp;</td>
+										<td class="new_form_table_col_1" nowrap>생산기간</td>
 										<td>
 											<input type ="date" name="startdate" value="" max="9999-12-31" size="10" maxlength="30">&nbsp;&nbsp;~&nbsp;&nbsp;
 											<input type ="date" name="enddate" value="" max="9999-12-31" size="10" maxlength="30">
 										</td>
 									</tr>
 									<tr>
-									  	<td>생산상품</td>
-										<td>
-										    <select name="prodName">
+									  	<td class="new_form_table_col_1" nowrap>생산상품</td>
+										<td class="new_form_table_col_1" nowrap>
+										    <select name="prodName" style="width:235px">
 										      <option value="" disabled selected hidden>상품을 선택하세요</option>
 										      <option value="KBD001">Keyboard_click</option>
 										      <option value="KBD002">Keyboard_nclick</option>
@@ -443,61 +450,61 @@
 										      <option value="KBD003">KeyCap_Dye</option>
 										      <option value="KBD003">KeyCap_Shot</option>
 										    </select>
-										    &nbsp;&nbsp;상품코드<input name="prodNo" size="5" maxlength="8">
+										    <span class="new_form_table_col_2" nowrap >상품코드</span><input name="prodNo" size="10" maxlength="8">
 										</td>
 									</tr>
 									<tr>
-										<td>생산계획</td>
-										<td><input name="prodCnt" size="7" maxlength="20">개</td>
+										<td class="new_form_table_col_1" nowrap>생산계획</td>
+										<td><input name="prodCnt" size="10" maxlength="20">개</td>
 									</tr>
 									<tr>
-										<td>재고현황</td>
-										<td>
+										<td class="new_form_table_col_1" nowrap>재고현황</td>
+										<td class="new_form_table_col_1" nowrap>
 											<input name="" size="10" maxlength="20">
 											<input name="" size="7" maxlength="20">개
 										</td>
 									</tr>
 									<tr>
 										<td></td>
-										<td>
+										<td class="new_form_table_col_1" nowrap>
 											<input name="" size="10" maxlength="20">
 											<input name="" size="7" maxlength="20">개
 										</td>
 									</tr>
 									<tr>
 										<td></td>
-										<td>
+										<td class="new_form_table_col_1" nowrap>
 											<input name="" size="10" maxlength="20">
 											<input name="" size="7" maxlength="20">개
 										</td>
 									</tr>
 									<tr>
 										<td></td>
-										<td>
+										<td class="new_form_table_col_1" nowrap>
 											<input name="" size="10" maxlength="20">
 											<input name="" size="7" maxlength="20">개
 										</td>
 									</tr>
 									<tr>
-										<td>비 고</td>
-										<td><textarea name="content" rows="3" cols="50"></textarea></td>
+										<td class="new_form_table_col_1" nowrap>비 고</td>
+										<td><textarea name="content" rows="2" cols="45"></textarea></td>
 									</tr>
 									<tr>
-										<td width="10%">담당자</td>
+										<td width="10%" class="new_form_table_col_1" nowrap>담당자</td>
 										<td width="90%">
-										<input name="empName" size="15" maxlength="8"></td>
+										<input name="empName" size="21" maxlength="8"></td>
 									</tr>
 									<tr>
-										<td>패스워드</td>
-										<td><input type="password" name="pass" size="15" maxlength="15"></td>
+										<td class="new_form_table_col_1" nowrap>패스워드</td>
+										<td><input type="password" name="pass" size="21" maxlength="15"></td>
 									</tr>
 									<tr>
 									 <tr>
-						     			<td>파일찾기</td> 
+						     			<td class="new_form_table_col_1" nowrap>파일찾기</td> 
 						     			<td><input type="file" name="filename" size="50" maxlength="50"></td>
 						    		</tr>
 						 			<tr>
-						 				<td>내용타입</td>
+						 				<td class="new_form_table_col_1" nowrap>내용타입</td>
 						 				<td> HTML<input type=radio name="contentType" value="HTTP" >&nbsp;&nbsp;&nbsp;
 						  			 	TEXT<input type=radio name="contentType" value="TEXT" checked>
 						  			 	</td>

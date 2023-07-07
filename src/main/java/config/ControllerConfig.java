@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Configuration;
 
 import controller.login.LogoutController;
 import controller.manage.ManageController;
+import controller.plan.BoardController;
 import controller.plan.PReportController;
 import controller.plan.PlanController;
 import controller.process.ProcessController;
 import controller.TestController;
-import controller.board.BoardController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
 import spring.auth.AuthService;

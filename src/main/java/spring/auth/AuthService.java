@@ -1,8 +1,8 @@
 package spring.auth;
 
 import exeptions.WrongIdPasswordException;
-import spring.dao.User;
 import spring.dao.UserDao;
+import spring.user.User;
 
 public class AuthService {
 

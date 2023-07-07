@@ -2,7 +2,7 @@
 <%-- read.jsp에서session.setAttribute("bean", bean);에서 저장한
 이름 bean과 동일한 이름을 사용하여야 한다 
 --%>
-<jsp:useBean id="bean" class="boards.dao.BoardBean" scope="session"/>
+<jsp:useBean id="bean" class="spring.plan.PlanInfo" scope="session"/>
 <%
 	//useBean을 사용하지 않고 session.getAttribute("bean")로 가져 올 수 있다.
 	// boards.BoardBean bean = (boards.BoardBean)session.getAttribute("bean");

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import config.db.OracleInfo;
 import spring.auth.AuthService;
 import spring.dao.UserDao;
-import spring.dao.UserRegisterService;
+import spring.user.UserRegisterService;
 
 @Configuration
 @EnableTransactionManagement
