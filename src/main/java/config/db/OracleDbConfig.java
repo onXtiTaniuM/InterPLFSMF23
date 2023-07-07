@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import config.db.OracleInfo;
 import spring.auth.AuthService;
+import spring.dao.PReportDao;
 import spring.dao.UserDao;
 import spring.dao.UserRegisterService;
 
@@ -42,6 +43,11 @@ public class OracleDbConfig{
 	@Bean
 	public UserDao userDao() {
 		return new UserDao(dataSource());
+	}
+	
+	@Bean
+	public PReportDao preportDao() {
+		return new PReportDao(dataSource());
 	}
 
 	@Bean

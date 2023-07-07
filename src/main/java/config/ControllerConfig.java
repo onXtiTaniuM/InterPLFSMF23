@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 
 import controller.login.LogoutController;
 import controller.manage.ManageController;
-import controller.plan.PReportController;
 import controller.plan.PlanController;
+import controller.preport.PReportController;
 import controller.process.ProcessController;
 import controller.TestController;
 import controller.inventory.InvenController;
