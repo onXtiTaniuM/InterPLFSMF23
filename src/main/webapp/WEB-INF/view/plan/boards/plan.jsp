@@ -20,7 +20,7 @@ request.setCharacterEncoding("UTF-8");
 	System.out.println("contextPath : " + contextPath);
 	
 	int totalRecord=0; //전체레코드수
-	int numPerPage=10; // 페이지당 레코드 수 
+	int numPerPage=10; // 페이지당 레코드 수
 	int pagePerBlock=15; //블럭당 페이지수 
 	
 	int totalPage=0; //전체 페이지 수
@@ -66,26 +66,36 @@ request.setCharacterEncoding("UTF-8");
 	totalBlock = (int)Math.ceil((double)totalPage / pagePerBlock);  //전체블럭계산
 %>
 <!-- /list.jsp Setting -->
+
 <!-- writepost.jsp -->
 <meta name="keywords" content="jQuery Window, Window Widget, Window" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />	
-    <script type="text/javascript" src="${path}/resources/js/jquery-3.6.0.js"></script>
-    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
-    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
-    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
-    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
-    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
-    <script type="text/javascript" src="${path}/resources/jqwidgets/demos.js"></script> 
-    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
-    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />	
+<script type="text/javascript" src="${path}/resources/js/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
+<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
+<script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
+<script type="text/javascript" src="${path}/resources/jqwidgets/demos.js"></script> 
+<script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
+<link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
+<script type="text/javascript">
         var basicDemo = (function () {
+        	
+        	function down(filename){
+	       		 document.downFrm.filename.value=filename;
+	       		 document.downFrm.submit();
+       		}
         	
         	function _addEventListeners() {
           		 $('#writePost').click(function () {
                        $('#window').jqxWindow('open');
                    });
+          		 
+          		$('#read').click(function () {
+                    $('#window').jqxWindow('open');
+                });
           	 	}
             
             //Creating the demo window
@@ -105,6 +115,24 @@ request.setCharacterEncoding("UTF-8");
                     }
                 });
             };
+            
+/*           //Creating the demo window
+            function _createWindow() {
+                var writePost = $('#read');
+                var offset = writePost.offset();
+                $('#window').jqxWindow({
+                	autoOpen: false,
+                    position: { x: offset.left + 50, y: offset.top + 50} ,
+                    showCollapseButton: true, maxHeight: 800, maxWidth: 1000,
+                    						  minHeight: 400, minWidth: 400,
+                    						  height: 760, width: 1000,
+                    						  position: { x: '25%', y: '13%' },
+                    initContent: function () {
+                        $('#tab').jqxTabs({ height: '100%', width:  '100%' }); 
+                        $('#window').jqxWindow('focus');
+                    }
+                });
+            }; */
                       
             return {
                 config: {
@@ -291,10 +319,10 @@ request.setCharacterEncoding("UTF-8");
 									<td align="center" colspan="2">
 									<%
 									vlist = bMgr.getBoardList(keyField, keyWord, start, end);
-																																						  listSize = vlist.size();//브라우저 화면에 보여질 게시물 번호
-																																						  if (vlist.isEmpty()) {
-																																							out.println("등록된 기사가 없습니다.");
-																																						  } else {
+									listSize = vlist.size();//브라우저 화면에 보여질 게시물 번호
+									if (vlist.isEmpty()) {
+										out.println("등록된 데이터가 없습니다.");
+									} else {
 									%>
 										  <table width="100%" cellpadding="2" cellspacing="0">
 											<tr align="center" bgcolor="#D0D0D0" height="120%">
@@ -308,17 +336,17 @@ request.setCharacterEncoding("UTF-8");
 											</tr>
 											<%
 											for (int i = 0; i<numPerPage; i++) {
-																																																	if (i == listSize) break;
-																																																	PlanInfo bean = vlist.get(i);
-																																																	
-																																																	int num = bean.getNum();
-																																																	String empName = bean.getEmpName();							
-																																																	String content = bean.getContent();
-																																																	String prodName = bean.getProdName();
-																																																	Date startdate = bean.getStartdate();
-																																																	Date enddate = bean.getEnddate();
-																																																	String regdate = bean.getRegdate();
-																																																	int depth = bean.getDepth();
+											if (i == listSize) break;
+											PlanInfo bean = vlist.get(i);
+											
+											int num = bean.getNum();
+											String content = bean.getContent();
+											String prodName = bean.getProdName();
+											String regdate = bean.getRegdate();
+											String empName = bean.getEmpName();							
+											Date startdate = bean.getStartdate();
+											Date enddate = bean.getEnddate();
+											int depth = bean.getDepth();
 											%>
 											<tr>
 												<td align="center">
@@ -335,7 +363,7 @@ request.setCharacterEncoding("UTF-8");
 															}
 														}
 												%>
-												<a href="javascript:read('<%=num%>')">조회</a></td>
+												<a href="javascript:read('<%=num%>')" id="read">조회</a></td>
 												<td align="center" style="width: 150px;"><%=content != null ? content : "--"%></td>
 												<td align="center" style="width: 70px;"><%=empName%></td>
 											</tr>
@@ -373,8 +401,8 @@ request.setCharacterEncoding("UTF-8");
 										<td align="right">
 											<!-- <a href="popup.do">[팝업]</a>
 											<a href="writePost.do">[신규]</a> -->
-											<input type="button" value="신규" id="writePost"/>
-											<input type="button" varlue="리셋" onclick="plan()">새로고침</button>
+											<input type="button" value="New" id="writePost"/>
+											<input type="button" value="Refresh" onclick="plan()">
 
 										</td>
 									</tr>
@@ -532,7 +560,8 @@ request.setCharacterEncoding("UTF-8");
             </div>
         </div>
     </div>
-    <!-- /wirtePost_PopupForm -->    
+    <!-- /wirtePost_PopupForm -->
+       
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>

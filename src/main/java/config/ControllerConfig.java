@@ -6,9 +6,8 @@ import org.springframework.context.annotation.Configuration;
 
 import controller.login.LogoutController;
 import controller.manage.ManageController;
-import controller.plan.BoardController;
-import controller.plan.PReportController;
 import controller.plan.PlanController;
+import controller.plan.PReportController;
 import controller.process.ProcessController;
 import controller.TestController;
 import controller.inventory.InvenController;
@@ -20,6 +19,12 @@ public class ControllerConfig {
 
 	@Autowired
 	private AuthService authService;
+	
+	//Bean For Test Page. Will Not Use.
+	@Bean
+	public TestController testController() {
+		return new TestController();
+	}
 	
 	@Bean
 	public LoginController loginController() {
@@ -39,11 +44,6 @@ public class ControllerConfig {
 	}
 	
 	@Bean
-	public PlanController planController() {
-		return new PlanController();
-	}
-	
-	@Bean
 	public InvenController invenController() {
 		return new InvenController();
 	}
@@ -58,16 +58,11 @@ public class ControllerConfig {
 		return new PReportController();
 	}
 	
-	//Bean For Test Page. Will Not Use.
-	@Bean
-	public TestController testController() {
-		return new TestController();
-	}
 	
-
 	@Bean
-	public BoardController boardController() {
-		return new BoardController();
+	public PlanController planController() {
+		return new PlanController();
 	}
+
 	
 }

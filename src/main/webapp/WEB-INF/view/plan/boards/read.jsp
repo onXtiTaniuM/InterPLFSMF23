@@ -80,7 +80,7 @@ request.setCharacterEncoding("UTF-8");
  <tr>
   <td align="center" colspan="2"> 
  <hr/>
- [ <a href="javascript:plan()" >리스트</a> | 
+ [ <a href="javascript:plan()" >게시판</a> | 
  <a href="update.do?nowPage=<%=nowPage%>&num=<%=num%>" >수 정</a> |
  <a href="reply.do?nowPage=<%=nowPage%>" >답 변</a> |
  <a href="delete.do?nowPage=<%=nowPage%>&num=<%=num%>">삭 제</a> ]<br/>
