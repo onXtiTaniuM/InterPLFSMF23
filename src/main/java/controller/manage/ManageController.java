@@ -103,4 +103,14 @@ public class ManageController {
 		//System.out.print(data);
 		writer.print(data);
 	}
+	
+	@RequestMapping("/noticheck.do")
+	public void managerNoti(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		PrintWriter writer = response.getWriter();
+		writer.print(manageS.planNotification());
+	}
+	
 }

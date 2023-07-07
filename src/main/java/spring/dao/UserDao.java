@@ -70,7 +70,7 @@ public class UserDao {
 		return results;
 	}
 	
-	public void insertUser(ManageUserCommand user) {
+	public void insertUser(ManageUserCommand user) { //신규 User 입력
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {

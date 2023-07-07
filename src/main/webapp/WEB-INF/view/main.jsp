@@ -14,8 +14,32 @@
         <title>Main</title>
         <link href="${path}/resources/css/styles.css" rel="stylesheet" />
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <script src="resources/js/jquery-3.6.0.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script>
+			function checkNoti(){
+				$.ajax({
+	       			type:"post",  
+	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
+	       			success:function (data, textStatus) {
+						if(JSON.parse(data)){
+							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
+						}else{
+							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell-slash"></i>'
+						}
+	       			},
+	       			complete:function(data,textStatus){
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("에러발생: " + data);
+	       			},
+	    		});
+			}
+			
+	        $(document).ready(function () {
+	        	checkNoti();
+	        });   
+        </script>
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
@@ -31,6 +55,16 @@
 		        <div id="time" class="time"></div>
             </div>
             <!-- Navbar-->
+             <!-- Notification Icon for Admin User -->
+            <c:if test="${sessionScope.authInfo.getAdmin()}">
+	            <ul class="navbar-nav justify-content-end align-items-md-end">
+		            <li class="nav-item">
+		            	<a class="nav-link" id="navbarDropdown" href="manage/usermanagement" role="button"  aria-expanded="false">
+		            		<span id="notification-icon"></span>
+		            	</a>
+		            </li>
+	            </ul>
+            </c:if>
             <ul class="navbar-nav justify-content-end align-items-md-end">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>

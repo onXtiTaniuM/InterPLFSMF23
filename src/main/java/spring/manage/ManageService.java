@@ -5,16 +5,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import controller.manage.ManageUserCommand;
+import spring.dao.PlanDao;
 import spring.dao.User;
 import spring.dao.UserDao;
 
 public class ManageService {
 	private UserDao userDao;
+	private PlanDao planDao;
 	
 	public void setuserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
-	
+
+	public void setplanDao(PlanDao planDao) {
+		this.planDao = planDao;
+	}
+
 	public List<User> allUserList(){
 		List<User> userlist = userDao.selectAll();
 		return userlist;
@@ -39,5 +45,9 @@ public class ManageService {
 		regidate = userDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		
 		return regidate;
+	}
+	
+	public boolean planNotification() {
+		return planDao.planNotification();
 	}
 }
