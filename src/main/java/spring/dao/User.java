@@ -2,6 +2,8 @@ package spring.dao;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
 
 	/*
@@ -10,15 +12,16 @@ public class User {
 	
 	//basic method
 	private Long userNo;
-	private Long empNo;
+	private String empNo;
 	private String id;
+	@JsonIgnore
 	private String password;
 	private String name;
 	private String rank;
 	private boolean admin;
 	private LocalDateTime regiDate;
 	
-	public User(Long empno, 
+	public User(String empno, 
 			String id, 
 			String password, 
 			String name, 
@@ -34,7 +37,7 @@ public class User {
 		this.regiDate = regidate;
 	}
 
-	public Long getEmpNo() {
+	public String getEmpNo() {
 		return empNo;
 	}
 

@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import config.db.OracleInfo;
 import spring.auth.AuthService;
 import spring.dao.UserDao;
+import spring.dao.PlanDao;
 import spring.dao.UserRegisterService;
+import spring.manage.ManageService;
 
 @Configuration
 @EnableTransactionManagement
@@ -43,6 +45,11 @@ public class OracleDbConfig{
 	public UserDao userDao() {
 		return new UserDao(dataSource());
 	}
+	
+	@Bean
+	public PlanDao planDao() {
+		return new PlanDao(dataSource());
+	}
 
 	@Bean
 	public UserRegisterService memberRegSvc() {
@@ -54,5 +61,13 @@ public class OracleDbConfig{
 		AuthService authService = new AuthService();
 		authService.setuserDao(userDao());
 		return authService;
+	}
+	
+	@Bean
+	public ManageService manageService() {
+		ManageService manageService = new ManageService();
+		manageService.setuserDao(userDao());
+		manageService.setplanDao(planDao());
+		return manageService;
 	}
 }
