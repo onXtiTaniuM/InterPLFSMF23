@@ -50,4 +50,8 @@ public class ManageService {
 	public boolean planNotification() {
 		return planDao.planNotification();
 	}
+	
+	public boolean idDuplicate(String id) {
+		return (userDao.selectById(id) != null) ? true:false ;
+	}
 }

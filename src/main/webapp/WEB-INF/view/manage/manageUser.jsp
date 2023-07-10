@@ -29,11 +29,32 @@
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
 	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
-	    <script type="text/javascript">
+	    <script>
+	    	//notification checker
+			function checkNoti(){
+				$.ajax({
+	       			type:"post",  
+	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
+	       			success:function (data, textStatus) {
+						if(JSON.parse(data)){
+							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
+						}else{
+							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell-slash"></i>'
+						}
+	       			},
+	       			complete:function(data,textStatus){
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("에러발생: " + data);
+	       			}
+	    		});
+			} 
+       
 	    	//password, id checker
 	    	var passchecked = false;
 	    	var passExpchecked = false;
 	    	var emptychecked = false;
+	    	var iddupchecked = false;
 	    	
 	    	$("#passConfirm").css('display', 'none');
 	    	$("#passLength").css('display', 'none');
@@ -62,6 +83,31 @@
 	    		};
 	    	};
 			
+	    	function idDupChecker(){
+	    		var input = document.getElementById("id");
+	    		var id = input.value;
+	    		
+	    		$.ajax({
+	       			type:"post",  
+	       			url:"http://localhost:8584/SMFPlatform/manage/duplicateidcheck.do",
+	       			data:{id:id},
+	       			success:function (data, textStatus) {
+	       				if(JSON.parse(data)){
+							document.getElementById("idCheckMessage").innerHTML = '<p style="color:red">중복된 ID 입니다</p>';
+							iddupchecked = false;
+						}else{
+							document.getElementById("idCheckMessage").innerHTML = '<p>사용가능한 ID 입니다</p>';
+							iddupchecked = true;
+						}
+	       			},
+	       			complete:function(data,textStatus){
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("에러발생: " + data);
+	       			}
+	       		});
+	    	};
+	    	
 	    	function fn_isempty(){
 	    		var empno = document.getElementById("empNo");
 	    		var id = document.getElementById("id");
@@ -84,6 +130,11 @@
         		fn_isempty();
         		if(emptychecked==false){
         			alert("입력되지 않은 값이 있습니다");
+        			return;
+        		}
+        		
+        		if(iddupchecked==false){
+        			alert("ID를 확인하세요");
         			return;
         		}
         		
@@ -168,6 +219,7 @@
 	    		});
 	        	singupPop.init();
 	        	$("#passConfirm").css('display', 'none');
+	        	checkNoti();
 	        });
         	
     	</script>
@@ -186,6 +238,16 @@
 		        <div id="time" class="time"></div>
             </div>
             <!-- Navbar-->
+            <!-- Notification Icon for Admin User -->
+            <c:if test="${sessionScope.authInfo.getAdmin()}">
+	            <ul class="navbar-nav justify-content-end align-items-md-end">
+		            <li class="nav-item">
+		            	<a class="nav-link" id="navbarDropdown" href="manage/usermanagement" role="button"  aria-expanded="false">
+		            		<span id="notification-icon"></span>
+		            	</a>
+		            </li>
+	            </ul>
+            </c:if>
             <ul class="navbar-nav justify-content-end align-items-md-end">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -318,9 +380,9 @@
 	                                                <label for="name">이름</label>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="ID" path="id" autocomplete="off" />
+	                                                <form:input class="form-control" placeholder="ID" path="id" id="id" autocomplete="off" onkeyup="idDupChecker()"/>
 	                                                <label for="id">ID</label>
-	                                                <p>아이디확인</p>
+	                                                <span id="idCheckMessage"></span>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
 	                                                <form:password class="form-control" placeholder="Password" path="password" id="password" onkeyup="passExpChecker()"/>

@@ -113,4 +113,16 @@ public class ManageController {
 		writer.print(manageS.planNotification());
 	}
 	
+	@RequestMapping("/duplicateidcheck.do")
+	public void idDupCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		System.out.println("[JSON REQUEST]duplicateidcheck id: " + request.getParameter("id"));
+		System.out.println("[JSON RESPONSE]duplicateidcheck data: " + manageS.idDuplicate(request.getParameter("id")));
+		
+		PrintWriter writer = response.getWriter();
+		writer.print(manageS.idDuplicate(request.getParameter("id")));
+	}
+	
 }
