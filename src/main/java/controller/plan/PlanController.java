@@ -84,7 +84,7 @@ public class PlanController {
 		request.setCharacterEncoding("UTF-8");
 		PlanDAO bMgr = new PlanDAO();
 		bMgr.insertBoard(request);
-		return "redirect:/plan.do";
+		return "redirect:/boards/plan.do";
 	}
 	
 	@PostMapping("/boardReply.do")	// @GetMapping("/writePost.do")에서 요청

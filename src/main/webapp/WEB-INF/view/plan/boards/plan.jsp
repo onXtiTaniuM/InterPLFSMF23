@@ -5,6 +5,8 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <!-- list.jsp Setting-->
 <%@page import="spring.plan.PlanInfo"%>
+<%@page import="spring.plan.ProdInfo"%>
+<%@page import="spring.dao.PlanDAO"%>
 <%@page import="java.util.Vector"%>
 <%@page import="java.util.Date"%>
 
@@ -12,7 +14,6 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <jsp:useBean id="bMgr" class="spring.dao.PlanDAO" />
-
 <%
 request.setCharacterEncoding("UTF-8");
 	
@@ -197,6 +198,13 @@ request.setCharacterEncoding("UTF-8");
 		     }
 		  document.searchFrm.submit();
 		 }
+		//상품코드 자동입력
+		function updateProdNo(selectElement) {
+		    var selectedOption = selectElement.options[selectElement.selectedIndex];
+		    var prodNoInput = document.getElementById('prodNoInput');
+		    prodNoInput.value = selectedOption.value;
+		}
+		
 	</script>
 	
 	<style>
@@ -322,7 +330,7 @@ request.setCharacterEncoding("UTF-8");
 									listSize = vlist.size();//브라우저 화면에 보여질 게시물 번호
 									if (vlist.isEmpty()) {
 										out.println("등록된 데이터가 없습니다.");
-									} else {
+									} else {  
 									%>
 										  <table width="100%" cellpadding="2" cellspacing="0">
 											<tr align="center" bgcolor="#D0D0D0" height="120%">
@@ -342,6 +350,7 @@ request.setCharacterEncoding("UTF-8");
 											int num = bean.getNum();
 											String content = bean.getContent();
 											String prodName = bean.getProdName();
+											String prodNo = bean.getProdNo();
 											String regdate = bean.getRegdate();
 											String empName = bean.getEmpName();							
 											Date startdate = bean.getStartdate();
@@ -350,7 +359,7 @@ request.setCharacterEncoding("UTF-8");
 											%>
 											<tr>
 												<td align="center">
-													<%=(nowPage-1)*numPerPage+i+1%>
+													<%=(nowPage-1)*numPerPage+listSize-i%>
 												</td>
 												<td align="center" style="width: 150px;"><%=regdate.toString().substring(0, 16)%></td>
 												<td align="center" style="width: 70px;"><%=prodName%></a></td>
@@ -470,20 +479,23 @@ request.setCharacterEncoding("UTF-8");
 									<tr>
 									  	<td class="new_form_table_col_1" nowrap>생산상품</td>
 										<td class="new_form_table_col_1" nowrap>
-										    <select name="prodName" style="width:235px">
+				
+										    <select name="prodName" style="width:235px" onchange="updateProdNo(this)">
 										      <option value="" disabled selected hidden>상품을 선택하세요</option>
-										      <option value="KBD001">Keyboard_click</option>
+										      <%= bMgr.prodOptions()%>
+									          <!-- <option value="KBD001">Keyboard_click</option>
 										      <option value="KBD002">Keyboard_nclick</option>
 										      <option value="KBD003">Keyboard_linear</option>
-										      <option value="KBD003">KeyCap_Dye</option>
-										      <option value="KBD003">KeyCap_Shot</option>
+										      <option value="KBD004">KeyCap_Dye</option>
+										      <option value="KBD005">KeyCap_Shot</option> -->
 										    </select>
-										    <span class="new_form_table_col_2" nowrap >상품코드</span><input name="prodNo" size="10" maxlength="8">
+										    <span class="new_form_table_col_2" nowrap >상품코드</span>
+										    <input type="text" name="prodNo" id="prodNoInput" size="10" maxlength="8">
 										</td>
 									</tr>
 									<tr>
 										<td class="new_form_table_col_1" nowrap>생산계획</td>
-										<td><input name="prodCnt" size="10" maxlength="20">개</td>
+										<td><input type="number" name="prodCnt" size="10" maxlength="20">개</td>
 									</tr>
 									<tr>
 										<td class="new_form_table_col_1" nowrap>재고현황</td>

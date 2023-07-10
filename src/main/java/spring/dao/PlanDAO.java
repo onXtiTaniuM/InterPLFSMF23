@@ -25,6 +25,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import config.db.*;
 import config.db.DBConnectionMgr;
 import spring.plan.PlanInfo;
+import spring.plan.ProdInfo;
 
 public class PlanDAO {
 	private static final String SAVEFOLDER = "D:\\Temp\\boards\\fileuploads";
@@ -42,7 +43,49 @@ public class PlanDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	// 상품 리스트
+	private Vector<ProdInfo> getProdList() {
+	    Connection con = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql = null;
+	    Vector<ProdInfo> prodList = new Vector<ProdInfo>();
+	    
+	    try {
+	        con = pool.getConnection();
+	        sql = "SELECT prodName, prodNo FROM product";
+	        pstmt = con.prepareStatement(sql);
+	        rs = pstmt.executeQuery();
+	        
+	        while (rs.next()) {
+	        	ProdInfo prod = new ProdInfo();
+	        	prod.setProdNo(rs.getString("prodNo"));
+	            prod.setProdName(rs.getString("prodName"));
+	            prodList.add(prod);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        pool.freeConnection(con, pstmt, rs);
+	    }
+	    
+	    return prodList;
+	}
+	
+	// 상품 option
+	public String prodOptions() {
+	    Vector<ProdInfo> prodList = getProdList();
+	    StringBuilder options = new StringBuilder();
+	    
+	    for (ProdInfo prod : prodList) {
+	        options.append("<option value=\"" + prod.getProdNo() + "\">" + prod.getProdName() + "</option>");
+	    }
+	    
+	    return options.toString();
+	}
 
+	
 	// 게시판 리스트
 		public Vector<PlanInfo> getBoardList(String keyField, String keyWord, int start, int end) {
 			Connection con = null;
@@ -78,6 +121,7 @@ public class PlanDAO {
 					bean.setNum(rs.getInt("num"));
 					bean.setEmpName(rs.getString("empName"));
 					bean.setProdName(rs.getString("prodName"));
+					bean.setProdNo(rs.getString("prodNo"));
 					bean.setStartdate(rs.getDate("startdate"));
 					bean.setEnddate(rs.getDate("enddate"));
 					bean.setRef(rs.getInt("ref"));
@@ -157,19 +201,20 @@ public class PlanDAO {
 				if (multi.getParameter("contentType").equalsIgnoreCase("TEXT")) {
 					content = UtilMgr.replace(content, "<", "&lt;");
 				}
-				sql = "insert into Board(num,empName,content,prodName,startdate,enddate,ref,pos,depth,regdate,pass,ip,filename,filesize)"
-						+"values(board_seq.currval,?, ?, ?, ?, ?, ?, 0, 0, sysdate, ?, ?, ?, ?)";
+				sql = "insert into Board(num,empName,content,prodName,prodNo,startdate,enddate,ref,pos,depth,regdate,pass,ip,filename,filesize)"
+						+"values(board_seq.currval,?, ?, ?, ?, ?, ?, ?, 0, 0, sysdate, ?, ?, ?, ?)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, multi.getParameter("empName"));
 				pstmt.setString(2, content);
 				pstmt.setString(3, multi.getParameter("prodName"));
-				pstmt.setDate(4, java.sql.Date.valueOf(multi.getParameter("startdate")));
-				pstmt.setDate(5, java.sql.Date.valueOf(multi.getParameter("enddate")));
-				pstmt.setInt(6, ref);
-				pstmt.setString(7, multi.getParameter("pass"));
-				pstmt.setString(8, multi.getParameter("ip"));
-				pstmt.setString(9, filename);
-				pstmt.setInt(10, filesize);
+				pstmt.setString(4, multi.getParameter("prodNo"));
+				pstmt.setDate(5, java.sql.Date.valueOf(multi.getParameter("startdate")));
+				pstmt.setDate(6, java.sql.Date.valueOf(multi.getParameter("enddate")));
+				pstmt.setInt(7, ref);
+				pstmt.setString(8, multi.getParameter("pass"));
+				pstmt.setString(9, multi.getParameter("ip"));
+				pstmt.setString(10, filename);
+				pstmt.setInt(11, filesize);
 				pstmt.executeUpdate();
 			} catch (Exception e) {
 				e.printStackTrace();

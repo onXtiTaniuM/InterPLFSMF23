@@ -6,7 +6,8 @@ public class PlanInfo {
 	
 	private int num;
 	private String empName;        
-	private String prodName;      
+	private String prodName;
+	private String prodNo;
 	private String content;     
 	private int pos;            
 	private int depth;        
@@ -42,6 +43,12 @@ public class PlanInfo {
 	}
 	public void setEmpName(String empName) {
 		this.empName = empName;
+	}
+	public String getProdNo() {
+		return prodNo;
+	}
+	public void setProdNo(String prodNo) {
+		this.prodNo = prodNo;
 	}
 	public String getProdName() {
 		return prodName;
