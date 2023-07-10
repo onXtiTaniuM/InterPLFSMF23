@@ -167,7 +167,7 @@
 	            //Adding event listeners
 	            function _addEventListeners() {
 	                $('#register').click(function () {
-	                    $('#window').jqxWindow('open');
+	                    $('#regiwindow').jqxWindow('open');
 	                });
 	                $('#regsubmit').click(fn_register);
 	            };
@@ -184,17 +184,17 @@
 	                var content = $('#userlist');
 	                var offset = content.offset();
 	
-	                $('#window').jqxWindow({
+	                $('#regiwindow').jqxWindow({
 						autoOpen: false,
 	                    position: { x: offset.left+250, y: offset.top } ,
 	                    showCollapseButton: true, 
 	                    height: 560, width: 500,
 	                    initContent: function () {
-	                        $('#window').jqxWindow('focus');
+	                        $('#regiwindow').jqxWindow('focus');
 	                    }
 	                });
-	                $('#window').jqxWindow('resizable', false);
-	                $('#window').jqxWindow('draggable', true);
+	                $('#regiwindow').jqxWindow('resizable', false);
+	                $('#regiwindow').jqxWindow('draggable', true);
 	            };
 	
 	            return {
@@ -211,15 +211,18 @@
 	                }
 	            };
 	        } ());
-        	
         	//page ready js script
 	    	$(document).ready(function () {
-	    		usertable = new DataTable('#userlist', {
+	    		usertable = new DataTable('#userlist', { //init datatable
 	    		    ajax: 'http://localhost:8584/SMFPlatform/manage/userlist.json'
 	    		});
-	        	singupPop.init();
-	        	$("#passConfirm").css('display', 'none');
-	        	checkNoti();
+	        	usertable.on('click', 'tbody tr', function () {	//datatable click func
+			        let data = usertable.row(this).data();
+			        alert('[확인용기능]' + data[1] + "의 열을 클릭");
+		        });
+	        	singupPop.init(); //popupwindow init
+	        	$("#passConfirm").css('display', 'none'); 
+	        	checkNoti(); //notification check
 	        });
         	
     	</script>
@@ -252,7 +255,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="settings">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
@@ -363,7 +366,7 @@
 								    <div>
 	       								<input type="button" value="사용자 신규등록" id='register' />	
 	       							</div>
-							  		<div id="window">
+							  		<div id="regiwindow">
 					                	<div id="windowHeader">
 					                    	<span>
 					                        	사용자 신규등록

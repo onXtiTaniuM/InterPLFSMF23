@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="spring.auth.AuthInfo" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,13 +11,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>TEST</title>
+        <title>Manage</title>
         <link href="${path}/resources/css/styles.css" rel="stylesheet" />
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    	<link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" />
         <script src="${path}/resources/js/jquery-3.6.0.js"></script>
+    	<script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
- 		<script>
+        <!-- script for jq link -->
+        <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
+    	<link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
+        <script>
 			function checkNoti(){
 				$.ajax({
 	       			type:"post",  
@@ -39,16 +43,17 @@
 			}
 			
 	        $(document).ready(function () {
+	        	$('#submitbutton').jqxButton({theme: "arctic"});
 	        	checkNoti();
 	        });   
-        </script>   
+        </script>
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
-        <script src="${path}/resources/js/kor_clock.js"></script>
+        <script src="resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="${path}/main">Platform Name</a>
+            <a class="navbar-brand ps-3" href="${path}">Platform Name</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
             <!-- Navbar Clock -->
@@ -71,14 +76,14 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="settings">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
-	                        <li><a class="dropdown-item" href="${path}/manage">Manage Settings</a></li>
+	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
-                        <li><a class="dropdown-item" href="${path}/logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -110,7 +115,7 @@
                                     <a class="nav-link" href="${path}/report">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="${path}/report">
+                            <a class="nav-link" href="${path}/logout">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 보고서관리
                             </a>
@@ -128,7 +133,7 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="${path}/login">Login</a>
+                                            <a class="nav-link" href="login">Login</a>
                                             <a class="nav-link" href="register.html">Register</a>
                                         </nav>
                                     </div>
@@ -146,17 +151,42 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">재고관리</h1>
+                        <h1 class="mt-4">등록정보 수정</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">재고관리</li>
+                            <li class="breadcrumb-item active">등록정보 수정</li>
                         </ol>
+                        <div class="row justify-content-center">
+	                        <div class="col-xl-6">
+			    				<div class="card mb-4">
+		                            <div class="card-header">
+		                                <i class="fa fa-cogs"></i>
+		                                등록정보 수정
+		                            </div>
+		                            <div class="card-body">
+		                            	<form>
+				                            <div class="form-floating mb-3">
+					                            <input class="form-control" id="recentPassword" type="password" placeholder="현재 비밀번호" />
+					                            <label for="inputEmail">현재 비밀번호</label>
+				                            </div>
+				                            <div class="form-floating mb-3">
+					                            <input class="form-control" id="newPassword" type="password" placeholder="새로운 비밀번호" />
+					                            <label for="inputPassword">새로운 비밀번호</label>
+				                            </div>
+				                            <div class="form-floating mb-3">
+					                            <input class="form-control" id="passwordConfirm" type="password" placeholder="비밀번호 확인" />
+					                            <label for="inputPassword">비밀번호 확인</label>
+				                            </div>
+				                            <button id="submitbutton">비밀번호 변경</button> 
+		                            	</form>
+		                            </div>
+		                        </div>
+	                        </div>
+                        </div>
                     </div>
                 </main>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     </body>
 </html>

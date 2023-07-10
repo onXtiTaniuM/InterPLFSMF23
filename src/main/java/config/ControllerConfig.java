@@ -9,6 +9,7 @@ import controller.manage.ManageController;
 import controller.plan.PReportController;
 import controller.plan.PlanController;
 import controller.process.ProcessController;
+import controller.setting.SettingController;
 import controller.TestController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
@@ -61,6 +62,13 @@ public class ControllerConfig {
 	@Bean
 	public PReportController processreportController() {
 		return new PReportController();
+	}
+	
+	@Bean
+	public SettingController settingsController() {
+		SettingController controller = new SettingController();
+		controller.setManageService(manageService);
+		return controller;
 	}
 	
 	//Bean For Test Page. Will Not Use.
