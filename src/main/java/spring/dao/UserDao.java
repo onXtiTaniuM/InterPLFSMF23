@@ -86,5 +86,32 @@ public class UserDao {
 			}
 		});
 	}
+	
+	public User selectIdPwMatch(String id, String pw) { //ID, PW 공통 조회
+		Object[] where = new Object[] {id, pw};
+		List<User> results = jdbcTemplate.query(
+				"select * from e_user where id = ? and pw = ?", where,
+				new RowMapper<User>() {
+					@Override
+					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+						User user = new User(
+								rs.getString("empno"),
+								rs.getString("id"),
+								rs.getString("pw"),
+								rs.getString("name"),
+								rs.getString("rank"),
+								(1 == rs.getLong("admin")),
+								rs.getTimestamp("regidate").toLocalDateTime());
+						user.setuserNo(rs.getLong("userNo"));
+						return user;
+					}
+				});
+		return results.isEmpty() ? null : results.get(0);
+	}
+	
+	public void updatePassword(String id, String pw) {
+		jdbcTemplate.update(
+				"update e_user set pw = ? where id = ?", pw, id);
+	}
 
 }

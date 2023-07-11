@@ -222,7 +222,10 @@
 		        });
 	        	singupPop.init(); //popupwindow init
 	        	$("#passConfirm").css('display', 'none'); 
-	        	checkNoti(); //notification check
+	        	
+	        	if(${sessionScope.authInfo.getAdmin()}){
+	        		checkNoti();
+	        	} //notification check
 	        });
         	
     	</script>

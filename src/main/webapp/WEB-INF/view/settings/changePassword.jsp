@@ -23,12 +23,86 @@
     	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
     	<link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
         <script>
+        	var passchecked = false;
+        	var passExpchecked = false;
+
+        	
+			let passExp = new RegExp('(?=.{6,})');
+	    	
+	    	function passExpChecker(){
+	    		var password = document.getElementById("newPassword");
+	    		 if(!passExp.test(password.value)){
+	    			 $("#passLength").css('display', 'inline-block');
+	    			 passExpchecked = false;
+	    		 }else{
+	    			 $("#passLength").css('display', 'none');
+	    			 passExpchecked = true;
+	    		 };
+	    	};
+        	
+        	function passwordChecker(){
+	    		var password = document.getElementById("newPassword");
+	    		var confirm_password = document.getElementById("passwordConfirm");
+	    		if(password.value != confirm_password.value){
+	    			$("#passConfirm").css('display', 'inline-block');
+	    			passchecked = false;
+	    		}else{
+	    			$("#passConfirm").css('display', 'none');
+	    			passchecked = true;
+	    		};
+	    	};
+        
+        	function changepassword(){
+        		var input = document.getElementById("recentPassword");
+	    		var pass = input.value;
+	    		
+	    		$.ajax({
+	       			type:"post", 
+	       			async:false,
+	       			url:"http://localhost:8584/SMFPlatform/settings/passcheck.do",
+	       			data:{password:pass},
+	       			success:function (data, textStatus) {
+	       				if(!JSON.parse(data)){
+							alert("현재 비밀번호가 일치하지 않습니다");
+							return;
+	       				}else{
+	       					(function change(){
+	       		        		if((passExpchecked==false) || (passchecked==false)){
+	       		        			alert("잘못된 신규 비밀번호 입니다");
+	       		        			return;
+	       		        		}
+	       		        		
+	       		        		var password = document.getElementById("newPassword").value;
+	       		        		
+	       		        		$.ajax({
+	       			       			type:"post", 
+	       			       			async:false,
+	       			       			url:"http://localhost:8584/SMFPlatform/settings/changepassword.do",
+	       			       			data:{password:password},
+	       			       			success:function (data, textStatus) {
+	       			       				alert("변경 완료했습니다!");
+	       			       			},
+	       			       			error:function(data, textStatus){
+	       			          			alert("변경처리 에러");
+	       			       			}
+	       			       		});
+	       		        	})();
+	       				};
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("아이디 검증 에러");
+	       			}
+	       		});
+        	}	
+        	
 			function checkNoti(){
 				$.ajax({
 	       			type:"post",  
 	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
 	       			success:function (data, textStatus) {
-						if(JSON.parse(data)){
+	       				if(data=="<anonymous>"){
+	       					return;
+	       				}else if(JSON.parse(data)){
 							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
 						}else{
 							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell-slash"></i>'
@@ -43,14 +117,18 @@
 			}
 			
 	        $(document).ready(function () {
-	        	$('#submitbutton').jqxButton({theme: "arctic"});
-	        	checkNoti();
+	        	$('#submit').jqxButton({theme: "arctic"});
+	        	$('#submit').on('click', changepassword);
+	        	
+	        	if(${sessionScope.authInfo.getAdmin()}){
+	        		checkNoti();
+	        	}
 	        });   
         </script>
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
-        <script src="resources/js/kor_clock.js"></script>
+        <script src="${path}/resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="${path}">Platform Name</a>
@@ -83,7 +161,7 @@
 	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
-                        <li><a class="dropdown-item" href="logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="${path}/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -163,20 +241,22 @@
 		                                등록정보 수정
 		                            </div>
 		                            <div class="card-body">
-		                            	<form>
+		                            	<form id="passwordchange" method='POST'>
 				                            <div class="form-floating mb-3">
 					                            <input class="form-control" id="recentPassword" type="password" placeholder="현재 비밀번호" />
 					                            <label for="inputEmail">현재 비밀번호</label>
 				                            </div>
 				                            <div class="form-floating mb-3">
-					                            <input class="form-control" id="newPassword" type="password" placeholder="새로운 비밀번호" />
+					                            <input class="form-control" id="newPassword" type="password" placeholder="새로운 비밀번호" onkeyup="passExpChecker()"/>
 					                            <label for="inputPassword">새로운 비밀번호</label>
 				                            </div>
 				                            <div class="form-floating mb-3">
-					                            <input class="form-control" id="passwordConfirm" type="password" placeholder="비밀번호 확인" />
+					                            <input class="form-control" id="passwordConfirm" type="password" placeholder="비밀번호 확인" onkeyup="passwordChecker()"/>
 					                            <label for="inputPassword">비밀번호 확인</label>
+					                            <span id="passConfirm" display="none">비밀번호가 일치하지 않습니다.</span>
+										     	<span id="passLength" display="none">비밀번호는 6자리 이상이어야 합니다.</span>
 				                            </div>
-				                            <button id="submitbutton">비밀번호 변경</button> 
+				                            <button id="submit">비밀번호 변경</button> 
 		                            	</form>
 		                            </div>
 		                        </div>

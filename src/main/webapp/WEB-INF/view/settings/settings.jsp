@@ -39,7 +39,9 @@
 			}
 			
 	        $(document).ready(function () {
-	        	checkNoti();
+	        	if(${sessionScope.authInfo.getAdmin()}){
+	        		checkNoti();
+	        	}
 	        });   
         </script>
     </head>
@@ -78,7 +80,7 @@
 	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
-                        <li><a class="dropdown-item" href="logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="${path}/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>

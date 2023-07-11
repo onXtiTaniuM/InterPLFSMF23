@@ -54,4 +54,15 @@ public class ManageService {
 	public boolean idDuplicate(String id) {
 		return (userDao.selectById(id) != null) ? true:false ;
 	}
+	
+	public void changePassword(String id, String pw) {
+		userDao.updatePassword(id, pw);
+	}
+	
+	public boolean passwordCheck(String id, String pw) {
+		if(userDao.selectIdPwMatch(id, pw) != null) {
+			return true;
+		}
+		return false;
+	}
 }

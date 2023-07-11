@@ -37,7 +37,9 @@
 			}
 			
 	        $(document).ready(function () {
-	        	checkNoti();
+	        	if(${sessionScope.authInfo.getAdmin()}){
+	        		checkNoti();
+	        	}
 	        });   
         </script>
     </head>
