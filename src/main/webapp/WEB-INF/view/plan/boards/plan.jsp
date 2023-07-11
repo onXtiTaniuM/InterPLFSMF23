@@ -11,14 +11,13 @@
 <%@page import="java.util.Date"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <jsp:useBean id="bMgr" class="spring.dao.PlanDAO" />
 <%
-request.setCharacterEncoding("UTF-8");
-	
+	/* request.setCharacterEncoding("UTF-8");
+
 	String contextPath = request.getContextPath();
-	System.out.println("contextPath : " + contextPath);
+	System.out.println("contextPath : " + contextPath); */
 	
 	int totalRecord=0; //전체레코드수
 	int numPerPage=10; // 페이지당 레코드 수
@@ -186,7 +185,7 @@ request.setCharacterEncoding("UTF-8");
 		
 		function read(num){
 			document.readFrm.num.value=num;
-			document.readFrm.action="<%=contextPath%>/boards/read.do";
+			document.readFrm.action="${path}/boards/read.do";
 			document.readFrm.submit();
 		}
 		
@@ -258,8 +257,8 @@ request.setCharacterEncoding("UTF-8");
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Menu</div>
-                            <a class="nav-link" href="${path}/plan">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <a class="nav-link" href="${path}/boards/plan.do">
+                                <div class="b-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 계획관리
                             </a>
                             <a class="nav-link" href="${path}/inventory">
@@ -495,39 +494,50 @@ request.setCharacterEncoding("UTF-8");
 									</tr>
 									<tr>
 										<td class="new_form_table_col_1" nowrap>생산계획</td>
-										<td><input type="number" name="prodCnt" size="10" maxlength="20">개</td>
+										<td>
+											<input type="number" name="prodCnt" size="18">
+											<input type="button" name="bomList" value="확인" onClick="javascript:location.href='bomList.do'">
+										</td>
 									</tr>
 									<tr>
 										<td class="new_form_table_col_1" nowrap>재고현황</td>
 										<td class="new_form_table_col_1" nowrap>
 											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">개
+											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
+											<input name="" size="10" maxlength="20">
+											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
 										</td>
 									</tr>
 									<tr>
 										<td></td>
 										<td class="new_form_table_col_1" nowrap>
 											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">개
+											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
+											<input name="" size="10" maxlength="20">
+											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
 										</td>
 									</tr>
 									<tr>
 										<td></td>
 										<td class="new_form_table_col_1" nowrap>
 											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">개
+											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
+											<input name="" size="10" maxlength="20">
+											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
 										</td>
 									</tr>
 									<tr>
 										<td></td>
 										<td class="new_form_table_col_1" nowrap>
 											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">개
+											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
+											<input name="" size="10" maxlength="20">
+											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
 										</td>
 									</tr>
 									<tr>
 										<td class="new_form_table_col_1" nowrap>비 고</td>
-										<td><textarea name="content" rows="2" cols="45"></textarea></td>
+										<td><textarea name="content" rows="2" cols="48"></textarea></td>
 									</tr>
 									<tr>
 										<td width="10%" class="new_form_table_col_1" nowrap>담당자</td>

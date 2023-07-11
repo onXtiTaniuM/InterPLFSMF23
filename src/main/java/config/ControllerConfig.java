@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import controller.login.LogoutController;
 import controller.manage.ManageController;
 import controller.plan.PlanController;
+import controller.plan.BomController;
 import controller.plan.PReportController;
 import controller.process.ProcessController;
 import controller.TestController;
@@ -64,5 +65,9 @@ public class ControllerConfig {
 		return new PlanController();
 	}
 
+	@Bean
+	public BomController bomController() {
+		return new BomController();
+	}
 	
 }

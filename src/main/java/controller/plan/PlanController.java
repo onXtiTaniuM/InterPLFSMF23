@@ -23,7 +23,6 @@ import spring.plan.PlanInfo;
 public class PlanController {
 
 	
-	
 	@GetMapping(value={ "/", "/plan.do" } )
 	public String boards(Model model) {
 		System.out.println("[BoardController] : GET:/plan.do");
@@ -36,7 +35,6 @@ public class PlanController {
 		return "plan/boards/plan";
 	}
 	
-
 	@GetMapping("/read.do")
 	public String read(Model model) {
 		System.out.println("[BoardController] : GET:/boards/read.do");
@@ -151,5 +149,12 @@ public class PlanController {
 		}
 		
 		return null;
-	}	
+	}
+	
+	@GetMapping("/bomList.do")
+	public String bomList(Model model) {
+		System.out.println("[BoardController] : GET:/boards/boardList.do");
+		return "plan/boards/bomList";
+	}
+	
 } 
