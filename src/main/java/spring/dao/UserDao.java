@@ -113,5 +113,10 @@ public class UserDao {
 		jdbcTemplate.update(
 				"update e_user set pw = ? where id = ?", pw, id);
 	}
+	
+	public void updateUser(String id, String pw) {
+		jdbcTemplate.update(
+				"update e_user set empno = ?, pw = ?, rank = ?, admin = ? where id = ?", pw, id);
+	}
 
 }
