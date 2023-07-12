@@ -79,6 +79,11 @@
 <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
 <script type="text/javascript" src="${path}/resources/jqwidgets/demos.js"></script> 
 <script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
+
+<script type="text/javascript" src="${path}/resources/jqwidgets/jqxribbon.js"></script>
+<script type="text/javascript" src="${path}/resources/jqwidgets/jqxlayout.js"></script>
+<script type="text/javascript" src="${path}/resources/jqwidgets/jqxtree.js"></script>
+
 <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
 <script type="text/javascript">
         var basicDemo = (function () {
@@ -105,10 +110,10 @@
                 $('#window').jqxWindow({
                 	autoOpen: false,
                     position: { x: offset.left + 50, y: offset.top + 50} ,
-                    showCollapseButton: true, maxHeight: 800, maxWidth: 1000,
-                    						  minHeight: 400, minWidth: 400,
-                    						  height: 760, width: 1000,
-                    						  position: { x: '25%', y: '13%' },
+                    showCollapseButton: true, maxHeight: 1000, maxWidth: 2000,
+                    						  minHeight: 800, minWidth: 400,
+                    						  height: 760, width: 1300,
+                    						  position: { x: '20%', y: '13%' },
                     initContent: function () {
                         /* $('#tab').jqxTabs({ height: '100%', width:  '100%' }); */
                         $('#window').jqxWindow('focus');
@@ -151,6 +156,8 @@
             basicDemo.init();
         });
     </script>
+    
+    
 <!-- /writepost.jsp -->
 <!DOCTYPE html>
 <html lang="en">
@@ -216,6 +223,11 @@
     	.new_form_table_col_2 {
         padding: 10px;
     	}
+    	
+    	.jqx-layout-group-auto-hide-content-vertical
+        {
+            width: 200px;
+        }
 	</style>
 	
     </head>
@@ -361,7 +373,7 @@
 													<%=(nowPage-1)*numPerPage+listSize-i%>
 												</td>
 												<td align="center" style="width: 150px;"><%=regdate.toString().substring(0, 16)%></td>
-												<td align="center" style="width: 70px;"><%=prodName%></a></td>
+												<td align="center" style="width: 70px;"><%=prodName%></td>
 												<td align="center" style="width: 220px;"><%=startdate%> ~ <%=enddate%></td>
 												<td align="center" style="width: 50px;">
 												<%
@@ -462,10 +474,10 @@
                         <div><!--context-->
 						<div>
 						<form name="postFrm" method="post" action="boardPost.do" enctype="multipart/form-data">
-						<table width="800" cellpadding="5" align="center">
+						<table width="1200" cellpadding="5" align="center">
 							<tr>
 								<td align=center>
-								<table align="center">
+								<table align="left">
 									<tr>
 										<br/>
 										<br/>

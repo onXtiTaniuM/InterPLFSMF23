@@ -24,6 +24,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import config.db.*;
 import config.db.DBConnectionMgr;
+import spring.plan.BomInfo;
 import spring.plan.PlanInfo;
 import spring.plan.ProdInfo;
 
@@ -42,6 +43,41 @@ public class PlanDAO {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// BOM 
+	private Vector<BomInfo> getBomList() {
+	    Connection con = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql = null;
+	    Vector<BomInfo> bomList = new Vector<BomInfo>();
+	    
+	    try {
+	        con = pool.getConnection();
+	        sql = "SELECT b.prodNo, p.prodName, b.materNo, m.materName,b.materPrice, b.materQty"
+	        		+ "FROM BOM b"
+	        		+ "JOIN material m ON b.materNo = m.materNo"
+	        		+ "JOIN product p ON b.prodNo = p.prodNo"
+	        		+ "WHERE b.prodNo = '?'";
+	        pstmt = con.prepareStatement(sql);
+	        rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	        	BomInfo bom = new BomInfo();
+	        	bom.setProdNo(rs.getString("b.prodNo"));
+	            bom.setProdName(rs.getString("p.prodName"));
+	            bom.setMaterNo(rs.getString("b.materNo"));
+	            bom.setMaterPrice(rs.getInt("b.materprice"));
+	            bom.setMaterQty(rs.getInt("b.materQty"));
+	            bomList.add(bom);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        pool.freeConnection(con, pstmt, rs);
+	    }
+	    
+	    return bomList;
 	}
 	
 	// 상품 리스트

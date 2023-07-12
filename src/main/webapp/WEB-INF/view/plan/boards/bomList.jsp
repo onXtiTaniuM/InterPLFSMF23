@@ -17,52 +17,56 @@
     <script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
     <script type="text/javascript" src="${path}/resources/jqwidgets/jqxmenu.js"></script>
-    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtextarea.js"></script>
     <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpivot.js"></script> 
     <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpivotgrid.js"></script>
     <script type="text/javascript" src="${path}/resources/jqwidgets/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            // prepare sample data
-            var data = new Array();
-            var firstNames =
-            [
-                "Andrew", "Nancy", "Shelley", "Regina", "Yoshi", "Antoni", "Mayumi", "Ian", "Peter", "Lars", "Petra", "Martin", "Sven", "Elio", "Beate", "Cheryl", "Michael", "Guylene"
-            ];
-            var lastNames =
-            [
-                "Fuller", "Davolio", "Burke", "Murphy", "Nagase", "Saavedra", "Ohno", "Devling", "Wilson", "Peterson", "Winkler", "Bein", "Petersen", "Rossi", "Vileid", "Saylor", "Bjorn", "Nodier"
-            ];
-            var productNames =
-            [
-            	"Black Tea", "Green Tea", "Caffe Espresso", "Doubleshot Espresso", "Caffe Latte", "White Chocolate Mocha", "Cramel Latte", "Caffe Americano", "Cappuccino", "Espresso Truffle", "Espresso con Panna", "Peppermint Mocha Twist"
-            ];
-            var priceValues =
-            [
-                "2.25", "1.5", "3.0", "3.3", "4.5", "3.6", "3.8", "2.5", "5.0", "1.75", "3.25", "4.0"
-            ];
-            for (var i = 0; i < 500; i++) {
-                var row = {};
-                var productindex = Math.floor(Math.random() * productNames.length);
-                var price = parseFloat(priceValues[productindex]);
-                var quantity = 1 + Math.round(Math.random() * 10);
-                row["firstname"] = firstNames[Math.floor(Math.random() * firstNames.length)];
-                row["lastname"] = lastNames[Math.floor(Math.random() * lastNames.length)];
-                row["productname"] = productNames[productindex];
-                row["price"] = price;
-                row["quantity"] = quantity;
-                row["total"] = price * quantity;
-                data[i] = row;
-            }
-            // create a data source and data adapter
+        	var data = [];
+        	var products = [];
+        	var selectedValue = $("select[name='prodName']").val();
+        	products.push(selectedValue);
+        	
+        	$("input[name='bomList']").click(function() {
+        	    selectedValue = $("select[name='prodName']").val();
+        	    products.push(selectedValue);
+        	  });
+
+        	var materials = ["KC001", "KC002", "PBT001", "ABS001", "DYE001", "PCB001", "HSE001", "SWC001", "SWN001", "SWL001", "SLC001", "SLN001", "SLL001", "SPR001"];
+        	var productNames = ["KBD_click", "KBD_nclick", "KBD_linear", "KC_Dye", "KC_Shot"
+        		
+        		
+        		];
+        	var priceValues = [100000, 50000, 50000, 20000, 10000, 5000, 50, 20, 10];
+
+        	for (var i = 0; i < productNames.length; i++) {
+        	  for (var j = 0; j < materials.length; j++) {
+        	    var productIndex = i;
+        	    var price = priceValues[productIndex];
+        	    var quantity = 1 + Math.round(Math.random() * 10);
+
+        	    var row = {
+        	      "product": products[0],
+        	      "material": materials[j],
+        	      "productname": productNames[productIndex],
+        	      "price": price,
+        	      "quantity": quantity,
+        	      "total": price * quantity
+        	    };
+
+        	    data.push(row);
+        	  }
+        	}
+
+           
             var source =
             {
                 localdata: data,
                 datatype: "array",
                 datafields:
                 [
-                    { name: 'firstname', type: 'string' },
-                    { name: 'lastname', type: 'string' },
+                    { name: 'product', type: 'string' },
+                    { name: 'material', type: 'string' },
                     { name: 'productname', type: 'string' },
                     { name: 'quantity', type: 'number' },
                     { name: 'price', type: 'number' },
@@ -77,22 +81,23 @@
                 dataAdapter,
                 {
                     pivotValuesOnRows: false,
-                    rows: [{ dataField: 'firstname' }, { dataField: 'lastname'}],
+                    rows: [{ dataField: 'product' }, { dataField: 'material'}],
                     columns: [{ dataField: 'productname'}],
                     filters: [
                         {
                             dataField: 'productname',
                             filterFunction: function (value) {
-                                if (value == "Black Tea" || value == "Green Tea")
+                                if (value == "KBD_click" || value == "")
                                     return true;
                                 return false;
                             }
                         }
                     ],
                     values: [
-                        { dataField: 'price', 'function': 'sum', text: 'sum', formatSettings: { prefix: '$', decimalPlaces: 2} },
-                        { dataField: 'price', 'function': 'count', text: 'count' },
-                        { dataField: 'price', 'function': 'average', text: 'average', formatSettings: { prefix: '$', decimalPlaces: 2 } }
+                        { dataField: 'quantity','function': 'sum', text: '소요량' },
+                        { dataField: 'price', 'function': 'sum', text: '단가', formatSettings: { prefix: '$', decimalPlaces: 2} },
+                        { dataField: 'total', 'function': 'sum', text: '가격', formatSettings: { prefix: '$', decimalPlaces: 2} },
+                        { dataField: 'material', 'function': 'count', text: '재고' }
                     ]
                 });
             // create a pivot grid
