@@ -65,4 +65,13 @@ public class ManageService {
 		}
 		return false;
 	}
+	
+	public User getUserById(String id) {
+		User user = userDao.selectById(id);
+		return user;
+	}
+	
+	public List<String> rankList(){
+		return userDao.rankList();
+	}
 }

@@ -211,16 +211,68 @@
 	                }
 	            };
 	        } ());
+        	
+        	function fn_update(){
+        		
+        	}
+        	
+        	var updatePop = (function () {
+	            //Adding event listeners
+	            function _addEventListeners() {
+	                $('#updatesubmit').click(fn_update);
+	            };
+	
+	            //Creating all page elements which are jqxWidgets
+	            function _createElements() {
+	                $('#updatesubmit').jqxButton({ width: '65px' });
+	            };
+	
+	            //Creating the window
+	            function _createWindow() {
+	                var jqxWidget = $('#jqxWidget');
+	                var content = $('#userlist');
+	                var offset = content.offset();
+	
+	                $('#updatewindow').jqxWindow({
+						autoOpen: false,
+	                    position: { x: offset.left+250, y: offset.top } ,
+	                    showCollapseButton: true, 
+	                    height: 560, width: 500,
+	                    initContent: function () {
+	                        $('#updatewindow').jqxWindow('focus');
+	                    }
+	                });
+	                $('#updatewindow').jqxWindow('resizable', false);
+	                $('#updatewindow').jqxWindow('draggable', true);
+	            };
+	
+	            return {
+	                config: {
+	                    dragArea: null
+	                },
+	                init: function () {
+	                    //Creating all jqxWindgets except the window
+	                    _createElements();
+	                    //Attaching event listeners
+	                    _addEventListeners();
+	                    //Adding jqxWindow
+	                    _createWindow();
+	                }
+	            };
+	        } ());
+        	
         	//page ready js script
 	    	$(document).ready(function () {
+	        	singupPop.init(); //signup popupwindow init
+	        	updatePop.init(); //update popupwindow init 
 	    		usertable = new DataTable('#userlist', { //init datatable
 	    		    ajax: 'http://localhost:8584/SMFPlatform/manage/userlist.json'
 	    		});
 	        	usertable.on('click', 'tbody tr', function () {	//datatable click func
 			        let data = usertable.row(this).data();
 			        alert('[확인용기능]' + data[1] + "의 열을 클릭");
+			        $('#updatewindow').jqxWindow('open');
 		        });
-	        	singupPop.init(); //popupwindow init
 	        	$("#passConfirm").css('display', 'none'); 
 	        	
 	        	if(${sessionScope.authInfo.getAdmin()}){
@@ -406,6 +458,31 @@
 	                                            </div>
                                         	</form:form>
   											<input type="button" value="입력" id="regsubmit"/>
+						                </div>
+							    	</div>
+							    	
+							    	<div id="updatewindow">
+					                	<div id="windowHeader">
+					                    	<span>
+					                        	사용자 수정
+					                    	</span>
+					                	</div>
+						                <div style="overflow: hidden;" id="windowContent">
+	                                        <form id="passwordchange" method='POST'>
+					                            <div class="form-floating mb-3">
+						                            <input class="form-control" id="recentPassword" type="password" placeholder="현재 비밀번호" />
+						                            <label for="inputEmail">현재 비밀번호</label>
+					                            </div>
+					                            <div class="form-floating mb-3">
+						                            <input class="form-control" id="newPassword" type="password" placeholder="새로운 비밀번호"/>
+						                            <label for="inputPassword">새로운 비밀번호</label>
+					                            </div>
+					                            <div class="form-floating mb-3">
+						                            <input class="form-control" id="passwordConfirm" type="password" placeholder="비밀번호 확인"/>
+						                            <label for="inputPassword">비밀번호 확인</label>
+					                            </div>
+		  										<input type="button" value="입력" id="updatesubmit"/>
+		                            		</form>
 						                </div>
 							    	</div>
 						    	</div>

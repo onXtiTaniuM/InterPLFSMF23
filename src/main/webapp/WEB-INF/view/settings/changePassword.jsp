@@ -81,6 +81,7 @@
 	       			       			data:{password:password},
 	       			       			success:function (data, textStatus) {
 	       			       				alert("변경 완료했습니다!");
+	       			       				document.location.href = document.location.href;
 	       			       			},
 	       			       			error:function(data, textStatus){
 	       			          			alert("변경처리 에러");
@@ -158,7 +159,7 @@
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
-	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
+	                        <li><a class="dropdown-item" href="${path}/manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
                         <li><a class="dropdown-item" href="${path}/logout">Logout</a></li>
@@ -256,8 +257,8 @@
 					                            <span id="passConfirm" display="none">비밀번호가 일치하지 않습니다.</span>
 										     	<span id="passLength" display="none">비밀번호는 6자리 이상이어야 합니다.</span>
 				                            </div>
-				                            <button id="submit">비밀번호 변경</button> 
 		                            	</form>
+				                        <button id="submit">비밀번호 변경</button> 
 		                            </div>
 		                        </div>
 	                        </div>

@@ -118,5 +118,17 @@ public class UserDao {
 		jdbcTemplate.update(
 				"update e_user set empno = ?, pw = ?, rank = ?, admin = ? where id = ?", pw, id);
 	}
+	
+	public List<String> rankList() { //등록된 Rank 전체 조회
+		List<String> results = jdbcTemplate.query(
+				"select distinct rank from e_user", 
+				new RowMapper<String>() {
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getString("rank");
+					}
+				});
+		return results;
+	}
 
 }

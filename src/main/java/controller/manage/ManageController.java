@@ -125,4 +125,48 @@ public class ManageController {
 		writer.print(manageS.idDuplicate(request.getParameter("id")));
 	}
 	
+
+	@RequestMapping("/ranklist.json")
+	public void rankJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		JSONArray ranksArray = new JSONArray();
+		JSONObject jsonInfo = new JSONObject();
+		
+		List<String> list = manageS.rankList();
+		for(String rank : list) {
+			System.out.println(rank);
+			ranksArray.add(rank);
+		}
+		
+		jsonInfo.put("data", ranksArray);
+		String data = jsonInfo.toJSONString();
+		writer.print(ranksArray);
+	}
+	
+	@RequestMapping("/userdata.json")
+	public void userJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		String id = request.getParameter("id");
+
+		User user = manageS.getUserById(id);
+
+		JSONObject userInfo = new JSONObject();
+		userInfo.put("empno",user.getEmpNo());
+		userInfo.put("name",user.getName());
+		userInfo.put("id",user.getId());
+		userInfo.put("password",user.getPassword());
+		userInfo.put("rank",user.getRank());
+		userInfo.put("admin",user.isAdmin());
+
+		String data = userInfo.toJSONString();
+		//System.out.print(data);
+		writer.print(data);
+	}
+	
 }
