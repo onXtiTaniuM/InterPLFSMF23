@@ -25,7 +25,6 @@
         <script>
         	var passchecked = false;
         	var passExpchecked = false;
-
         	
 			let passExp = new RegExp('(?=.{6,})');
 	    	

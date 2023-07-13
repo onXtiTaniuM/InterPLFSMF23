@@ -141,8 +141,6 @@ public class ManageController {
 			ranksArray.add(rank);
 		}
 		
-		jsonInfo.put("data", ranksArray);
-		String data = jsonInfo.toJSONString();
 		writer.print(ranksArray);
 	}
 	

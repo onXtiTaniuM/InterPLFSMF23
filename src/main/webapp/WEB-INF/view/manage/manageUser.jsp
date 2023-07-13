@@ -28,6 +28,13 @@
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxinput.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxlistbox.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxdropdownlist.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxradiobutton.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpasswordinput.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxnumberinput.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxform.js"></script>
 	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
 	    <script>
 	    	//notification checker
@@ -49,7 +56,7 @@
 	       			}
 	    		});
 			} 
-       
+	    	
 	    	//password, id checker
 	    	var passchecked = false;
 	    	var passExpchecked = false;
@@ -119,13 +126,115 @@
 	    		  };
 	    	};
 	    	
+	    	//rank dropdown array
+    		var options;
+            function fetchDataAndSetDropdownOptions() {
+                $.ajax({
+                  type: 'POST',
+                  url: 'http://localhost:8584/SMFPlatform/manage/ranklist.json',
+                  dataType: 'json',
+                  async: false,
+                  success: function(data) {
+                    options = data.map(function(item) {
+                      return { label: item, value: item };
+                    });
+                  },
+                  error: function(xhr, status, error) {
+                    console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                  }
+                });
+              }
+            fetchDataAndSetDropdownOptions();  
+            
+            //user update form template
+            var template = [
+                {
+                    bind: 'empno',
+                    type: 'text',
+                    label: 'Text input',
+                    labelPosition: 'left',
+                    labelWidth: '30%',
+                    align: 'left',
+                    width: '250px',
+                    required: true
+                },
+                {
+                    bind: 'name',
+                    type: 'text',
+                    label: 'Text input',
+                    labelPosition: 'left',
+                    labelWidth: '30%',
+                    align: 'left',
+                    width: '250px',
+                    required: true
+                },
+                {
+                    bind: 'id',
+                    type: 'text',
+                    label: 'Text input',
+                    labelPosition: 'left',
+                    labelWidth: '30%',
+                    align: 'left',
+                    width: '250px',
+                    required: true
+                },
+                {
+                    bind: 'password',
+                    type: 'password',
+                    label: 'Password input',
+                    labelPosition: 'left',
+                    labelWidth: '30%',
+                    align: 'left',
+                    width: '250px',
+                    required: true
+                },
+                {
+                    bind: 'rank',
+                    type: 'option',
+                    label: 'Drop down list',
+                    labelPosition: 'left',
+                    labelWidth: '30%',
+                    align: 'left',
+                    width: '250px',
+                    required: true,
+                    component: 'jqxDropDownList',
+                    options:  options
+                },
+                {
+                    columns: [
+                        {
+                            columnWidth: '140px',
+                            bind: 'admin',
+                            type: 'boolean',
+                            label: '관리자 권한',
+                            labelPosition: 'left',
+                            align: 'left',
+                            labelPadding: {left: 5, top: 5, right: 0, bottom: 5}
+                        } 
+                    ]
+                },
+                {
+                    type: 'blank',
+                    rowHeight: '20px',
+                },
+                {
+                    name: 'submitButton',
+                    type: 'button',
+                    text: 'Submit Form Data',
+                    align: 'right',
+                    padding: {left: 0, top: 5, bottom: 5, right: 40}
+                }
+            ];
+	    	
     		//register user ajax func
     		var usertable;
     		
+    		//usertable refresh(DataTables Function)
     		function reloadList() {
 				usertable.ajax.reload();
     		};
     	
+    		//register function
         	function fn_register() {
         		fn_isempty();
         		if(emptychecked==false){
@@ -219,12 +328,12 @@
         	var updatePop = (function () {
 	            //Adding event listeners
 	            function _addEventListeners() {
-	                $('#updatesubmit').click(fn_update);
+	                //$('#updatesubmit').click(fn_update);
 	            };
 	
 	            //Creating all page elements which are jqxWidgets
 	            function _createElements() {
-	                $('#updatesubmit').jqxButton({ width: '65px' });
+	                //$('#updatesubmit').jqxButton({ width: '65px' });
 	            };
 	
 	            //Creating the window
@@ -261,6 +370,45 @@
 	            };
 	        } ());
         	
+            //init userData with id
+            var userData;
+            function getUserData(userid){
+            	 $.ajax({
+                     type: 'POST',
+                     url: 'http://localhost:8584/SMFPlatform/manage/userdata.json',
+                     data:{id : userid},
+                     dataType: 'json',
+                     async: false,
+                     success: function(data) {
+						userData = data;
+						console.log(userData);
+                     },
+                     error: function(xhr, status, error) {
+                       console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                     }
+                   });
+            }
+            
+        	function initUserForm(userid){
+        			getUserData(userid);
+        		
+        			var userUpdateForm = $('#userUpdateForm');
+	        		userUpdateForm.jqxForm({
+		                template: template,
+		                value: userData,
+		                padding: { left: 10, top: 10, right: 0, bottom: 10 }
+	            	});
+		            var btn = userUpdateForm.jqxForm('getComponentByName', 'submitButton');
+		            btn.on('click', function () {
+		                // function: submit
+		                // arg1: url
+		                // arg2, optional: target, default is _blank
+		                // arg3, optional: submit method - GET or POST, default is POST
+		                userUpdateForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
+		            });	
+
+        	}
+        	
         	//page ready js script
 	    	$(document).ready(function () {
 	        	singupPop.init(); //signup popupwindow init
@@ -271,6 +419,11 @@
 	        	usertable.on('click', 'tbody tr', function () {	//datatable click func
 			        let data = usertable.row(this).data();
 			        alert('[확인용기능]' + data[1] + "의 열을 클릭");
+			        if(userUpdateForm){
+			        	$('#userUpdateForm').jqxForm('destroy');
+			        	document.getElementById("userjqForm").innerHTML = "<div id='userUpdateForm' style='width: 420px; height: auto;'></div>";
+			        }
+			        initUserForm(data[2]);
 			        $('#updatewindow').jqxWindow('open');
 		        });
 	        	$("#passConfirm").css('display', 'none'); 
@@ -278,8 +431,8 @@
 	        	if(${sessionScope.authInfo.getAdmin()}){
 	        		checkNoti();
 	        	} //notification check
+	        	userUpdateForm = $('#userUpdateForm');
 	        });
-        	
     	</script>
     </head>
     <body class="sb-nav-fixed">
@@ -467,22 +620,8 @@
 					                        	사용자 수정
 					                    	</span>
 					                	</div>
-						                <div style="overflow: hidden;" id="windowContent">
-	                                        <form id="passwordchange" method='POST'>
-					                            <div class="form-floating mb-3">
-						                            <input class="form-control" id="recentPassword" type="password" placeholder="현재 비밀번호" />
-						                            <label for="inputEmail">현재 비밀번호</label>
-					                            </div>
-					                            <div class="form-floating mb-3">
-						                            <input class="form-control" id="newPassword" type="password" placeholder="새로운 비밀번호"/>
-						                            <label for="inputPassword">새로운 비밀번호</label>
-					                            </div>
-					                            <div class="form-floating mb-3">
-						                            <input class="form-control" id="passwordConfirm" type="password" placeholder="비밀번호 확인"/>
-						                            <label for="inputPassword">비밀번호 확인</label>
-					                            </div>
-		  										<input type="button" value="입력" id="updatesubmit"/>
-		                            		</form>
+					                	<div id='userjqForm'>
+						                	<div id='userUpdateForm' style="width: 420px; height: auto;"></div>
 						                </div>
 							    	</div>
 						    	</div>

@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- jqWidgets script -->
-        <script type="text/javascript" src="${path}/resources/jquery-3.6.0.js"></script>
+        <script type="text/javascript" src="${path}/resources/js/jquery-3.6.0.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
@@ -26,7 +26,6 @@
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
-	    <script type="text/javascript" src="${path}/resources/scripts/demos.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxinput.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxlistbox.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxdropdownlist.js"></script>
@@ -36,19 +35,27 @@
     	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxform.js"></script>
 	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
     	<!-- jqWidgets popup window script -->
-    	<script type="text/javascript">
-    	
-    		async function load() {
-    		  // 파일 읽어 오기
-    		  const data = await fetch('http://localhost:8584/SMFPlatform/manage/ranklist.json');
-    		  // JSON으로 해석
-    		  const obj = await data.json();
-    		  console.log(obj);  // 결과: {name: "A학교", classes: Array(2)}
-    		  // 텍스트 출력
-    		}
-
-    		load();
-    	  	
+    	<script type="text/javascript">    		        
+    		//rank dropdown array
+    		var options;
+            function fetchDataAndSetDropdownOptions() {
+                $.ajax({
+                  type: 'POST',
+                  url: 'http://localhost:8584/SMFPlatform/manage/ranklist.json',
+                  dataType: 'json',
+                  async: false,
+                  success: function(data) {
+                    options = data.map(function(item) {
+                      return { label: item, value: item };
+                    });
+                  },
+                  error: function(xhr, status, error) {
+                    console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                  }
+                });
+              }
+            fetchDataAndSetDropdownOptions();  
+            
 	        var basicDemo = (function () {
 	            //Adding event listeners
 	            function _addEventListeners() {
@@ -166,11 +173,7 @@
                     width: '250px',
                     required: true,
                     component: 'jqxDropDownList',
-                    options: [
-                        { label: 'Option 1', value: 'value1' },
-                        { label: 'Option 2', value: 'value2' },
-                        { label: 'Option 3', value: 'value3' }
-                    ]
+                    options:  options
                 },
                 {
                     columns: [
@@ -202,10 +205,10 @@
                 'name': '이름',
                 'id': '아이디',
                 'password': 'password123',
-                'rank': 'value3',
+                'rank': 'Guest',
                 'admin': false,
             };
-	        
+            
 	        $(document).ready(function () {  
 	            //Initializing the demo
 	            basicDemo.init();
@@ -359,7 +362,5 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     </body>
 </html>
