@@ -33,10 +33,7 @@
         	  });
 
         	var materials = ["KC001", "KC002", "PBT001", "ABS001", "DYE001", "PCB001", "HSE001", "SWC001", "SWN001", "SWL001", "SLC001", "SLN001", "SLL001", "SPR001"];
-        	var productNames = ["KBD_click", "KBD_nclick", "KBD_linear", "KC_Dye", "KC_Shot"
-        		
-        		
-        		];
+        	var productNames = ["KBD_click"];
         	var priceValues = [100000, 50000, 50000, 20000, 10000, 5000, 50, 20, 10];
 
         	for (var i = 0; i < productNames.length; i++) {
@@ -46,9 +43,9 @@
         	    var quantity = 1 + Math.round(Math.random() * 10);
 
         	    var row = {
-        	      "product": products[0],
+        	      "product": products[1],
         	      "material": materials[j],
-        	      "productname": productNames[productIndex],
+        	      "productname": productNames[1],
         	      "price": price,
         	      "quantity": quantity,
         	      "total": price * quantity

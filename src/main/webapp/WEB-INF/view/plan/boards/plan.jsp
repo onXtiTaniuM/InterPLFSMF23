@@ -15,25 +15,18 @@
 <jsp:useBean id="bMgr" class="spring.dao.PlanDAO" />
 <%
 	/* request.setCharacterEncoding("UTF-8");
-
 	String contextPath = request.getContextPath();
 	System.out.println("contextPath : " + contextPath); */
 	
 	int totalRecord=0; //전체레코드수
 	int numPerPage=10; // 페이지당 레코드 수
 	int pagePerBlock=15; //블럭당 페이지수 
-	
 	int totalPage=0; //전체 페이지 수
 	int totalBlock=0;  //전체 블럭수 
-	
 	int nowPage=1; // 현재페이지
 	int nowBlock=1;  //현재블럭
-	
-	
 	int start=0; //디비의 select 시작번호
 	int end=10; //시작번호로 부터 가져올 select 갯수
-	
-	
 	int listSize=0; //현재 읽어온 게시물의 수
 	 
 	//키워드 키필드 초기화(검색관련)
@@ -68,94 +61,9 @@
 <!-- /list.jsp Setting -->
 
 <!-- writepost.jsp -->
-<meta name="keywords" content="jQuery Window, Window Widget, Window" />
+<!-- <meta name="keywords" content="jQuery Window, Window Widget, Window" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />	
-<script type="text/javascript" src="${path}/resources/js/jquery-3.6.0.js"></script>
-<script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
-<script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
-<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
-<script type="text/javascript" src="${path}/resources/jqwidgets/demos.js"></script> 
-<script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
-
-<script type="text/javascript" src="${path}/resources/jqwidgets/jqxribbon.js"></script>
-<script type="text/javascript" src="${path}/resources/jqwidgets/jqxlayout.js"></script>
-<script type="text/javascript" src="${path}/resources/jqwidgets/jqxtree.js"></script>
-
-<link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
-<script type="text/javascript">
-        var basicDemo = (function () {
-        	
-        	function down(filename){
-	       		 document.downFrm.filename.value=filename;
-	       		 document.downFrm.submit();
-       		}
-        	
-        	function _addEventListeners() {
-          		 $('#writePost').click(function () {
-                       $('#window').jqxWindow('open');
-                   });
-          		 
-          		$('#read').click(function () {
-                    $('#window').jqxWindow('open');
-                });
-          	 	}
-            
-            //Creating the demo window
-            function _createWindow() {
-                var writePost = $('#writePost');
-                var offset = writePost.offset();
-                $('#window').jqxWindow({
-                	autoOpen: false,
-                    position: { x: offset.left + 50, y: offset.top + 50} ,
-                    showCollapseButton: true, maxHeight: 1000, maxWidth: 2000,
-                    						  minHeight: 800, minWidth: 400,
-                    						  height: 760, width: 1300,
-                    						  position: { x: '20%', y: '13%' },
-                    initContent: function () {
-                        /* $('#tab').jqxTabs({ height: '100%', width:  '100%' }); */
-                        $('#window').jqxWindow('focus');
-                    }
-                });
-            };
-            
-/*           //Creating the demo window
-            function _createWindow() {
-                var writePost = $('#read');
-                var offset = writePost.offset();
-                $('#window').jqxWindow({
-                	autoOpen: false,
-                    position: { x: offset.left + 50, y: offset.top + 50} ,
-                    showCollapseButton: true, maxHeight: 800, maxWidth: 1000,
-                    						  minHeight: 400, minWidth: 400,
-                    						  height: 760, width: 1000,
-                    						  position: { x: '25%', y: '13%' },
-                    initContent: function () {
-                        $('#tab').jqxTabs({ height: '100%', width:  '100%' }); 
-                        $('#window').jqxWindow('focus');
-                    }
-                });
-            }; */
-                      
-            return {
-                config: {
-                    dragArea: null
-                },
-                init: function () {
-                	
-                	_addEventListeners();
-                	
-                    _createWindow();
-                }
-            };
-        } ());
-        $(document).ready(function () {  
-            //Initializing the demo
-            basicDemo.init();
-        });
-    </script>
+<meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" /> -->	
     
     
 <!-- /writepost.jsp -->
@@ -168,12 +76,174 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>TEST</title>
+		<script type="text/javascript" src="${path}/resources/js/jquery-3.6.0.js"></script>
+		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
+		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
+		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
+		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
+		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
+		<script type="text/javascript" src="${path}/resources/jqwidgets/demos.js"></script> 
+		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
+		
+		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxdata.js"></script>
+		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxmenu.js"></script>
+		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpivot.js"></script> 
+		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpivotgrid.js"></script>
+		
+		<link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
         <link href="${path}/resources/css/styles.css" rel="stylesheet" />
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        
         <link href="style.css" rel="stylesheet" type="text/css">
+        
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+		<script type="text/javascript">
+		        var basicDemo = (function () {
+		        	
+		        	function down(filename){
+			       		 document.downFrm.filename.value=filename;
+			       		 document.downFrm.submit();
+		       		}
+		        	
+		        	function _addEventListeners() {
+		          		 $('#writePost').click(function () {
+		                       $('#window').jqxWindow('open');
+		                   });
+		          		 
+		          		$('#read').click(function () {
+		                    $('#window').jqxWindow('open');
+		                });
+		          	 	}
+		            
+		            //Creating the demo window
+		            function _createWindow() {
+		                var writePost = $('#writePost');
+		                var offset = writePost.offset();
+		                $('#window').jqxWindow({
+		                	autoOpen: false,
+		                    position: { x: offset.left + 50, y: offset.top + 50} ,
+		                    showCollapseButton: true, maxHeight: 1000, maxWidth: 2000,
+		                    						  minHeight: 800, minWidth: 400,
+		                    						  height: 760, width: 1300,
+		                    						  position: { x: '20%', y: '13%' },
+		                    initContent: function () {
+		                        /* $('#tab').jqxTabs({ height: '100%', width:  '100%' }); */
+		                        $('#window').jqxWindow('focus');
+		                    }
+		                });
+		            };
+     
+		            return {
+		                config: {
+		                    dragArea: null
+		                },
+		                init: function () {
+		                	
+		                	_addEventListeners();
+		                	
+		                    _createWindow();
+		                }
+		            };
+		        } ());
+		        
+		        function _prodSubmit() {
+		        	var _prodVal = ('#prodVal').val();
+		        	
+		        	$.ajax({
+		        		type:"get",
+		        		async: false,
+		        		url: "http://localhost:8584/SMFAjax23SP/prodVal.do",
+		        		dataType: "text",
+		        		data:{prodVal: _prodVal},
+		        		suceess: function(data,textStatus){   			        			
+		        			
+		        		}
+		        		
+		        		
+		        	})
+		        }
+
+        <!-- pivotTable -->
+        	var data = [];
+        	var products = [];   
+        	var materials = ["KC001", "KC002", "PBT001", "ABS001", "DYE001", "PCB001", "HSE001", "SWC001", "SWN001", "SWL001", "SLC001", "SLN001", "SLL001", "SPR001"];
+        	var productNames = ["AAA_AAAA"];
+        	var priceValues = [100000, 50000, 50000, 20000, 10000, 5000, 50, 20, 10];
+
+        	for (var i = 0; i < productNames.length; i++) {
+        	  for (var j = 0; j < materials.length; j++) {
+        	    var productIndex = i;
+        	    var price = priceValues[productIndex];
+        	    var quantity = 1 + Math.round(Math.random() * 10);
+
+        	    var row = {
+        	      "product": products[i],
+        	      "material": materials[j],
+        	      "productname": productNames[i],
+        	      "price": price,
+        	      "quantity": quantity,
+        	      "total": price * quantity
+        	    };
+
+        	    data.push(row);
+        	  }
+        	}
+
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'product', type: 'string' },
+                    { name: 'material', type: 'string' },
+                    { name: 'productname', type: 'string' },
+                    { name: 'quantity', type: 'number' },
+                    { name: 'price', type: 'number' },
+                    { name: 'total', type: 'number' }
+                ]
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            dataAdapter.dataBind();
+            
+        $(document).ready(function () {
+        	//Initializing the demo
+            basicDemo.init();
+        	
+            // create a pivot data source from the dataAdapter
+            var pivotDataSource = new $.jqx.pivot(
+                dataAdapter,
+                {
+                    pivotValuesOnRows: false,
+                    rows: [{ dataField: 'product' }, { dataField: 'material'}],
+                    columns: [{ dataField: 'productname'}],
+                    filters: [
+                        {
+                            dataField: 'productname',
+                            filterFunction: function (value) {
+                                if (value == "KBD_click" || value == "")
+                                    return true;
+                                return false;
+                            }
+                        }
+                    ],
+                    values: [
+                        { dataField: 'quantity','function': 'sum', text: '소요량' },
+                        { dataField: 'price', 'function': 'sum', text: '단가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { prefix: '$', decimalPlaces: 2} },
+                        { dataField: 'total', 'function': 'sum', text: '가격&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { prefix: '$', decimalPlaces: 2} },
+                        { dataField: 'material', 'function': 'count', text: '재고&nbsp;&nbsp;' }
+                    ]
+                });
+            // create a pivot grid
+            $('#divPivotGrid').jqxPivotGrid(
+                {
+                    source: pivotDataSource,
+                    treeStyleRows: false, 
+                    multipleSelectionEnabled: false
+                });
+        });
+    </script>
+        
 		<script type="text/javascript">
 		function plan() {
 			document.planFrm.action = "plan.do";
@@ -208,25 +278,39 @@
 		function updateProdNo(selectElement) {
 		    var selectedOption = selectElement.options[selectElement.selectedIndex];
 		    var prodNoInput = document.getElementById('prodNoInput');
+		    
+		    //옵션추가
 		    prodNoInput.value = selectedOption.value;
+		    console.log(prodNoInput.value);
+		    
+		    //BOM추가		    
+		    products.push(selectedOption);
+		    console.log(products);
 		}
 		
 	</script>
 	
 	<style>
 		.new_form_table_col_1 {
-        padding-right: 10px;
-        padding-top: 10px;
-        padding-bottom: 10px;
+	        padding-right: 10px;
+	        padding-top: 10px;
+	        padding-bottom: 10px;
     	}
     	
     	.new_form_table_col_2 {
-        padding: 10px;
+        	padding: 10px;
     	}
     	
     	.jqx-layout-group-auto-hide-content-vertical
         {
             width: 200px;
+        }
+        
+        .vertical_align_center {
+        	display: flex;
+	        align-items: center;
+	        justify-content: center;
+	        height: 100%;
         }
 	</style>
 	
@@ -470,17 +554,15 @@
 				    </span>
                 </div>
                 <div style="overflow: hidden;" id="windowContent">
-                    <div>
+                    <div class = "vertical_align_center">
                         <div><!--context-->
 						<div>
 						<form name="postFrm" method="post" action="boardPost.do" enctype="multipart/form-data">
-						<table width="1200" cellpadding="5" align="center">
+						<table width="600" cellpadding="5" align="left" >
 							<tr>
 								<td align=center>
 								<table align="left">
 									<tr>
-										<br/>
-										<br/>
 										<td class="new_form_table_col_1" nowrap>생산기간</td>
 										<td>
 											<input type ="date" name="startdate" value="" max="9999-12-31" size="10" maxlength="30">&nbsp;&nbsp;~&nbsp;&nbsp;
@@ -492,7 +574,7 @@
 										<td class="new_form_table_col_1" nowrap>
 				
 										    <select name="prodName" style="width:235px" onchange="updateProdNo(this)">
-										      <option value="" disabled selected hidden>상품을 선택하세요</option>
+										      <option id="prodVal" value="" disabled selected hidden>상품을 선택하세요</option>
 										      <%= bMgr.prodOptions()%>
 									          <!-- <option value="KBD001">Keyboard_click</option>
 										      <option value="KBD002">Keyboard_nclick</option>
@@ -585,6 +667,16 @@
 								</td>
 							</tr>
 						</table>
+						
+						<!-- PivotTable -->
+						<table class = "vertical_align_center">
+							<tr>
+								<td>
+									<div id="divPivotGrid" align="right" style="height: 500px; width: 550px; background-color: white;"></div>
+								</td>
+							</tr>
+ 						</table>
+ 						
 						<input type="hidden" name="ip" value="<%=request.getRemoteAddr()%>">
 						</form>
 						</div>

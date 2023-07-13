@@ -1,7 +1,14 @@
 package controller.plan;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,26 +20,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import spring.plan.BomInfo;
 
 @Controller
-@RequestMapping("/bom")
+@RequestMapping("/ajax")
 public class BomController {
 	
-	@PostMapping("/show")
-    @ResponseBody
-    public Map<String, Object> testAjax(BomInfo bomInfo){
-        
-        Map<String, Object> result = new HashMap<String, Object>();
-        
+	@GetMapping("/prodVal.do")
+	public void prodValSubmit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    request.setCharacterEncoding("utf-8");
+	    response.setContentType("text/html;charset=utf-8");
 
-        System.out.println(bomInfo.getProdNo());
-        System.out.println(bomInfo.getMaterNo());
- 
-        
-        // 응답 데이터 셋팅
-        result.put("a", "b");
-        
-        return result;
-        
-    }
+	    String[] prodValArray = request.getParameterValues("prodVal");
+	    System.out.println("[prodVal]: " + Arrays.toString(prodValArray));
+
+	    PrintWriter writer = response.getWriter();
+	    writer.print(Arrays.toString(prodValArray));
+	}
+
 	
 	@GetMapping("/submit")
 	public String prodInfoSubmit(Model model){
