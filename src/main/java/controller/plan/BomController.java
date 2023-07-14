@@ -3,19 +3,17 @@ package controller.plan;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import spring.plan.BomInfo;
 
@@ -23,26 +21,28 @@ import spring.plan.BomInfo;
 @RequestMapping("/ajax")
 public class BomController {
 	
+
 	@GetMapping("/prodVal.do")
 	public void prodValSubmit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.print("success");
 	    request.setCharacterEncoding("utf-8");
 	    response.setContentType("text/html;charset=utf-8");
-
-	    String[] prodValArray = request.getParameterValues("prodVal");
+	    
+	    String[] prodValArray = (String[])request.getParameterValues("prodVal");
 	    System.out.println("[prodVal]: " + Arrays.toString(prodValArray));
+	    
+  
+		JSONArray json = new JSONArray();
+		
+		for(String str : prodValArray) {
+			json.add(str);
+		}
+		
+		String jsonStr = json.toJSONString();
+		System.out.println(jsonStr);
 
-	    PrintWriter writer = response.getWriter();
-	    writer.print(Arrays.toString(prodValArray));
+		PrintWriter writer = response.getWriter();
+		writer.print(jsonStr);
 	}
 
-	
-	@GetMapping("/submit")
-	public String prodInfoSubmit(Model model){
-		
-		
-		
-		return null;
-	}
-	
-	
 }

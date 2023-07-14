@@ -151,10 +151,6 @@ public class PlanController {
 		return null;
 	}
 	
-	@GetMapping("/bomList.do")
-	public String bomList(Model model) {
-		System.out.println("[BoardController] : GET:/boards/boardList.do");
-		return "plan/boards/bomList";
-	}
+
 	
 } 

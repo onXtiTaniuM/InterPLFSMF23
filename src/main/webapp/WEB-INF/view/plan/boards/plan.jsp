@@ -146,29 +146,26 @@
 		            };
 		        } ());
 		        
-		        function _prodSubmit() {
-		        	var _prodVal = ('#prodVal').val();
-		        	
-		        	$.ajax({
-		        		type:"get",
-		        		async: false,
-		        		url: "http://localhost:8584/SMFAjax23SP/prodVal.do",
-		        		dataType: "text",
-		        		data:{prodVal: _prodVal},
-		        		suceess: function(data,textStatus){   			        			
-		        			
-		        		}
-		        		
-		        		
-		        	})
-		        }
 
+ 
         <!-- pivotTable -->
-        	var data = [];
-        	var products = [];   
+        
+        	<!-- table param-->
+        	var products = ["AAA","AAA","AAA","AAA","AAA",];
+        	var products_new = [];
         	var materials = ["KC001", "KC002", "PBT001", "ABS001", "DYE001", "PCB001", "HSE001", "SWC001", "SWN001", "SWL001", "SLC001", "SLN001", "SLL001", "SPR001"];
         	var productNames = ["AAA_AAAA"];
         	var priceValues = [100000, 50000, 50000, 20000, 10000, 5000, 50, 20, 10];
+        	
+        	<!-- initial function -->
+	        $(document).ready(function () {
+	        	chartPivotGrid(products);
+	        });
+	        
+        	<!-- pivot function -->
+        	function chartPivotGrid(products){
+        		
+        	var data = new Array();
 
         	for (var i = 0; i < productNames.length; i++) {
         	  for (var j = 0; j < materials.length; j++) {
@@ -206,14 +203,37 @@
             var dataAdapter = new $.jqx.dataAdapter(source);
             dataAdapter.dataBind();
             
-        $(document).ready(function () {
-        	//Initializing the demo
-            basicDemo.init();
-        	
-            // create a pivot data source from the dataAdapter
-            var pivotDataSource = new $.jqx.pivot(
-                dataAdapter,
-                {
+	        $(document).ready(function () {
+	        	//Initializing the demo
+	            basicDemo.init();
+	        	
+	            // create a pivot data source from the dataAdapter
+	            var pivotDataSource = new $.jqx.pivot(
+	                dataAdapter,
+	                {
+	                	 customAggregationFunctions: {
+	                         'var': function (values) {
+	                             if (values.length <= 1)
+	                                 return 0;
+	
+	                             // sample's mean
+	                             var mean = 0;
+	                             for (var i = 0; i < values.length; i++)
+	                                 mean += values[i];
+	
+	                             mean /= values.length;
+	
+	                             // calc squared sum
+	                             var ssum = 0;
+	                             for (var i = 0; i < values.length; i++)
+	                                 ssum += Math.pow(values[i] - mean, 2)
+	
+	                             // calc the variance
+	                             var variance = ssum / values.length;
+	
+	                             return variance;
+	                         }
+                	},
                     pivotValuesOnRows: false,
                     rows: [{ dataField: 'product' }, { dataField: 'material'}],
                     columns: [{ dataField: 'productname'}],
@@ -242,6 +262,7 @@
                     multipleSelectionEnabled: false
                 });
         });
+        }
     </script>
         
 		<script type="text/javascript">
@@ -281,12 +302,27 @@
 		    
 		    //옵션추가
 		    prodNoInput.value = selectedOption.value;
-		    console.log(prodNoInput.value);
-		    
-		    //BOM추가		    
-		    products.push(selectedOption);
-		    console.log(products);
+		    console.log(prodNoInput.value);    
 		}
+		
+        function prodSubmitX() {
+        	var prodVal = $('#prodVal').val();
+        	
+        	$.ajax({
+        		type:"get",
+        		async: false,
+        		url: "http://localhost:8584/SMFPlatform/ajax/prodVal.do",
+        		dataType: "text",
+        		data:{prodVal: prodVal},
+        		suceess: function(data,textStatus){   			        			
+        			var prodName = JSON.parse(data);
+        			document.write(prodName);
+        			
+                    products_new.push(prodName);
+ 
+        			}       		
+        	})
+        }
 		
 	</script>
 	
@@ -573,8 +609,8 @@
 									  	<td class="new_form_table_col_1" nowrap>생산상품</td>
 										<td class="new_form_table_col_1" nowrap>
 				
-										    <select name="prodName" style="width:235px" onchange="updateProdNo(this)">
-										      <option id="prodVal" value="" disabled selected hidden>상품을 선택하세요</option>
+										    <select id="prodVal" name="prodName" style="width:235px" onchange="updateProdNo(this)">
+										      <option value="" disabled selected hidden>상품을 선택하세요</option>
 										      <%= bMgr.prodOptions()%>
 									          <!-- <option value="KBD001">Keyboard_click</option>
 										      <option value="KBD002">Keyboard_nclick</option>
@@ -588,9 +624,9 @@
 									</tr>
 									<tr>
 										<td class="new_form_table_col_1" nowrap>생산계획</td>
-										<td>
+										<td>	
 											<input type="number" name="prodCnt" size="18">
-											<input type="button" name="bomList" value="확인" onClick="javascript:location.href='bomList.do'">
+											<input type="button" name="prodSubmit" value="확인" onClick="prodSubmitX()">
 										</td>
 									</tr>
 									<tr>
