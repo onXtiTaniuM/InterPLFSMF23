@@ -167,4 +167,24 @@ public class ManageController {
 		writer.print(data);
 	}
 	
+	@RequestMapping("/deleteuser.do")
+	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		String id = request.getParameter("id");
+		
+		System.out.println("[DELETE User] id : " + id);
+		manageS.deleteUser(id);
+	}
+	
+	@RequestMapping("/updateuser.do")
+	public void updateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		String id = "";
+		
+		System.out.println("[UPDATE User] id : " + id);
+		manageS.updateUser(id);
+	}
+	
 }

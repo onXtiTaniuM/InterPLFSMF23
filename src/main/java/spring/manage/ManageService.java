@@ -74,4 +74,13 @@ public class ManageService {
 	public List<String> rankList(){
 		return userDao.rankList();
 	}
+	
+	public void deleteUser(String id) {
+		userDao.deleteUser(id);
+	}
+
+	public void updateUser(String id) {
+		userDao.updateUser(id);
+		
+	}
 }

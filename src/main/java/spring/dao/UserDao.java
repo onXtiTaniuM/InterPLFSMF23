@@ -109,14 +109,14 @@ public class UserDao {
 		return results.isEmpty() ? null : results.get(0);
 	}
 	
-	public void updatePassword(String id, String pw) {
+	public void updatePassword(String id, String pw) { //PW 변경
 		jdbcTemplate.update(
 				"update e_user set pw = ? where id = ?", pw, id);
 	}
 	
-	public void updateUser(String id, String pw) {
+	public void updateUser(String id) { //정보 변경
 		jdbcTemplate.update(
-				"update e_user set empno = ?, pw = ?, rank = ?, admin = ? where id = ?", pw, id);
+				"update e_user set empno = ?, pw = ?, rank = ?, admin = ? where id = ?", id);
 	}
 	
 	public List<String> rankList() { //등록된 Rank 전체 조회
@@ -129,6 +129,11 @@ public class UserDao {
 					}
 				});
 		return results;
+	}
+	
+	public void deleteUser(String id) { //사용자 삭제
+		jdbcTemplate.update(
+				"delete from e_user where id = ?", id);
 	}
 
 }

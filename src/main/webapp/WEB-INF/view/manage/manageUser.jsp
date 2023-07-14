@@ -143,88 +143,100 @@
                     console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
                   }
                 });
-              }
-            fetchDataAndSetDropdownOptions();  
+              } 
+
             
             //user update form template
-            var template = [
-                {
-                    bind: 'empno',
-                    type: 'text',
-                    label: 'Text input',
-                    labelPosition: 'left',
-                    labelWidth: '30%',
-                    align: 'left',
-                    width: '250px',
-                    required: true
-                },
-                {
-                    bind: 'name',
-                    type: 'text',
-                    label: 'Text input',
-                    labelPosition: 'left',
-                    labelWidth: '30%',
-                    align: 'left',
-                    width: '250px',
-                    required: true
-                },
-                {
-                    bind: 'id',
-                    type: 'text',
-                    label: 'Text input',
-                    labelPosition: 'left',
-                    labelWidth: '30%',
-                    align: 'left',
-                    width: '250px',
-                    required: true
-                },
-                {
-                    bind: 'password',
-                    type: 'password',
-                    label: 'Password input',
-                    labelPosition: 'left',
-                    labelWidth: '30%',
-                    align: 'left',
-                    width: '250px',
-                    required: true
-                },
-                {
-                    bind: 'rank',
-                    type: 'option',
-                    label: 'Drop down list',
-                    labelPosition: 'left',
-                    labelWidth: '30%',
-                    align: 'left',
-                    width: '250px',
-                    required: true,
-                    component: 'jqxDropDownList',
-                    options:  options
-                },
-                {
-                    columns: [
-                        {
-                            columnWidth: '140px',
-                            bind: 'admin',
-                            type: 'boolean',
-                            label: '관리자 권한',
-                            labelPosition: 'left',
-                            align: 'left',
-                            labelPadding: {left: 5, top: 5, right: 0, bottom: 5}
-                        } 
-                    ]
-                },
-                {
-                    type: 'blank',
-                    rowHeight: '20px',
-                },
-                {
-                    name: 'submitButton',
-                    type: 'button',
-                    text: 'Submit Form Data',
-                    align: 'right',
-                    padding: {left: 0, top: 5, bottom: 5, right: 40}
-                }
-            ];
+            var template;
+            function generateTemplate(){
+            	fetchDataAndSetDropdownOptions(); 
+            	
+            	template = [
+                    {
+                        bind: 'empno',
+                        type: 'text',
+                        label: '사 번',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                        bind: 'name',
+                        type: 'text',
+                        label: '이 름',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                        bind: 'id',
+                        type: 'text',
+                        label: 'ID',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                        bind: 'password',
+                        type: 'password',
+                        label: '비밀번호',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                        bind: 'rank',
+                        type: 'option',
+                        label: '직 급',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true,
+                        component: 'jqxDropDownList',
+                        options:  options
+                    },
+                    {
+                        columns: [
+                            {
+                                columnWidth: '140px',
+                                bind: 'admin',
+                                type: 'boolean',
+                                label: '관리자 권한',
+                                labelPosition: 'left',
+                                align: 'left',
+                                labelPadding: {left: 5, top: 5, right: 0, bottom: 5}
+                            } 
+                        ]
+                    },
+                    {
+                        type: 'blank',
+                        rowHeight: '20px',
+                    },
+                    {
+                        name: 'submitButton',
+                        type: 'button',
+                        text: '사용자 수정',
+                        align: 'right',
+                        padding: {left: 0, top: 5, bottom: 5, right: 40}
+                    },
+                    {
+                        name: 'deleteButton',
+                        type: 'button',
+                        text: '사용자 삭제',
+                        align: 'right',
+                        padding: {left: 0, top: 5, bottom: 5, right: 40}
+                    }
+                ];
+            }
 	    	
     		//register user ajax func
     		var usertable;
@@ -346,7 +358,7 @@
 						autoOpen: false,
 	                    position: { x: offset.left+250, y: offset.top } ,
 	                    showCollapseButton: true, 
-	                    height: 560, width: 500,
+	                    height: 380, width: 430,
 	                    initContent: function () {
 	                        $('#updatewindow').jqxWindow('focus');
 	                    }
@@ -398,9 +410,16 @@
 		                value: userData,
 		                padding: { left: 10, top: 10, right: 0, bottom: 10 }
 	            	});
-		            var btn = userUpdateForm.jqxForm('getComponentByName', 'submitButton');
-		            btn.on('click', function () {
-		                // function: submit
+		            var subbtn = userUpdateForm.jqxForm('getComponentByName', 'submitButton');
+		            subbtn.on('click', function () {
+		                // arg1: url
+		                // arg2, optional: target, default is _blank
+		                // arg3, optional: submit method - GET or POST, default is POST
+		                userUpdateForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
+		            });	
+		            var delbtn = userUpdateForm.jqxForm('getComponentByName', 'deleteButton');
+		            delbtn.jqxButton({ template: "danger" });
+		            delbtn.on('click', function () {
 		                // arg1: url
 		                // arg2, optional: target, default is _blank
 		                // arg3, optional: submit method - GET or POST, default is POST
@@ -423,6 +442,7 @@
 			        	$('#userUpdateForm').jqxForm('destroy');
 			        	document.getElementById("userjqForm").innerHTML = "<div id='userUpdateForm' style='width: 420px; height: auto;'></div>";
 			        }
+			        generateTemplate();
 			        initUserForm(data[2]);
 			        $('#updatewindow').jqxWindow('open');
 		        });

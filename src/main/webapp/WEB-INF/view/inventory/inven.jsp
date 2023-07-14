@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="spring.auth.AuthInfo" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,13 +12,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>TEST</title>
+        <title>Manage</title>
         <link href="${path}/resources/css/styles.css" rel="stylesheet" />
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    	<link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
         <script src="${path}/resources/js/jquery-3.6.0.js"></script>
+    	<script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
- 		<script>
+        <!-- script for jq link -->
+        <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxinput.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxlistbox.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxdropdownlist.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxradiobutton.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpasswordinput.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxnumberinput.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxform.js"></script>
+	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
+	    <script>
+	    	//notification checker
 			function checkNoti(){
 				$.ajax({
 	       			type:"post",  
@@ -34,21 +53,414 @@
 	       			},
 	       			error:function(data, textStatus){
 	          			alert("에러발생: " + data);
-	       			},
+	       			}
 	    		});
-			}
+			} 
+	    	
+	    	//password, id checker
+	    	var passchecked = false;
+	    	var passExpchecked = false;
+	    	var emptychecked = false;
+	    	var iddupchecked = false;
+	    	
+	    	$("#passConfirm").css('display', 'none');
+	    	$("#passLength").css('display', 'none');
+	    	let passExp = new RegExp('(?=.{6,})');
+	    	
+	    	function passExpChecker(){
+	    		var password = document.getElementById("password");
+	    		 if(!passExp.test(password.value)){
+	    			 $("#passLength").css('display', 'inline-block');
+	    			 passExpchecked = false;
+	    		 }else{
+	    			 $("#passLength").css('display', 'none');
+	    			 passExpchecked = true;
+	    		 };
+	    	};
+	    
+	    	function passwordChecker(){
+	    		var password = document.getElementById("password");
+	    		var confirm_password = document.getElementById("passwordCheck");
+	    		if(password.value != confirm_password.value){
+	    			$("#passConfirm").css('display', 'inline-block');
+	    			passchecked = false;
+	    		}else{
+	    			$("#passConfirm").css('display', 'none');
+	    			passchecked = true;
+	    		};
+	    	};
 			
-	        $(document).ready(function () {
-	        	checkNoti();
-	        });   
-        </script>   
+	    	function idDupChecker(){
+	    		var input = document.getElementById("id");
+	    		var id = input.value;
+	    		
+	    		$.ajax({
+	       			type:"post",  
+	       			url:"http://localhost:8584/SMFPlatform/manage/duplicateidcheck.do",
+	       			data:{id:id},
+	       			success:function (data, textStatus) {
+	       				if(JSON.parse(data)){
+							document.getElementById("idCheckMessage").innerHTML = '<p style="color:red">중복된 ID 입니다</p>';
+							iddupchecked = false;
+						}else{
+							document.getElementById("idCheckMessage").innerHTML = '<p>사용가능한 ID 입니다</p>';
+							iddupchecked = true;
+						}
+	       			},
+	       			complete:function(data,textStatus){
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("에러발생: " + data);
+	       			}
+	       		});
+	    	};
+	    	
+	    	function fn_isempty(){
+	    		var empno = document.getElementById("empNo");
+	    		var id = document.getElementById("id");
+	    		var name = document.getElementById("name");
+	    		var rank = document.getElementById("rank");
+	    		
+	    		if (!(empno.value === "" || id.value === "" || name.value === "" || rank.value === "")) {
+	    		    emptychecked = true;
+	    		  };
+	    	};
+	    	
+	    	//rank dropdown array
+    		var options;
+            function fetchDataAndSetDropdownOptions() {
+                $.ajax({
+                  type: 'POST',
+                  url: 'http://localhost:8584/SMFPlatform/manage/ranklist.json',
+                  dataType: 'json',
+                  async: false,
+                  success: function(data) {
+                    options = data.map(function(item) {
+                      return { label: item, value: item };
+                    });
+                  },
+                  error: function(xhr, status, error) {
+                    console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                  }
+                });
+              } 
+
+            
+            //user update form template
+            var template;
+            function generateTemplate(){
+            	fetchDataAndSetDropdownOptions(); 
+            	
+            	template = [
+                    {
+                        bind: 'empno',
+                        type: 'text',
+                        label: '사 번',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                        bind: 'name',
+                        type: 'text',
+                        label: '이 름',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                        bind: 'id',
+                        type: 'text',
+                        label: 'ID',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                        bind: 'password',
+                        type: 'password',
+                        label: '비밀번호',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                        bind: 'rank',
+                        type: 'option',
+                        label: '직 급',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true,
+                        component: 'jqxDropDownList',
+                        options:  options
+                    },
+                    {
+                        columns: [
+                            {
+                                columnWidth: '140px',
+                                bind: 'admin',
+                                type: 'boolean',
+                                label: '관리자 권한',
+                                labelPosition: 'left',
+                                align: 'left',
+                                labelPadding: {left: 5, top: 5, right: 0, bottom: 5}
+                            } 
+                        ]
+                    },
+                    {
+                        type: 'blank',
+                        rowHeight: '20px',
+                    },
+                    {
+                        name: 'submitButton',
+                        type: 'button',
+                        text: '사용자 수정',
+                        align: 'right',
+                        padding: {left: 0, top: 5, bottom: 5, right: 40}
+                    },
+                    {
+                        name: 'deleteButton',
+                        type: 'button',
+                        text: '사용자 삭제',
+                        align: 'right',
+                        padding: {left: 0, top: 5, bottom: 5, right: 40}
+                    }
+                ];
+            }
+	    	
+    		//register user ajax func
+    		var usertable;
+    		
+    		//usertable refresh(DataTables Function)
+    		function reloadList() {
+				usertable.ajax.reload();
+    		};
+    	
+    		//register function
+        	function fn_register() {
+        		fn_isempty();
+        		if(emptychecked==false){
+        			alert("입력되지 않은 값이 있습니다");
+        			return;
+        		}
+        		
+        		if(iddupchecked==false){
+        			alert("ID를 확인하세요");
+        			return;
+        		}
+        		
+        		if((passExpchecked==false) || (passchecked==false)){
+        			alert("비밀번호를 확인하세요");
+        			return;
+        		}else{
+	    			var form = $("#registerForm")
+		    		var regiuser = form.serialize();
+		    		$.ajax({
+		       			type:"post",  
+		       			url:form.attr("action"),
+		       			data:regiuser,
+		       			success:function (data, textStatus) {
+		       				alert("입력완료");
+		       				reloadList();
+		       				$("#registerForm")[0].reset();
+		       			},
+		       			complete:function(data,textStatus){
+		       			},
+		       			error:function(data, textStatus){
+		          			alert("에러발생: " + data);
+		       			},
+		    		});
+	    		};
+        	};
+
+        	//popup elements
+        	var singupPop = (function () {
+	            //Adding event listeners
+	            function _addEventListeners() {
+	                $('#register').click(function () {
+	                    $('#regiwindow').jqxWindow('open');
+	                });
+	                $('#regsubmit').click(fn_register);
+	            };
+	
+	            //Creating all page elements which are jqxWidgets
+	            function _createElements() {
+	                $('#register').jqxButton({ width: 120, height: 40 });
+	                $('#regsubmit').jqxButton({ width: '65px' });
+	            };
+	
+	            //Creating the window
+	            function _createWindow() {
+	                var jqxWidget = $('#jqxWidget');
+	                var content = $('#userlist');
+	                var offset = content.offset();
+	
+	                $('#regiwindow').jqxWindow({
+						autoOpen: false,
+	                    position: { x: offset.left+250, y: offset.top } ,
+	                    showCollapseButton: true, 
+	                    height: 560, width: 500,
+	                    initContent: function () {
+	                        $('#regiwindow').jqxWindow('focus');
+	                    }
+	                });
+	                $('#regiwindow').jqxWindow('resizable', false);
+	                $('#regiwindow').jqxWindow('draggable', true);
+	            };
+	
+	            return {
+	                config: {
+	                    dragArea: null
+	                },
+	                init: function () {
+	                    //Creating all jqxWindgets except the window
+	                    _createElements();
+	                    //Attaching event listeners
+	                    _addEventListeners();
+	                    //Adding jqxWindow
+	                    _createWindow();
+	                }
+	            };
+	        } ());
+        	
+        	function fn_update(){
+        		
+        	}
+        	
+        	var updatePop = (function () {
+	            //Adding event listeners
+	            function _addEventListeners() {
+	                //$('#updatesubmit').click(fn_update);
+	            };
+	
+	            //Creating all page elements which are jqxWidgets
+	            function _createElements() {
+	                //$('#updatesubmit').jqxButton({ width: '65px' });
+	            };
+	
+	            //Creating the window
+	            function _createWindow() {
+	                var jqxWidget = $('#jqxWidget');
+	                var content = $('#userlist');
+	                var offset = content.offset();
+	
+	                $('#updatewindow').jqxWindow({
+						autoOpen: false,
+	                    position: { x: offset.left+250, y: offset.top } ,
+	                    showCollapseButton: true, 
+	                    height: 380, width: 430,
+	                    initContent: function () {
+	                        $('#updatewindow').jqxWindow('focus');
+	                    }
+	                });
+	                $('#updatewindow').jqxWindow('resizable', false);
+	                $('#updatewindow').jqxWindow('draggable', true);
+	            };
+	
+	            return {
+	                config: {
+	                    dragArea: null
+	                },
+	                init: function () {
+	                    //Creating all jqxWindgets except the window
+	                    _createElements();
+	                    //Attaching event listeners
+	                    _addEventListeners();
+	                    //Adding jqxWindow
+	                    _createWindow();
+	                }
+	            };
+	        } ());
+        	
+            //init userData with id
+            var userData;
+            function getUserData(userid){
+            	 $.ajax({
+                     type: 'POST',
+                     url: 'http://localhost:8584/SMFPlatform/manage/userdata.json',
+                     data:{id : userid},
+                     dataType: 'json',
+                     async: false,
+                     success: function(data) {
+						userData = data;
+						console.log(userData);
+                     },
+                     error: function(xhr, status, error) {
+                       console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                     }
+                   });
+            }
+            
+        	function initUserForm(userid){
+        			getUserData(userid);
+        		
+        			var userUpdateForm = $('#userUpdateForm');
+	        		userUpdateForm.jqxForm({
+		                template: template,
+		                value: userData,
+		                padding: { left: 10, top: 10, right: 0, bottom: 10 }
+	            	});
+		            var subbtn = userUpdateForm.jqxForm('getComponentByName', 'submitButton');
+		            subbtn.on('click', function () {
+		                // arg1: url
+		                // arg2, optional: target, default is _blank
+		                // arg3, optional: submit method - GET or POST, default is POST
+		                userUpdateForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
+		            });	
+		            var delbtn = userUpdateForm.jqxForm('getComponentByName', 'deleteButton');
+		            delbtn.jqxButton({ template: "danger" });
+		            delbtn.on('click', function () {
+		                // arg1: url
+		                // arg2, optional: target, default is _blank
+		                // arg3, optional: submit method - GET or POST, default is POST
+		                userUpdateForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
+		            });	
+
+        	}
+        	
+        	//page ready js script
+	    	$(document).ready(function () {
+	        	singupPop.init(); //signup popupwindow init
+	        	updatePop.init(); //update popupwindow init 
+	    		usertable = new DataTable('#userlist', { //init datatable
+	    		    ajax: 'http://localhost:8584/SMFPlatform/manage/userlist.json'
+	    		});
+	        	usertable.on('click', 'tbody tr', function () {	//datatable click func
+			        let data = usertable.row(this).data();
+			        alert('[확인용기능]' + data[1] + "의 열을 클릭");
+			        if(userUpdateForm){
+			        	$('#userUpdateForm').jqxForm('destroy');
+			        	document.getElementById("userjqForm").innerHTML = "<div id='userUpdateForm' style='width: 420px; height: auto;'></div>";
+			        }
+			        generateTemplate();
+			        initUserForm(data[2]);
+			        $('#updatewindow').jqxWindow('open');
+		        });
+	        	$("#passConfirm").css('display', 'none'); 
+	        	
+	        	if(${sessionScope.authInfo.getAdmin()}){
+	        		checkNoti();
+	        	} //notification check
+	        	userUpdateForm = $('#userUpdateForm');
+	        });
+    	</script>
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
         <script src="${path}/resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="${path}/main">Platform Name</a>
+            <a class="navbar-brand ps-3" href="${path}">Platform Name</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
             <!-- Navbar Clock -->
@@ -71,7 +483,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="settings">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
@@ -110,7 +522,7 @@
                                     <a class="nav-link" href="${path}/report">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="${path}/report">
+                            <a class="nav-link" href="${path}/logout">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 보고서관리
                             </a>
@@ -128,7 +540,7 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="${path}/login">Login</a>
+                                            <a class="nav-link" href="login">Login</a>
                                             <a class="nav-link" href="register.html">Register</a>
                                         </nav>
                                     </div>
@@ -150,13 +562,96 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">재고관리</li>
                         </ol>
-                    </div>
+	    				<div class="card mb-4">
+	                    	<div class="card-header">
+	                        	<i class="fas fa-table me-1"></i>
+	                            사용자 목록
+	                        </div>
+	                    	<div class="card-body">
+			    				<table id="userlist" class="display" style="width:100%">
+							        <thead>
+							            <tr>
+							                <th>사번</th>
+							                <th>이름</th>
+							                <th>ID</th>
+							                <th>rank</th>
+							                <th>등록일</th>
+							                <th>관리자 권한</th>
+							            </tr>
+							        </thead>
+							        <tfoot>
+							            <tr>
+							                <th>사번</th>
+							                <th>이름</th>
+							                <th>ID</th>
+							                <th>rank</th>
+							                <th>등록일</th>
+							                <th>관리자 권한</th>
+							            </tr>
+							        </tfoot>
+							    </table>
+							    <div id="jqxWidget">
+								    <div>
+	       								<input type="button" value="사용자 신규등록" id='register' />	
+	       							</div>
+							  		<div id="regiwindow">
+					                	<div id="windowHeader">
+					                    	<span>
+					                        	사용자 신규등록
+					                    	</span>
+					                	</div>
+						                <div style="overflow: hidden;" id="windowContent">
+	                                        <form:form id="registerForm" modelAttribute="manageUserCommand" action="${path}/manage/usermanagement/register.do" method="post">
+	                                            <div class="form-floating mb-3">
+	                                                <form:input class="form-control" placeholder="EmpNo" path="empNo" autocomplete="off" />
+	                                                <label for="empNo">사번</label>
+	                                            </div>
+	                                            <div class="form-floating mb-3">
+	                                                <form:input class="form-control" placeholder="Name" path="name" autocomplete="off" />
+	                                                <label for="name">이름</label>
+	                                            </div>
+	                                            <div class="form-floating mb-3">
+	                                                <form:input class="form-control" placeholder="ID" path="id" id="id" autocomplete="off" onkeyup="idDupChecker()"/>
+	                                                <label for="id">ID</label>
+	                                                <span id="idCheckMessage"></span>
+	                                            </div>
+	                                            <div class="form-floating mb-3">
+	                                                <form:password class="form-control" placeholder="Password" path="password" id="password" onkeyup="passExpChecker()"/>
+	                                                <label for="password">비밀번호</label>
+	                                            </div>
+	                                            <div class="form-floating mb-3">
+	                                                <form:password class="form-control" placeholder="PasswordCheck" path="passwordCheck" id="passwordCheck" onkeyup="passwordChecker()"/>
+	                                                <label for="passwordCheck">비밀번호 확인</label>
+										     		<span id="passConfirm" display="none">비밀번호가 일치하지 않습니다.</span>
+										     		<span id="passLength" display="none">비밀번호는 6자리 이상이어야 합니다.</span>
+	                                            </div>
+	                                            <div class="form-floating mb-3">
+	                                                <form:input class="form-control" placeholder="Rank" path="rank" />
+	                                                <label for="rank">직급</label>
+	                                            </div>
+                                        	</form:form>
+  											<input type="button" value="입력" id="regsubmit"/>
+						                </div>
+							    	</div>
+							    	
+							    	<div id="updatewindow">
+					                	<div id="windowHeader">
+					                    	<span>
+					                        	사용자 수정
+					                    	</span>
+					                	</div>
+					                	<div id='userjqForm'>
+						                	<div id='userUpdateForm' style="width: 420px; height: auto;"></div>
+						                </div>
+							    	</div>
+						    	</div>
+						    </div>
+						</div>
+					</div>
                 </main>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     </body>
 </html>
