@@ -174,12 +174,13 @@
                     },
                     {
                         bind: 'id',
-                        type: 'label',
+                        type: 'text',
                         label: 'ID',
                         labelPosition: 'left',
                         labelWidth: '30%',
                         align: 'left',
-                        width: '250px'
+                        width: '250px',
+                        required: true
                     },
                     {
                         bind: 'password',
@@ -436,6 +437,7 @@
 	    		});
 	        	usertable.on('click', 'tbody tr', function () {	//datatable click func
 			        let data = usertable.row(this).data();
+			        alert('[확인용기능]' + data[1] + "의 열을 클릭");
 			        if(userUpdateForm){
 			        	$('#userUpdateForm').jqxForm('destroy');
 			        	document.getElementById("userjqForm").innerHTML = "<div id='userUpdateForm' style='width: 420px; height: auto;'></div>";
@@ -556,9 +558,9 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Manage</h1>
+                        <h1 class="mt-4">재고관리</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Manage</li>
+                            <li class="breadcrumb-item active">재고관리</li>
                         </ol>
 	    				<div class="card mb-4">
 	                    	<div class="card-header">
