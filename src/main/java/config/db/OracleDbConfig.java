@@ -12,6 +12,7 @@ import spring.auth.AuthService;
 import spring.dao.UserDao;
 import spring.dao.PlanDao;
 import spring.dao.UserRegisterService;
+import spring.inventory.InventoryService;
 import spring.manage.ManageService;
 
 @Configuration
@@ -69,5 +70,12 @@ public class OracleDbConfig{
 		manageService.setuserDao(userDao());
 		manageService.setplanDao(planDao());
 		return manageService;
+	}
+	
+	@Bean
+	public InventoryService inventoryService() {
+		InventoryService invenService = new InventoryService();
+		invenService.setuserDao(userDao());
+		return invenService;
 	}
 }

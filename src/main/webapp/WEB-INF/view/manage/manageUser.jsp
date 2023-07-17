@@ -402,6 +402,7 @@
             
         	function initUserForm(userid){
         			getUserData(userid);
+
         		
         			var userUpdateForm = $('#userUpdateForm');
 	        		userUpdateForm.jqxForm({

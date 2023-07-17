@@ -14,6 +14,7 @@ import controller.TestController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
 import spring.auth.AuthService;
+import spring.inventory.InventoryService;
 import spring.manage.ManageService;
 
 @Configuration
@@ -24,6 +25,9 @@ public class ControllerConfig {
 	
 	@Autowired
 	private ManageService manageService;
+	
+	@Autowired
+	private InventoryService inventoryService;
 	
 	@Bean
 	public LoginController loginController() {
@@ -51,7 +55,9 @@ public class ControllerConfig {
 	
 	@Bean
 	public InvenController invenController() {
-		return new InvenController();
+		InvenController controller = new InvenController();
+		controller.setInvenService(inventoryService);
+		return controller;
 	}
 	
 	@Bean

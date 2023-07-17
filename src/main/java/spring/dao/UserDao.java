@@ -17,7 +17,7 @@ import controller.manage.ManageUserCommand;
 public class UserDao {
 
 	/*
-	 * Dao for user data
+	 * Dao for Oracle DB
 	 */
 	
 	private JdbcTemplate jdbcTemplate;
@@ -26,6 +26,8 @@ public class UserDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
+	/*-----------------------------------------------------------------User Data-----------------------------------------------------------*/
+	
 	public User selectById(String id) { //ID로 User 조회
 		Object[] where = new Object[] {id};
 		List<User> results = jdbcTemplate.query(
@@ -136,4 +138,64 @@ public class UserDao {
 				"delete from e_user where id = ?", id);
 	}
 
+	/*-----------------------------------------------------------------Inventory Data-----------------------------------------------------------*/
+	
+	public List<LOT> selectAllLOT() { //LOT 전체 조회
+		List<LOT> results = jdbcTemplate.query(
+				"SELECT LOT,PRODNAME,MATERNAME,QTY,WHSENAME FROM (SELECT *  FROM inventory i LEFT JOIN product p ON i.prodno = p.prodno "
+				+ "LEFT JOIN material m ON i.materno = m.materno) it, warehouse w WHERE it.whseno=w.whseno", 
+				new RowMapper<LOT>() {
+					@Override
+					public LOT mapRow(ResultSet rs, int rowNum) throws SQLException {
+						LOT lot = new LOT(
+								rs.getString("LOT"),
+								rs.getString("prodname"),
+								rs.getString("matername"),
+								rs.getInt("qty"),
+								rs.getString("whsename"));
+						return lot;
+					}
+				});
+		
+		return results;
+	}
+	
+	public List<LOTprod> selectRProdByLOT(String lot){ //LOT로 ResProduct조회
+		Object[] where = new Object[] {lot};
+		List<LOTprod> results = jdbcTemplate.query(
+				"SELECT i.LOT,PRODNO,SERIALNO,PROCESSID,CYCLETIME,STATUS "
+				+ "FROM INVENTORY i JOIN RESULT_PROD rp on i.LOT = rp.LOT WHERE i.LOT = ?", where,
+				new RowMapper<LOTprod>() {
+					@Override
+					public LOTprod mapRow(ResultSet rs, int rowNum) throws SQLException {
+						LOTprod prod = new LOTprod(
+								rs.getString("LOT"),
+								rs.getString("prodno"),
+								rs.getString("serialno"),
+								rs.getString("processid"),
+								rs.getInt("cycletime"),
+								rs.getInt("status"));
+						return prod;
+					}
+				});
+		
+		return results;
+	}
+	
+	public List<Warehouse> selectAllWareHs() { //warehouse 전체조회
+		List<Warehouse> results = jdbcTemplate.query(
+				"SELECT LOT,PRODNO,MATERNO,QTY,WHSENAME FROM INVENTORY i, warehouse w WHERE i.whseno=w.WHSENO", 
+				new RowMapper<Warehouse>() {
+					@Override
+					public Warehouse mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Warehouse wh = new Warehouse(
+								rs.getString("whseno"),
+								rs.getString("whseloc"),
+								rs.getString("whsename"));
+						return wh;
+					}
+				});
+		
+		return results;
+	}
 }

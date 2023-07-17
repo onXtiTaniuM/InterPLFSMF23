@@ -16,6 +16,7 @@
         <link href="${path}/resources/css/styles.css" rel="stylesheet" />
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+		<link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
         <script src="${path}/resources/js/jquery-3.6.0.js"></script>
         <script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -56,9 +57,35 @@
 	    		});
 			}
 			
+	        //lot table id init
+	        var inventorylist
+	        
+	        // lot table reload
+	        function reloadinvenList() {
+				inventorylist.ajax.reload();
+    		};
+    		
+    		//lotprod table id init
+    		var productlist
+    		
 	        $(document).ready(function () {
+	        	inventorylist = new DataTable('#inventorylist', { //init datatable
+	        		scrollCollapse: true,
+	        	    scrollY: '210px',
+	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/lotlist.json'
+	    		});
+	        	inventorylist.on('click', 'tbody tr', function () {	//datatable click func
+			        let data = inventorylist.row(this).data();
+			     	alert("현재 누른상품 : " + data[1] + " | " + data[2] + "\nLOT 번호 : " + data[0]);
+		        });
+	        	
+	        	productlist = new DataTable('#productlist', { //init datatable
+	        		scrollCollapse: true,
+	        	    scrollY: '400px'
+	    		});
 	        	checkNoti();
 	        });   
+
         </script>   
     </head>
     <body class="sb-nav-fixed">
@@ -175,6 +202,24 @@
 	                        </div>
 	                    	<div class="card-body">
 	                    		<table id="inventorylist" class="display" style="width:100%">
+	                    			<thead>
+							            <tr>
+							                <th>LOT</th>
+							                <th>상품 이름</th>
+							                <th>재료 이름</th>
+							                <th>수량</th>
+							                <th>보관 위치</th>
+							            </tr>
+							        </thead>
+							        <tfoot>
+							            <tr>
+							                <th>LOT</th>
+							                <th>상품 이름</th>
+							                <th>재료 이름</th>
+							                <th>수량</th>
+							                <th>보관 위치</th>
+							            </tr>
+							        </tfoot>
 	                    		</table>
 	                    	</div>
 	                    </div>
@@ -185,6 +230,24 @@
 	                        </div>
 	                    	<div class="card-body">
 	                    		<table id="productlist" class="display" style="width:100%">
+	                    			<thead>
+							            <tr>
+							                <th>LOT</th>
+							                <th>상품 이름</th>
+							                <th>SerialNo</th>
+							                <th>PricessID</th>
+							                <th>QC</th>
+							            </tr>
+							        </thead>
+							        <tfoot>
+							            <tr>
+							                <th>LOT</th>
+							                <th>상품 이름</th>
+							                <th>SerialNo</th>
+							                <th>PricessID</th>
+							                <th>QC</th>
+							            </tr>
+							        </tfoot>
 	                    		</table>
 	                    	</div>
 	                    </div>
