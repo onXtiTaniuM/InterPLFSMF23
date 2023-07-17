@@ -149,21 +149,24 @@
 
  <!--commit-->
         <!-- pivotTable -->
-        
+        	        
         	<!-- table param-->
-        	var products = ["AAA","AAA","AAA","AAA","AAA",];
-        	var products_new = [];
+        	var products = ["prodNo"];
         	var materials = ["KC001", "KC002", "PBT001", "ABS001", "DYE001", "PCB001", "HSE001", "SWC001", "SWN001", "SWL001", "SLC001", "SLN001", "SLL001", "SPR001"];
-        	var productNames = ["AAA_AAAA"];
+        	var productNames = ["productName"];
         	var priceValues = [100000, 50000, 50000, 20000, 10000, 5000, 50, 20, 10];
+        	
+        	var products_new = [];
+        	var productNames_new = [];
+        	
         	
         	<!-- initial function -->
 	        $(document).ready(function () {
-	        	chartPivotGrid(products);
+	        	chartPivotGrid(products, productNames);
 	        });
 	        
         	<!-- pivot function -->
-        	function chartPivotGrid(products){
+        	function chartPivotGrid(products, productNames){
         		
         	var data = new Array();
 
@@ -237,16 +240,6 @@
                     pivotValuesOnRows: false,
                     rows: [{ dataField: 'product' }, { dataField: 'material'}],
                     columns: [{ dataField: 'productname'}],
-                    filters: [
-                        {
-                            dataField: 'productname',
-                            filterFunction: function (value) {
-                                if (value == "KBD_click" || value == "")
-                                    return true;
-                                return false;
-                            }
-                        }
-                    ],
                     values: [
                         { dataField: 'quantity','function': 'sum', text: '소요량' },
                         { dataField: 'price', 'function': 'sum', text: '단가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { prefix: '$', decimalPlaces: 2} },
@@ -307,21 +300,33 @@
 		
         function prodSubmitX() {
         	var prodVal = $('#prodVal').val();
+        	var prodName = $('#prodVal option:selected').text();
+        	/* var prodName = [];
+            $('#prodVal option:selected').each(function() {
+                prodName.push($(this).text());
+            }); */
         	
         	$.ajax({
         		type:"get",
         		async: false,
         		url: "http://localhost:8584/SMFPlatform/ajax/prodVal.do",
         		dataType: "text",
-        		data:{prodVal: prodVal},
-        		suceess: function(data,textStatus){   			        			
-        			var prodName = JSON.parse(data);
-        			document.write(prodName);
+        		data:{prodVal: prodVal}, // ex: 'KBD001'
+        		success: function(data,textStatus){   			        			
+        			var prodNo = JSON.parse(data);
         			
-                    products_new.push(prodName);
- 
+        			products_new = []; // 배열 초기화
+        			productNames_new = []; 
+
+                    products_new.push(prodNo);
+        		    productNames_new.push(prodName);
+ 					                    
+        		    console.log("products_new:", products_new);
+                    console.log("productNames_new:", productNames_new);
+                    
+                    chartPivotGrid(products_new, productNames_new);
         			}       		
-        	})
+        	});
         }
 		
 	</script>
@@ -445,6 +450,12 @@
                 <main>
                     <div class="container-fluid px-4">
                         <!-- list.jsp main-->
+		    <div class="card mb-4">
+		        <div class="card-header">
+		            <i class="fa-solid fa-clipboard"></i>
+		           		공정 계획 게시판
+		           		</div>
+		           		<div class="card-body">
 						<div align="center">
 							<br/>
 							<h2>Process Plan Board</h2>
@@ -574,6 +585,8 @@
 								<input type="hidden" name="keyField" value="<%=keyField%>"> 
 								<input type="hidden" name="keyWord" value="<%=keyWord%>">
 							</form>
+						</div>
+						</div>
 						</div>
 					<!-- /list.jsp main-->
                     </div>

@@ -46,7 +46,7 @@ public class PlanDAO {
 	}
 	
 	// BOM 
-	private Vector<BomInfo> getBomList() {
+	private Vector<BomInfo> getBomList(String prodNo) {
 	    Connection con = null;
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
@@ -61,6 +61,7 @@ public class PlanDAO {
 	        		+ "JOIN product p ON b.prodNo = p.prodNo"
 	        		+ "WHERE b.prodNo = '?'";
 	        pstmt = con.prepareStatement(sql);
+	        pstmt.setString(1, prodNo);
 	        rs = pstmt.executeQuery();
 	        while (rs.next()) {
 	        	BomInfo bom = new BomInfo();
