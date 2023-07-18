@@ -36,6 +36,20 @@ public class User {
 		this.admin = admin;
 		this.regiDate = regidate;
 	}
+	
+	public User(String empno, 
+			String id, 
+			String password, 
+			String name, 
+			String rank, 
+			boolean admin) {
+		this.empNo = empno;
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.rank = rank;
+		this.admin = admin;
+	}
 
 	public String getEmpNo() {
 		return empNo;
@@ -65,7 +79,6 @@ public class User {
 		return regiDate;
 	}
 
-	
 	public void setuserNo(Long userNo) {
 		this.userNo = userNo;
 	}
@@ -76,5 +89,12 @@ public class User {
 	
 	public boolean matchPassword(String password) {
 		return this.password.equals(password);
+	}
+	
+	public String getAdmin() {
+		if(this.admin) {
+			return "1";
+		}
+		return "0";
 	}
 }

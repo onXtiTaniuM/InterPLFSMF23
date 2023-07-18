@@ -12,95 +12,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>재고관리</title>
+        <title>TEST</title>
         <link href="${path}/resources/css/styles.css" rel="stylesheet" />
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-		<link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
-        <script src="${path}/resources/js/jquery-3.6.0.js"></script>
-        <script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
- 		 <!-- script for jq link -->
-        <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
-    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
-    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
-	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
-	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
-	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
-	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
-	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxinput.js"></script>
-	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxlistbox.js"></script>
-	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxdropdownlist.js"></script>
-	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxradiobutton.js"></script>
-    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpasswordinput.js"></script>
-    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxnumberinput.js"></script>
-    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxform.js"></script>
-	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
- 		<script>
- 		//notification checker
-			function checkNoti(){
-				$.ajax({
-	       			type:"post",  
-	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
-	       			success:function (data, textStatus) {
-						if(JSON.parse(data)){
-							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
-						}else{
-							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell-slash"></i>'
-						}
-	       			},
-	       			complete:function(data,textStatus){
-	       			},
-	       			error:function(data, textStatus){
-	          			alert("에러발생: " + data);
-	       			},
-	    		});
-			}
-			
-	        //lot table id init
-	        var inventorylist
-	        
-	        // lot table reload
-	        function reloadinvenList() {
-				inventorylist.ajax.reload();
-    		};
-    		
-    		//lotprod table id init
-    		var productlist
-    		var lotdata = {lot : "KB0016"}; 
-    		function reloadprodList() {
-				productlist.ajax.reload();
-    		};
-    		
-	        $(document).ready(function () {
-	        	inventorylist = new DataTable('#inventorylist', { //init datatable
-	        		scrollCollapse: true,
-	        	    scrollY: '210px',
-	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/lotlist.json'
-	    		});
-	        	inventorylist.on('click', 'tbody tr', function () {	//datatable click func
-			        let data = inventorylist.row(this).data();
-			     	lotdata.lot = data[0];
-			     	console.log(lotdata);
-			     	reloadprodList();
-		        });
-	        	
-	        	productlist = new DataTable('#productlist', { //init datatable
-	        		scrollCollapse: true,
-	        	    scrollY: '400px',
-	        	    paging: false,
-	        	    ajax: {
-	        	    	type: "POST",
-	        	    	data: function() {
-	        	    		return lotdata;
-	        	    	},
-	        	    	url: 'http://localhost:8584/SMFPlatform/inventory/prodlotlist.json'
-	        	    }
-	    		});
-	        	checkNoti();
-	        });   
-
-        </script>   
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
@@ -116,16 +32,6 @@
 		        <div id="time" class="time"></div>
             </div>
             <!-- Navbar-->
-            <!-- Notification Icon for Admin User -->
-            <c:if test="${sessionScope.authInfo.getAdmin()}">
-	            <ul class="navbar-nav justify-content-end align-items-md-end">
-		            <li class="nav-item">
-		            	<a class="nav-link" id="navbarDropdown" href="${path}/manage/usermanagement" role="button"  aria-expanded="false">
-		            		<span id="notification-icon"></span>
-		            	</a>
-		            </li>
-	            </ul>
-            </c:if>
             <ul class="navbar-nav justify-content-end align-items-md-end">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -205,78 +111,17 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">재고관리</h1>
+                        <h1 class="mt-4">미결제 내역</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">재고관리</li>
+                            <li class="breadcrumb-item active">미결제 내역</li>
                         </ol>
-                        <div class="card mb-4">
-	                    	<div class="card-header">
-	                        	<i class="fas fa-table me-1"></i>
-	                            재고 목록
-	                        </div>
-	                    	<div class="card-body">
-	                    		<table id="inventorylist" class="display" style="width:100%">
-	                    			<thead>
-							            <tr>
-							                <th>LOT</th>
-							                <th>상품 이름</th>
-							                <th>재료 이름</th>
-							                <th>수량</th>
-							                <th>보관 위치</th>
-							            </tr>
-							        </thead>
-							        <tfoot>
-							            <tr>
-							                <th>LOT</th>
-							                <th>상품 이름</th>
-							                <th>재료 이름</th>
-							                <th>수량</th>
-							                <th>보관 위치</th>
-							            </tr>
-							        </tfoot>
-	                    		</table>
-	                    		<div>
-		                    		<button>재고입력</button>
-		                    		<button>재고수정</button>
-	                    		</div>
-	                    	</div>
-	                    </div>
-	                     <div class="card mb-4">
-	                    	<div class="card-header">
-	                        	<i class="fas fa-table me-1"></i>
-	                            재고 상세
-	                        </div>
-	                    	<div class="card-body">
-	                    		<table id="productlist" class="display" style="width:100%">
-	                    			<thead>
-							            <tr>
-							                <th>LOT</th>
-							                <th>상품 이름</th>
-							                <th>SerialNo</th>
-							                <th>PricessID</th>
-							                <th>QC</th>
-							            </tr>
-							        </thead>
-							        <tfoot>
-							            <tr>
-							                <th>LOT</th>
-							                <th>상품 이름</th>
-							                <th>SerialNo</th>
-							                <th>PricessID</th>
-							                <th>QC</th>
-							            </tr>
-							        </tfoot>
-	                    		</table>
-	                    		<div>
-	                    			<button>상품관리</button>
-	                    		</div>
-	                    	</div>
-	                    </div>
                     </div>
                 </main>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/scripts.js"></script>
-	</body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    </body>
 </html>

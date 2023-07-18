@@ -153,6 +153,7 @@
             	
             	template = [
                     {
+                    	name: 'empno',
                         bind: 'empno',
                         type: 'text',
                         label: '사 번',
@@ -163,6 +164,7 @@
                         required: true
                     },
                     {
+                    	name: 'name',
                         bind: 'name',
                         type: 'text',
                         label: '이 름',
@@ -173,6 +175,7 @@
                         required: true
                     },
                     {
+                    	name: 'id',
                         bind: 'id',
                         type: 'label',
                         label: 'ID',
@@ -182,6 +185,7 @@
                         width: '250px'
                     },
                     {
+                    	name: 'password',
                         bind: 'password',
                         type: 'password',
                         label: '비밀번호',
@@ -192,6 +196,7 @@
                         required: true
                     },
                     {
+                    	name: 'rank',
                         bind: 'rank',
                         type: 'option',
                         label: '직 급',
@@ -207,6 +212,7 @@
                         columns: [
                             {
                                 columnWidth: '140px',
+                                name: 'admin',
                                 bind: 'admin',
                                 type: 'boolean',
                                 label: '관리자 권한',
@@ -264,6 +270,7 @@
         		}else{
 	    			var form = $("#registerForm")
 		    		var regiuser = form.serialize();
+	    			
 		    		$.ajax({
 		       			type:"post",  
 		       			url:form.attr("action"),
@@ -400,9 +407,68 @@
                    });
             }
             
+            function delUser(){
+            	var targetid= $("#userUpdateForm").jqxForm('getComponentByName' , "id");
+            	console.log(targetid[0].innerHTML);
+				
+            	$.ajax({
+                     type: 'POST',
+                     url: 'http://localhost:8584/SMFPlatform/manage/deleteuser.do',
+                     data: {id:targetid[0].innerHTML},
+                     async: false,
+                     success: function(data) {
+                     	alert("삭제완료");
+                     	reloadList();
+                     },
+                     error: function(xhr, status, error) {
+                       console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                     }
+                   }); 
+            
+            }
+            
+            function updateUser(){
+            	var targetempno= $("#userUpdateForm").jqxForm('getComponentByName' , "empno");
+            	var targetname= $("#userUpdateForm").jqxForm('getComponentByName' , "name");
+            	var targetid= $("#userUpdateForm").jqxForm('getComponentByName' , "id");
+            	var targetpass= $("#userUpdateForm").jqxForm('getComponentByName' , "password");
+            	var targetrank= $("#userUpdateForm").jqxForm('getComponentByName' , "rank");
+            	var targetadmin= $("#userUpdateForm").jqxForm('getComponentByName' , "admin");
+            	
+            	console.log(targetempno[0].value);
+            	console.log(targetname[0].value);
+            	console.log(targetid[0].innerHTML);
+            	console.log(targetpass[0].value);
+            	console.log(targetrank[0].textContent);
+            	console.log(targetadmin[0].ariaChecked);
+            	
+            	var dataset = {
+            			empno : targetempno[0].value,
+            			name : targetname[0].value ,
+            			id : targetid[0].innerHTML ,
+            			password : targetpass[0].value ,
+            			rank : targetrank[0].textContent ,
+            			admin : targetadmin[0].ariaChecked
+            	}
+            	
+            	$.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8584/SMFPlatform/manage/updateuser.do',
+                    data: dataset,
+                    async: false,
+                    success: function(data) {
+                    	alert("변경완료");
+                    	reloadList();
+                    },
+                    error: function(xhr, status, error) {
+                      console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                    }
+                  }); 
+            	
+            }
+            
         	function initUserForm(userid){
         			getUserData(userid);
-
         		
         			var userUpdateForm = $('#userUpdateForm');
 	        		userUpdateForm.jqxForm({
@@ -412,18 +478,20 @@
 	            	});
 		            var subbtn = userUpdateForm.jqxForm('getComponentByName', 'submitButton');
 		            subbtn.on('click', function () {
+		            	updateUser();
 		                // arg1: url
 		                // arg2, optional: target, default is _blank
 		                // arg3, optional: submit method - GET or POST, default is POST
-		                userUpdateForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
+		                //userUpdateForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
 		            });	
 		            var delbtn = userUpdateForm.jqxForm('getComponentByName', 'deleteButton');
 		            delbtn.jqxButton({ template: "danger" });
 		            delbtn.on('click', function () {
+		            	delUser();
 		                // arg1: url
 		                // arg2, optional: target, default is _blank
 		                // arg3, optional: submit method - GET or POST, default is POST
-		                userUpdateForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
+		                //userUpdateForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
 		            });	
 
         	}

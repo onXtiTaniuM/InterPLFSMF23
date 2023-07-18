@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.dao.LOT;
+import spring.dao.LOTprod;
 import spring.dao.User;
 import spring.inventory.InventoryService;
 
@@ -62,7 +63,24 @@ public class InvenController {
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer = response.getWriter();
 		
+		JSONArray lotArray = new JSONArray();
+		JSONObject jsonInfo = new JSONObject();
 		
+		String lot = request.getParameter("lot");
+		List<LOTprod> list = invenService.lotSelectProductList(lot);
+		for(LOTprod prod : list) {
+			JSONArray prodInfo = new JSONArray();
+			prodInfo.add(prod.getLotNo());
+			prodInfo.add(prod.getProdName());
+			prodInfo.add(prod.getSerialNo());
+			prodInfo.add(prod.getProcessid());
+			prodInfo.add(prod.getStatusPF());
+			lotArray.add(prodInfo);
+		}
+			jsonInfo.put("data", lotArray);
+			String data = jsonInfo.toJSONString();
+			System.out.print(data);
+			writer.print(data);
 	}
 	
 	@RequestMapping("/warehouselist.json")

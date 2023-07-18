@@ -181,10 +181,21 @@ public class ManageController {
 	public void updateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
-		String id = "";
+		boolean admin = false;
 		
-		System.out.println("[UPDATE User] id : " + id);
-		manageS.updateUser(id);
+		if(request.getParameter("admin").equals("true")) {
+			admin = true;
+		}
+		
+		User user = new User(request.getParameter("empno"),
+				request.getParameter("id"),
+				request.getParameter("password"),
+				request.getParameter("name"),
+				request.getParameter("rank"),
+				admin);
+		
+		System.out.println("[UPDATE User] id : " + request.getParameter("id"));
+		manageS.updateUser(user);
 	}
 	
 }

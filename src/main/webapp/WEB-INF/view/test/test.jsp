@@ -352,6 +352,112 @@
 					                <div style="overflow: hidden;" id="windowContent">
 					                    <div id='sampleForm' style="width: 420px; height: auto;"></div>   
 					                </div>
+					                <center>
+        <h1 style="color: green;">
+              GeeksforGeeks
+          </h1>
+        
+        <h3>jQWidgets jqxForm getComponentByName() method</h3>
+        <div id='Form' style="width: 400px; height: auto;"></div>  
+    </center>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+         
+            var tp = [
+                {
+                    name: 'Name',
+                    bind: 'Name',
+                    type: 'text',
+                    label: 'Name',
+                    required: true,
+                    labelWidth: '80px',
+                    width: '250px',
+                    info: 'Enter Name',
+                    infoPosition: 'right'
+                }, 
+                {
+                    bind: 'Email',
+                    type: 'text',
+                    label: 'Email',
+                    required: true,
+                    labelWidth: '80px',
+                    width: '250px'
+                },
+                {
+                    bind: 'Social',
+                    type: 'text',
+                    label: 'Social',
+                    required: true,
+                    labelWidth: '80px',
+                    width: '250px'
+                },
+                {
+                    bind: 'Gender',
+                    type: 'option',
+                    label: 'Gender',
+                    required: false,
+                    labelWidth: '80px',
+                    width: '250px',
+                    component: 'jqxDropDownList',
+                    options: [
+                        { value: 'Male' },
+                        { value: 'Female'}
+                    ]
+                },
+                {
+                    bind: 'Password',
+                    type: 'password',
+                    label: 'Password',
+                    required: true,
+                    labelWidth: '80px',
+                    width: '250px'
+                },
+                  
+                {
+                    columns: [
+                        {
+                            type: 'button',
+                            text: 'Submit',
+                            width: '90px',
+                            height: '30px',
+                            rowHeight: '40px',
+                            columnWidth: '50%',
+                            align: 'right'
+                        },
+                        {
+                            type: 'button',
+                            text: 'Cancel',
+                            width: '90px',
+                            height: '30px',
+                            rowHeight: '40px',
+                            columnWidth: '50%'
+                        }                
+                    ]
+                }
+            ];
+            var value = {
+                Name: 'ABC',
+                Email: 'ABC@gmail.com',
+                Social: 'abc',
+                Gender: 'Female',
+                Password: 'abc',
+            };    
+            
+              
+            $('#Form').jqxForm({
+                template: tp
+            });
+              
+            $("#Form").jqxForm("val", value);
+  
+            var name = $('#Form').jqxForm(
+                'getComponentByName', "Name");
+            console.log(name);
+            console.log(name[0]);
+            console.log(name[0].value);
+        });
+    </script>
 					            </div>
 					        </div>
 					    </div>

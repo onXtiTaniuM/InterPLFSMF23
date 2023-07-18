@@ -7,15 +7,15 @@ public class LOTprod {
 	
 	//basic method
 	private String lotNo;
-	private String prodNo;
+	private String prodName;
 	private String serialNo;
 	private String processid;
 	private int cycleTime;
 	private int status;
 	
-	public LOTprod(String lotno, String prodno, String serialno, String processid, int cycletime, int status) {
+	public LOTprod(String lotno, String prodname, String serialno, String processid, int cycletime, int status) {
 		this.lotNo = lotno;
-		this.prodNo = prodno;
+		this.prodName = prodname;
 		this.serialNo = serialno;
 		this.processid = processid;
 		this.cycleTime = cycletime;
@@ -30,12 +30,12 @@ public class LOTprod {
 		this.lotNo = lotNo;
 	}
 
-	public String getProdNo() {
-		return prodNo;
+	public String getProdName() {
+		return prodName;
 	}
 
-	public void setProdNo(String prodNo) {
-		this.prodNo = prodNo;
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
 	}
 
 	public String getSerialNo() {
@@ -70,4 +70,10 @@ public class LOTprod {
 		this.processid = processid;
 	}
 	
+	public String getStatusPF(){
+		if(this.status == 1) {
+			return "F";
+		}
+		return "P";
+	}
 }

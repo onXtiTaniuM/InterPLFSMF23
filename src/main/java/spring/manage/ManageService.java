@@ -79,8 +79,7 @@ public class ManageService {
 		userDao.deleteUser(id);
 	}
 
-	public void updateUser(String id) {
-		userDao.updateUser(id);
-		
+	public void updateUser(User user) {
+		userDao.updateUser(user);
 	}
 }

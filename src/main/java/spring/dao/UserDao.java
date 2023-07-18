@@ -116,9 +116,21 @@ public class UserDao {
 				"update e_user set pw = ? where id = ?", pw, id);
 	}
 	
-	public void updateUser(String id) { //정보 변경
-		jdbcTemplate.update(
-				"update e_user set empno = ?, pw = ?, rank = ?, admin = ? where id = ?", id);
+	public void updateUser(User user) { //정보 변경
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(
+						"update e_user set empno = ?, name = ?, pw = ?, rank = ?, admin = ? where id = ?");
+				pstmt.setString(1, user.getEmpNo());
+				pstmt.setString(2, user.getName());
+				pstmt.setString(3, user.getPassword());
+				pstmt.setString(4, user.getRank());
+				pstmt.setString(5, user.getAdmin());
+				pstmt.setString(6, user.getId());
+				return pstmt;
+			}
+		});
 	}
 	
 	public List<String> rankList() { //등록된 Rank 전체 조회
@@ -163,14 +175,14 @@ public class UserDao {
 	public List<LOTprod> selectRProdByLOT(String lot){ //LOT로 ResProduct조회
 		Object[] where = new Object[] {lot};
 		List<LOTprod> results = jdbcTemplate.query(
-				"SELECT i.LOT,PRODNO,SERIALNO,PROCESSID,CYCLETIME,STATUS "
-				+ "FROM INVENTORY i JOIN RESULT_PROD rp on i.LOT = rp.LOT WHERE i.LOT = ?", where,
+				"SELECT i.LOT,PRODNAME,SERIALNO,PROCESSID,CYCLETIME,STATUS FROM INVENTORY i JOIN RESULT_PROD rp on i.LOT = rp.LOT "
+				+ "LEFT JOIN product p ON p.PRODNO = i.PRODNO WHERE i.LOT = ?", where,
 				new RowMapper<LOTprod>() {
 					@Override
 					public LOTprod mapRow(ResultSet rs, int rowNum) throws SQLException {
 						LOTprod prod = new LOTprod(
 								rs.getString("LOT"),
-								rs.getString("prodno"),
+								rs.getString("prodname"),
 								rs.getString("serialno"),
 								rs.getString("processid"),
 								rs.getInt("cycletime"),
