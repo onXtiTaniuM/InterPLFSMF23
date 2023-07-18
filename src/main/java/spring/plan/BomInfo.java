@@ -13,8 +13,16 @@ public class BomInfo {
 	private String unit;
 	//product	
 	private String prodName;
-	private String prodPrice;
+	private int prodPrice;
+	//inventory
+	private int Qty;
 	
+	public int getQty() {
+		return Qty;
+	}
+	public void setQty(int qty) {
+		Qty = qty;
+	}
 	public String getProdNo() {
 		return prodNo;
 	}
@@ -63,10 +71,10 @@ public class BomInfo {
 	public void setProdName(String prodName) {
 		this.prodName = prodName;
 	}
-	public String getProdPrice() {
+	public int getProdPrice() {
 		return prodPrice;
 	}
-	public void setProdPrice(String prodPrice) {
+	public void setProdPrice(int prodPrice) {
 		this.prodPrice = prodPrice;
 	}
 }

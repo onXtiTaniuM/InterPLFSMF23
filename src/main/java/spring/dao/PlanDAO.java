@@ -3,8 +3,8 @@
  */
 package spring.dao;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+//import java.io.BufferedInputStream;
+//import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
 
-import javax.servlet.ServletOutputStream;
+//import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspWriter;
@@ -46,7 +46,7 @@ public class PlanDAO {
 	}
 	
 	// BOM 
-	private Vector<BomInfo> getBomList(String prodNo) {
+	public Vector<BomInfo> getBomList(String prodNo) {
 	    Connection con = null;
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
@@ -55,21 +55,21 @@ public class PlanDAO {
 	    
 	    try {
 	        con = pool.getConnection();
-	        sql = "SELECT b.prodNo, p.prodName, b.materNo, m.materName,b.materPrice, b.materQty"
-	        		+ "FROM BOM b"
-	        		+ "JOIN material m ON b.materNo = m.materNo"
-	        		+ "JOIN product p ON b.prodNo = p.prodNo"
-	        		+ "WHERE b.prodNo = '?'";
+	        sql = "SELECT b.prodNo, b.materNo, b.materQty, m.materPrice, i.qty "
+	                + "FROM BOM b "
+	                + "JOIN material m ON b.materNo = m.materNo "
+	                + "JOIN inventory i ON i.materNo = m.materNo "
+	                + "WHERE b.prodNo = ?";
 	        pstmt = con.prepareStatement(sql);
 	        pstmt.setString(1, prodNo);
 	        rs = pstmt.executeQuery();
 	        while (rs.next()) {
 	        	BomInfo bom = new BomInfo();
-	        	bom.setProdNo(rs.getString("b.prodNo"));
-	            bom.setProdName(rs.getString("p.prodName"));
-	            bom.setMaterNo(rs.getString("b.materNo"));
-	            bom.setMaterPrice(rs.getInt("b.materprice"));
-	            bom.setMaterQty(rs.getInt("b.materQty"));
+	        	bom.setProdNo(rs.getString("prodNo"));
+	            bom.setMaterNo(rs.getString("materNo"));
+	            bom.setMaterQty(rs.getInt("materQty"));
+	            bom.setMaterPrice(rs.getInt("materprice"));
+	            bom.setQty(rs.getInt("qty"));
 	            bomList.add(bom);
 	        }
 	    } catch (Exception e) {

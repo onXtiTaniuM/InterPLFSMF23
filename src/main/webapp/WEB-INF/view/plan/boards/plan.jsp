@@ -154,39 +154,50 @@
         	var products = ["prodNo"];
         	var materials = ["KC001", "KC002", "PBT001", "ABS001", "DYE001", "PCB001", "HSE001", "SWC001", "SWN001", "SWL001", "SLC001", "SLN001", "SLL001", "SPR001"];
         	var productNames = ["productName"];
-        	var priceValues = [100000, 50000, 50000, 20000, 10000, 5000, 50, 20, 10];
+        	var quantity = [1];
+        	var materPrices = [100000, 50000, 50000, 20000, 10000, 5000, 50, 20, 10];
+        	var invenQty = [];
         	
         	var products_new = [];
+        	var materials_new = [];
         	var productNames_new = [];
-        	
+        	var quantity_new = [];
+        	var materPrices_new = [];
+        	var invenQty_new = [];
         	
         	<!-- initial function -->
 	        $(document).ready(function () {
-	        	chartPivotGrid(products, productNames);
+	        	chartPivotGrid(products 
+	        				  ,materials
+		                   	  ,productNames
+		                   	  ,quantity
+		                   	  ,materPrices
+		                   	  ,invenQty
+                    );
 	        });
 	        
         	<!-- pivot function -->
-        	function chartPivotGrid(products, productNames){
+        	function chartPivotGrid(products 
+				  				   ,materials
+				               	   ,productNames
+				               	   ,quantity
+				               	   ,materPrices
+				               	   ,invenQty
+				        		   ) {
         		
         	var data = new Array();
 
-        	for (var i = 0; i < productNames.length; i++) {
-        	  for (var j = 0; j < materials.length; j++) {
-        	    var productIndex = i;
-        	    var price = priceValues[productIndex];
-        	    var quantity = 1 + Math.round(Math.random() * 10);
-
+        	for (var i = 0; i < materials.length; i++) {
         	    var row = {
-        	      "product": products[i],
-        	      "material": materials[j],
-        	      "productname": productNames[i],
-        	      "price": price,
-        	      "quantity": quantity,
-        	      "total": price * quantity
+        	      "product": products[0],
+        	      "materials": materials[i],
+        	      "productName": productNames[0],
+        	      "materPrice": materPrices[i],
+        	      "quantity": quantity[i],
+        	      "invenQty": invenQty[i],
+        	      "total": materPrices[i] * quantity[i]
         	    };
-
         	    data.push(row);
-        	  }
         	}
 
             var source =
@@ -196,57 +207,36 @@
                 datafields:
                 [
                     { name: 'product', type: 'string' },
-                    { name: 'material', type: 'string' },
-                    { name: 'productname', type: 'string' },
+                    { name: 'materials', type: 'string' },
+                    { name: 'productName', type: 'string' },
                     { name: 'quantity', type: 'number' },
-                    { name: 'price', type: 'number' },
+                    { name: 'materPrice', type: 'number' },
+                    { name: 'invenQty', type: 'number' }, 
                     { name: 'total', type: 'number' }
                 ]
             };
+            
             var dataAdapter = new $.jqx.dataAdapter(source);
             dataAdapter.dataBind();
             
 	        $(document).ready(function () {
-	        	//Initializing the demo
 	            basicDemo.init();
-	        	
-	            // create a pivot data source from the dataAdapter
-	            var pivotDataSource = new $.jqx.pivot(
-	                dataAdapter,
-	                {
-	                	 customAggregationFunctions: {
-	                         'var': function (values) {
-	                             if (values.length <= 1)
-	                                 return 0;
-	
-	                             // sample's mean
-	                             var mean = 0;
-	                             for (var i = 0; i < values.length; i++)
-	                                 mean += values[i];
-	
-	                             mean /= values.length;
-	
-	                             // calc squared sum
-	                             var ssum = 0;
-	                             for (var i = 0; i < values.length; i++)
-	                                 ssum += Math.pow(values[i] - mean, 2)
-	
-	                             // calc the variance
-	                             var variance = ssum / values.length;
-	
-	                             return variance;
-	                         }
-                	},
-                    pivotValuesOnRows: false,
-                    rows: [{ dataField: 'product' }, { dataField: 'material'}],
-                    columns: [{ dataField: 'productname'}],
-                    values: [
-                        { dataField: 'quantity','function': 'sum', text: '소요량' },
-                        { dataField: 'price', 'function': 'sum', text: '단가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { prefix: '$', decimalPlaces: 2} },
-                        { dataField: 'total', 'function': 'sum', text: '가격&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { prefix: '$', decimalPlaces: 2} },
-                        { dataField: 'material', 'function': 'count', text: '재고&nbsp;&nbsp;' }
-                    ]
-                });
+	            
+		            var pivotDataSource = new $.jqx.pivot(
+		                dataAdapter,
+		                {
+	                    pivotValuesOnRows: false,
+	                    rows:    [{ dataField: 'product' }, { dataField: 'materials'}],
+	                    columns: [{ dataField: 'productname'}],
+	                    values:  [
+		                          { dataField: 'quantity','function': 'sum', text: '소요량' },
+		                          { dataField: 'materPrice', 'function': 'sum', text: '단가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { prefix: '$', decimalPlaces: 2} },
+		                          { dataField: 'total', 'function': 'sum', text: '가격&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { prefix: '$', decimalPlaces: 2} },
+		                          { dataField: 'invenQty', 'function': 'sum', text: '재고&nbsp;&nbsp;' }
+	                    		 ] 
+	                	}
+		            );
+		            
             // create a pivot grid
             $('#divPivotGrid').jqxPivotGrid(
                 {
@@ -301,31 +291,60 @@
         function prodSubmitX() {
         	var prodVal = $('#prodVal').val();
         	var prodName = $('#prodVal option:selected').text();
-        	/* var prodName = [];
-            $('#prodVal option:selected').each(function() {
-                prodName.push($(this).text());
-            }); */
         	
+   	        
         	$.ajax({
         		type:"get",
         		async: false,
         		url: "http://localhost:8584/SMFPlatform/ajax/prodVal.do",
         		dataType: "text",
-        		data:{prodVal: prodVal}, // ex: 'KBD001'
+        		data:{prodVal:prodVal}, // ex: 'KBD001'
         		success: function(data,textStatus){   			        			
-        			var prodNo = JSON.parse(data);
+        			//var prodNo = JSON.parse(data);
+		   		    var jsonArrays = JSON.parse(data);
+		   		    
+		   		    var json1 = jsonArrays[0];	//materNo
+		   	        var json2 = jsonArrays[1];	//materprice
+		   	        var json3 = jsonArrays[2];	//materQty
+		   	        var json4 = jsonArrays[3];	//qty
         			
         			products_new = []; // 배열 초기화
-        			productNames_new = []; 
+        			productNames_new = [];
+        			
+        			materials_new = [];
+                	materPrices_new = [];
+                	quantity_new = [];
+                	invenQty_new = [];
 
-                    products_new.push(prodNo);
+                    products_new.push(prodVal);
         		    productNames_new.push(prodName);
- 					                    
+
+        	        for(var i = 0; i <= json1.length; i++){
+        	        	materials_new.push(json1[i]);
+        	            materPrices_new.push(json2[i]);
+        	            quantity_new.push(json3[i]);
+        	            invenQty_new.push(json4[i]);
+        	        }
+        	        
+        	        
         		    console.log("products_new:", products_new);
                     console.log("productNames_new:", productNames_new);
                     
-                    chartPivotGrid(products_new, productNames_new);
-        			}       		
+                    console.log("materials_new:", materials_new);
+                    console.log("materPrices_new:", materPrices_new);
+                    console.log("quantity_new:", quantity_new); 
+                    console.log("invenQty_new:", invenQty_new);
+                    
+                    chartPivotGrid(products 
+		        				  ,materials
+			                   	  ,productNames
+			                   	  ,quantity
+			                   	  ,materPrices
+			                   	  ,invenQty
+	                  			  );
+                    
+                    
+        		}       		
         	});
         }
 		
