@@ -61,7 +61,7 @@
             <c:if test="${sessionScope.authInfo.getAdmin()}">
 	            <ul class="navbar-nav justify-content-end align-items-md-end">
 		            <li class="nav-item">
-		            	<a class="nav-link" id="navbarDropdown" href="manage/usermanagement" role="button"  aria-expanded="false">
+		            	<a class="nav-link" id="navbarDropdown" href="manage/approvalpage" role="button"  aria-expanded="false">
 		            		<span id="notification-icon"></span>
 		            	</a>
 		            </li>
@@ -114,26 +114,6 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 보고서관리
                             </a>
-                            <!-- Menu For Test-->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Authentication
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login">Login</a>
-                                            <a class="nav-link" href="register.html">Register</a>
-                                        </nav>
-                                    </div>
-                                </nav>
-                            </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -160,7 +140,7 @@
 		                    <div class="col-xl-3 col-md-6">
 			                    <div class="card mb-4">
 				                    <div class="card-body">미결제 내역</div>
-				                    <a class="small stretched-link" href="manage/usermanagement"></a>
+				                    <a class="small stretched-link" href="manage/approvalpage"></a>
 			                    </div>
 		                    </div>
 	                    </div>

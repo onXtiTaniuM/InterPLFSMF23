@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import controller.login.LoginCommandValidator;
+import spring.dao.ApprovalPlan;
 import spring.dao.User;
 import spring.manage.ManageService;
 
@@ -198,4 +199,45 @@ public class ManageController {
 		manageS.updateUser(user);
 	}
 	
+	@RequestMapping("/approvalpage")
+	public String manageApproval() {
+		return "manage/managePlan";
+	}
+	
+	@RequestMapping("/notcheckedprocess.json")
+	public void processListJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		JSONArray plansArray = new JSONArray();
+		JSONObject jsonInfo = new JSONObject();
+		
+		List<ApprovalPlan> list = manageS.getApprovalPlanList();
+		for(ApprovalPlan plan : list) {
+			JSONArray planInfo = new JSONArray();
+			planInfo.add(plan.getPlanid());
+			planInfo.add(plan.getLineid());
+			planInfo.add(plan.getProdname());
+			planInfo.add(plan.getQty());
+			planInfo.add(manageS.planPeriodDate(plan));
+			planInfo.add(plan.getRank());
+			planInfo.add(plan.getName());
+			plansArray.add(planInfo);
+		}
+		
+		jsonInfo.put("data", plansArray);
+		String data = jsonInfo.toJSONString();
+		//System.out.print(data);
+		writer.print(data);
+	}
+	
+	@RequestMapping("/approveplan.do")
+	public void approvePlanDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		String planid = request.getParameter("planid");
+		manageS.planChecked(planid);
+	}
 }

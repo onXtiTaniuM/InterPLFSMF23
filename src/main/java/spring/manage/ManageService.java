@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import controller.manage.ManageUserCommand;
+import spring.dao.ApprovalPlan;
 import spring.dao.PlanDao;
 import spring.dao.User;
 import spring.dao.UserDao;
@@ -81,5 +82,25 @@ public class ManageService {
 
 	public void updateUser(User user) {
 		userDao.updateUser(user);
+	}
+	
+	public List<ApprovalPlan> getApprovalPlanList() {
+		return userDao.selectApprovalPlan("N");
+		
+	}
+	
+	public String planPeriodDate(ApprovalPlan plan) {
+		String date;
+		LocalDateTime stdate = plan.getStartdate();
+		LocalDateTime eddate = plan.getEnddate();
+		
+		date = stdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " ~ " + 
+				eddate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		return date;
+	}
+
+	public void planChecked(String planid) {
+		userDao.planChecked(planid);	
 	}
 }

@@ -210,4 +210,37 @@ public class UserDao {
 		
 		return results;
 	}
+	
+	/*-----------------------------------------------------------------Plan Data-----------------------------------------------------------*/
+	
+	public List<ApprovalPlan> selectApprovalPlan(String check) { //ID로 User 조회
+		Object[] where = new Object[] {check};
+		List<ApprovalPlan> results = jdbcTemplate.query(
+				"SELECT PLANID, LINEID, prodname, PRODQTY,  STARTDATE, ENDDATE, RANK, name FROM PROCESS_PLAN pp "
+				+ "LEFT JOIN E_USER u ON pp.EMPNO = u.EMPNO "
+				+ "LEFT JOIN PRODUCT p ON p.PRODNO = pp.PRODNO "
+				+ "WHERE CHECK_YN = ?", where,
+				new RowMapper<ApprovalPlan>() {
+					@Override
+					public ApprovalPlan mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ApprovalPlan plan = new ApprovalPlan(
+								rs.getString("planid"),
+								rs.getString("lineid"),
+								rs.getString("prodname"),
+								rs.getInt("prodqty"),
+								rs.getTimestamp("startdate").toLocalDateTime(),
+								rs.getTimestamp("enddate").toLocalDateTime(),
+								rs.getString("rank"),
+								rs.getString("name"));
+						return plan;
+					}
+				});
+		
+		return results;
+	}
+
+	public void planChecked(String planid) {
+			jdbcTemplate.update(
+					"update process_plan set check_yn = 'Y' where planid = ?", planid);	
+	}
 }

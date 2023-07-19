@@ -479,19 +479,11 @@
 		            var subbtn = userUpdateForm.jqxForm('getComponentByName', 'submitButton');
 		            subbtn.on('click', function () {
 		            	updateUser();
-		                // arg1: url
-		                // arg2, optional: target, default is _blank
-		                // arg3, optional: submit method - GET or POST, default is POST
-		                //userUpdateForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
 		            });	
 		            var delbtn = userUpdateForm.jqxForm('getComponentByName', 'deleteButton');
 		            delbtn.jqxButton({ template: "danger" });
 		            delbtn.on('click', function () {
 		            	delUser();
-		                // arg1: url
-		                // arg2, optional: target, default is _blank
-		                // arg3, optional: submit method - GET or POST, default is POST
-		                //userUpdateForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
 		            });	
 
         	}
