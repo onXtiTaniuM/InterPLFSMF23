@@ -322,19 +322,19 @@ function getDemoTheme() {
 
 	
 		
-    var url = "../../resources/jqwidgets/styles/jqx." + theme + '.css';
+    var url = "resources/jqwidgets/styles/jqx." + theme + '.css';
     if (theme === "light" || theme === "dark") {
 		var ua = window.navigator.userAgent;
 		var msie = ua.indexOf("MSIE ");
 
 		if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))  // If Internet Explorer, return version number
 		{
-			  url = "../../jqwidgets/styles/jqx." + theme + '-ie.css';
+			  url = "resources/jqwidgets/styles/jqx." + theme + '-ie.css';
 		}
 	}
 	if (window.location.href.toString().indexOf("angularjs") >= 0) {
         var loc = window.location.href.toString();
-        url = "../../jqwidgets/styles/jqx." + theme + '.css';
+        url = "resources/jqwidgets/styles/jqx." + theme + '.css';
          
 		if (loc.indexOf('angular-') >= 0) {		 
 			  if (loc.indexOf('button') >= 0 ||
@@ -348,15 +348,15 @@ function getDemoTheme() {
 				loc.indexOf('calendar') >= 0 ||
 				loc.indexOf('datetimeinput') >= 0 ||
 				(loc.indexOf('chart') >= 0 && loc.indexOf('bulletchart') == -1)) {
-					url = "../../jqwidgets/styles/jqx." + theme + '.css';
+					url = "resources/jqwidgets/styles/jqx." + theme + '.css';
 				}
 		}
     }
     if (window.location.href.toString().indexOf("typescript") >= 0) {
-        url = "../../jqwidgets/styles/jqx." + theme + '.css';
+        url = "resources/jqwidgets/styles/jqx." + theme + '.css';
     }
     if (window.location.href.toString().indexOf("angularjs2") >= 0) {
-        url = "../../jqwidgets/styles/jqx." + theme + '.css';
+        url = "resources/jqwidgets/styles/jqx." + theme + '.css';
     }
     if (document.createStyleSheet != undefined) {
         var hasStyle = false;

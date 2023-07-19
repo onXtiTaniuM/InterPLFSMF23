@@ -82,7 +82,7 @@
 		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
 		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
 		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
-		<script type="text/javascript" src="${path}/resources/jqwidgets/demos.js"></script> 
+		<%-- <script type="text/javascript" src="${path}/resources/jqwidgets/demos.js"></script> --%> 
 		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
 		
 		<script type="text/javascript" src="${path}/resources/jqwidgets/jqxdata.js"></script>
@@ -94,8 +94,7 @@
         <link href="${path}/resources/css/styles.css" rel="stylesheet" />
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="style.css" rel="stylesheet" type="text/css">
-        
+        <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css">
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 		<script type="text/javascript">
 		        var basicDemo = (function () {
@@ -161,9 +160,10 @@
         	var products_new = [];
         	var materials_new = [];
         	var productNames_new = [];
-        	var quantity_new = [];
+        	/* var quantity_new = []; */
         	var materPrices_new = [];
         	var invenQty_new = [];
+        	var totalQuantity = [];
         	
         	<!-- initial function -->
 	        $(document).ready(function () {
@@ -180,22 +180,22 @@
         	function chartPivotGrid(products 
 				  				   ,materials
 				               	   ,productNames
-				               	   ,quantity
+				               	   ,totalQuantity
 				               	   ,materPrices
 				               	   ,invenQty
 				        		   ) {
         		
         	var data = new Array();
 
-        	for (var i = 0; i < materials.length; i++) {
+        	for (var i = 0; i < materials_new.length; i++) {
         	    var row = {
-        	      "product": products[0],
-        	      "materials": materials[i],
-        	      "productName": productNames[0],
-        	      "materPrice": materPrices[i],
-        	      "quantity": quantity[i],
-        	      "invenQty": invenQty[i],
-        	      "total": materPrices[i] * quantity[i]
+        	      "products": products_new[0],
+        	      "materials": materials_new[i],
+        	      "productNames": productNames_new[0],
+        	      "materPrices": materPrices_new[i],
+        	      "totalQuantity": totalQuantity[i],
+        	      "invenQty": invenQty_new[i],
+        	      "total": materPrices_new[i] * totalQuantity[i]
         	    };
         	    data.push(row);
         	}
@@ -206,11 +206,11 @@
                 datatype: "array",
                 datafields:
                 [
-                    { name: 'product', type: 'string' },
+                    { name: 'products', type: 'string' },
                     { name: 'materials', type: 'string' },
-                    { name: 'productName', type: 'string' },
-                    { name: 'quantity', type: 'number' },
-                    { name: 'materPrice', type: 'number' },
+                    { name: 'productNames', type: 'string' },
+                    { name: 'totalQuantity', type: 'number' },
+                    { name: 'materPrices', type: 'number' },
                     { name: 'invenQty', type: 'number' }, 
                     { name: 'total', type: 'number' }
                 ]
@@ -226,13 +226,13 @@
 		                dataAdapter,
 		                {
 	                    pivotValuesOnRows: false,
-	                    rows:    [{ dataField: 'product' }, { dataField: 'materials'}],
-	                    columns: [{ dataField: 'productname'}],
+	                    rows:    [{ dataField: 'products' }, { dataField: 'materials'}],
+	                    columns: [{ dataField: 'productNames'}],
 	                    values:  [
-		                          { dataField: 'quantity','function': 'sum', text: '소요량' },
-		                          { dataField: 'materPrice', 'function': 'sum', text: '단가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { prefix: '$', decimalPlaces: 2} },
-		                          { dataField: 'total', 'function': 'sum', text: '가격&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { prefix: '$', decimalPlaces: 2} },
-		                          { dataField: 'invenQty', 'function': 'sum', text: '재고&nbsp;&nbsp;' }
+		                          { dataField: 'totalQuantity','function': 'sum', text: '소요량' },
+		                          { dataField: 'materPrices', 'function': 'sum', text: '단가 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { sufix: '₩', thousandsSeparator: ','} },
+		                          { dataField: 'total', 'function': 'sum', text: '총가격 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { sufix: '₩', thousandsSeparator: ','} },
+		                          { dataField: 'invenQty', 'function': 'sum', text: '재고 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', formatSettings: { thousandsSeparator: ','} }
 	                    		 ] 
 	                	}
 		            );
@@ -291,8 +291,13 @@
         function prodSubmitX() {
         	var prodVal = $('#prodVal').val();
         	var prodName = $('#prodVal option:selected').text();
-        	
+        	var prodCnt = parseInt($('[name="prodCnt"]').val());
    	        
+        	if (isNaN(prodCnt) || prodCnt <= 0) {
+                alert("생산할 상품의 갯수를 입력해주세요");
+                return; 
+            }
+        	
         	$.ajax({
         		type:"get",
         		async: false,
@@ -300,7 +305,6 @@
         		dataType: "text",
         		data:{prodVal:prodVal}, // ex: 'KBD001'
         		success: function(data,textStatus){   			        			
-        			//var prodNo = JSON.parse(data);
 		   		    var jsonArrays = JSON.parse(data);
 		   		    
 		   		    var json1 = jsonArrays[0];	//materNo
@@ -308,6 +312,8 @@
 		   	        var json3 = jsonArrays[2];	//materQty
 		   	        var json4 = jsonArrays[3];	//qty
         			
+                	var totalQuantity = [];
+		   	        
         			products_new = []; // 배열 초기화
         			productNames_new = [];
         			
@@ -315,16 +321,21 @@
                 	materPrices_new = [];
                 	quantity_new = [];
                 	invenQty_new = [];
-
+					
+                	
                     products_new.push(prodVal);
         		    productNames_new.push(prodName);
 
-        	        for(var i = 0; i <= json1.length; i++){
+        	        for(var i = 0; i < json1.length; i++){
         	        	materials_new.push(json1[i]);
         	            materPrices_new.push(json2[i]);
         	            quantity_new.push(json3[i]);
         	            invenQty_new.push(json4[i]);
         	        }
+        	        
+        	        for (var i = 0; i < materials_new.length; i++) {
+                        totalQuantity.push(quantity_new[i] * prodCnt);
+                    }
         	        
         	        
         		    console.log("products_new:", products_new);
@@ -335,22 +346,22 @@
                     console.log("quantity_new:", quantity_new); 
                     console.log("invenQty_new:", invenQty_new);
                     
+                    console.log("totalQuantity:", totalQuantity);
+                    
                     chartPivotGrid(products 
 		        				  ,materials
 			                   	  ,productNames
-			                   	  ,quantity
+			                   	  ,totalQuantity
 			                   	  ,materPrices
 			                   	  ,invenQty
 	                  			  );
-                    
-                    
         		}       		
         	});
         }
 		
 	</script>
 	
-	<style>
+	<style>	
 		.new_form_table_col_1 {
 	        padding-right: 10px;
 	        padding-top: 10px;
@@ -740,7 +751,7 @@
 						<table class = "vertical_align_center">
 							<tr>
 								<td>
-									<div id="divPivotGrid" align="right" style="height: 500px; width: 550px; background-color: white;"></div>
+									<div id="divPivotGrid" align="right" style="height: 500px; width: 600px; background-color: white;"></div>
 								</td>
 							</tr>
  						</table>

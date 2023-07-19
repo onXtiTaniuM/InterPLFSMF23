@@ -55,13 +55,21 @@ public class PlanDAO {
 	    
 	    try {
 	        con = pool.getConnection();
-	        sql = "SELECT b.prodNo, b.materNo, b.materQty, m.materPrice, i.qty "
+//	        sql = "SELECT b.prodNo, b.materNo, b.materQty, m.materPrice, i.qty "
+//	                + "FROM BOM b "
+//	                + "JOIN material m ON b.materNo = m.materNo "
+//	                + "JOIN inventory i ON i.materNo = m.materNo "
+//	                + "WHERE b.prodNo = ?";
+	        sql = "SELECT b.prodNo, b.materNo, b.materQty, m.materPrice, SUM(i.qty) AS qty "
 	                + "FROM BOM b "
 	                + "JOIN material m ON b.materNo = m.materNo "
 	                + "JOIN inventory i ON i.materNo = m.materNo "
-	                + "WHERE b.prodNo = ?";
+	                + "WHERE b.prodNo = ? "
+	                + "GROUP BY b.prodNo, b.materNo, b.materQty, m.materPrice";
+	        System.out.println("sql = " + sql);
 	        pstmt = con.prepareStatement(sql);
 	        pstmt.setString(1, prodNo);
+	        System.out.println("pstmt = " + pstmt);
 	        rs = pstmt.executeQuery();
 	        while (rs.next()) {
 	        	BomInfo bom = new BomInfo();

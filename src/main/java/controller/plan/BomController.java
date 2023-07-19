@@ -70,7 +70,7 @@ public class BomController {
 		PrintWriter writer = response.getWriter();
 		writer.print(jsonStr);
 	
-		System.out.printf("jsonStr" + jsonStr);
+		System.out.print("jsonStr" + jsonStr);
 		
     }
 }
