@@ -14,7 +14,9 @@
         <title>Main</title>
         <link href="${path}/resources/css/styles.css" rel="stylesheet" />
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
+        <link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
         <script src="${path}/resources/js/jquery-3.6.0.js"></script>
+        <script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script>
 			function checkNoti(){
@@ -40,6 +42,8 @@
 	        	if(${sessionScope.authInfo.getAdmin()}){
 	        		checkNoti();
 	        	}
+	        	var issuetable = new DataTable('#issueList', {searching: false});
+	        	var plantable = new DataTable('#planList');
 	        });   
         </script>
     </head>
@@ -91,8 +95,8 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Menu</div>
-                            <a class="nav-link" href="plan">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <a class="nav-link" href="${path}/plan">
+                                <div class="sb-nav-link-icon"><i class="fa fa-list-ol"></i></div>
                                 계획관리
                             </a>
                             <a class="nav-link" href="inventory">
@@ -100,19 +104,19 @@
                                 재고관리
                             </a>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-industry"></i></div>
                                 생산관리
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="process">공정명령</a>
-                                    <a class="nav-link" href="report">공정결과</a>
+                                    <a class="nav-link" href="${path}/process">공정명령</a>
+                                    <a class="nav-link" href="${path}/report">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="logout">
+                            <a class="nav-link" href="${path}/report">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                보고서관리
+                                보고서
                             </a>
                         </div>
                     </div>
@@ -126,7 +130,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Main</h1>
+                        <h1 class="mt-4">종합 정보</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
@@ -173,45 +177,179 @@
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-area me-1"></i>
-                                        Area Chart Example
+                                        공정 계획
                                     </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body">
+                                    	<table id="planList">
+                                    		<thead>
+                                    			<tr>
+									                <th>계획번호</th>
+									                <th>라인번호</th>
+									                <th>상품명</th>
+									                <th>수량</th>
+									                <th>기간</th>
+									                <th>직급</th>
+									                <th>등록자명</th>
+									                <th>확인</th>
+							            		</tr>
+                                    		</thead>
+                                    		<tbody>
+                                    			<tr>
+									                <td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+							            		<tr>
+									                <td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+							            		<tr>
+									                <td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+							            		<tr>
+									                <td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+							            		<tr>
+									                <td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+                                    		</tbody>
+                                    	</table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-area me-1"></i>
-                                        Area Chart Example
+                                        자재 현황
                                     </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"></div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-area me-1"></i>
-                                        Area Chart Example
+                                        생산 라인 현황
                                     </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"></div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-area me-1"></i>
-                                        Area Chart Example
+                                        이슈 목록
                                     </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body">
+                                    	<table id="issueList">
+                                    		<thead>
+                                    			<tr>
+									                <th>계획번호</th>
+									                <th>라인번호</th>
+									                <th>상품명</th>
+									                <th>수량</th>
+									                <th>기간</th>
+									                <th>직급</th>
+									                <th>등록자명</th>
+									                <th>확인</th>
+							            		</tr>
+                                    		</thead>
+                                    		<tbody>
+                                    			<tr>
+									                <td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+							            		<tr>
+									                <td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+							            		<tr>
+									                <td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+							            		<tr>
+									                <td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+							            		<tr>
+									                <td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+                                    		</tbody>
+                                    	</table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-area me-1"></i>
-                                        Area Chart Example
+                                        계획 진행 현황
                                     </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"></div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
@@ -220,7 +358,7 @@
                                         <i class="fas fa-chart-bar me-1"></i>
                                         Bar Chart Example
                                     </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"></div>
                                 </div>
                             </div>
                         </div>

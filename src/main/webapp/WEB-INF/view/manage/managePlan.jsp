@@ -167,15 +167,15 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Menu</div>
                             <a class="nav-link" href="${path}/plan">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-list-ol"></i></div>
                                 계획관리
                             </a>
-                            <a class="nav-link" href="${path}/inventory">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <a class="nav-link" href="inventory">
+                                <div class="sb-nav-link-icon"><i class="fa fa-archive"></i></div>
                                 재고관리
                             </a>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-industry"></i></div>
                                 생산관리
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
@@ -185,9 +185,9 @@
                                     <a class="nav-link" href="${path}/report">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="${path}/logout">
+                            <a class="nav-link" href="${path}/report">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                보고서관리
+                                보고서
                             </a>
                         </div>
                     </div>
@@ -203,6 +203,7 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">미결제 내역</h1>
                         <ol class="breadcrumb mb-4">
+                        	<li class="breadcrumb-item active"><a href="${path}/manage">Manage</a></li>
                             <li class="breadcrumb-item active">미결제 내역</li>
                         </ol>
                         <div class="card mb-4">
