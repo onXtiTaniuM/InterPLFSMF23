@@ -12,14 +12,9 @@ import spring.dao.UserDao;
 
 public class ManageService {
 	private UserDao userDao;
-	private PlanDao planDao;
 	
 	public void setuserDao(UserDao userDao) {
 		this.userDao = userDao;
-	}
-
-	public void setplanDao(PlanDao planDao) {
-		this.planDao = planDao;
 	}
 
 	public List<User> allUserList(){
@@ -49,7 +44,7 @@ public class ManageService {
 	}
 	
 	public boolean planNotification() {
-		return planDao.planNotification();
+		return userDao.planNotification();
 	}
 	
 	public boolean idDuplicate(String id) {

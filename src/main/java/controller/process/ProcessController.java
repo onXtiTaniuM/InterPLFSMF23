@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ProcessController {
 	
 	@RequestMapping("")
-    public String manage() {
+    public String process() {
     	return "process/process";
     }
  
+	@RequestMapping("/issueList.json")
+	public void issueListJson() {
+		
+	}
 }

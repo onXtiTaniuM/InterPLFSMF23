@@ -196,7 +196,41 @@ public class UserDao {
 	
 	public List<Warehouse> selectAllWareHs() { //warehouse 전체조회
 		List<Warehouse> results = jdbcTemplate.query(
-				"SELECT LOT,PRODNO,MATERNO,QTY,WHSENAME FROM INVENTORY i, warehouse w WHERE i.whseno=w.WHSENO", 
+				"SELECT * FROM warehouse", 
+				new RowMapper<Warehouse>() {
+					@Override
+					public Warehouse mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Warehouse wh = new Warehouse(
+								rs.getString("whseno"),
+								rs.getString("whseloc"),
+								rs.getString("whsename"));
+						return wh;
+					}
+				});
+		
+		return results;
+	}
+	
+	public List<Warehouse> selectAllProduct() { //Product 전체조회
+		List<Warehouse> results = jdbcTemplate.query(
+				"SELECT * FROM warehouse", 
+				new RowMapper<Warehouse>() {
+					@Override
+					public Warehouse mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Warehouse wh = new Warehouse(
+								rs.getString("whseno"),
+								rs.getString("whseloc"),
+								rs.getString("whsename"));
+						return wh;
+					}
+				});
+		
+		return results;
+	}
+	
+	public List<Warehouse> selectAllMaterial() { //Material 전체조회
+		List<Warehouse> results = jdbcTemplate.query(
+				"SELECT * FROM warehouse", 
 				new RowMapper<Warehouse>() {
 					@Override
 					public Warehouse mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -213,7 +247,7 @@ public class UserDao {
 	
 	/*-----------------------------------------------------------------Plan Data-----------------------------------------------------------*/
 	
-	public List<ApprovalPlan> selectApprovalPlan(String check) { //ID로 User 조회
+	public List<ApprovalPlan> selectApprovalPlan(String check) { //미결제 계획 조회
 		Object[] where = new Object[] {check};
 		List<ApprovalPlan> results = jdbcTemplate.query(
 				"SELECT PLANID, LINEID, prodname, PRODQTY,  STARTDATE, ENDDATE, RANK, name FROM PROCESS_PLAN pp "
@@ -239,8 +273,15 @@ public class UserDao {
 		return results;
 	}
 
-	public void planChecked(String planid) {
+	public void planChecked(String planid) { //계획 결제 입력
 			jdbcTemplate.update(
 					"update process_plan set check_yn = 'Y' where planid = ?", planid);	
+	}
+	
+	public boolean planNotification() { //계획 결제 확인
+		int needCheckP = jdbcTemplate.queryForObject(
+				"SELECT count(*) FROM PROCESS_PLAN WHERE CHECK_YN = 'N'",
+					Integer.class);
+		return needCheckP != 0 ? true : false;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import spring.dao.LOT;
 import spring.dao.LOTprod;
 import spring.dao.UserDao;
+import spring.dao.Warehouse;
 
 public class InventoryService {
 	private UserDao userDao;
@@ -19,5 +20,9 @@ public class InventoryService {
 	
 	public List<LOTprod> lotSelectProductList(String lot){
 		return userDao.selectRProdByLOT(lot);
+	}
+	
+	public List<Warehouse> allWarehouseList(){
+		return userDao.selectAllWareHs();
 	}
 }

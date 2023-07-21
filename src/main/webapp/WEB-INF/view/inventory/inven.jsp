@@ -36,6 +36,8 @@
     	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxnumberinput.js"></script>
     	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxform.js"></script>
 	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
+	    <!-- custom js for inventory insert form -->
+    	<script type="text/javascript" src="${path}/resources/js/invenform.js"></script>
  		<script>
  		//notification checker
 			function checkNoti(){
@@ -56,13 +58,15 @@
 	       			},
 	    		});
 			}
-			
+ 		
 	        //lot table id init
 	        var inventorylist
+	        var popinventorylist
 	        
 	        // lot table reload
 	        function reloadinvenList() {
 				inventorylist.ajax.reload();
+				popinventorylist.ajax.reload();
     		};
     		
     		//lotprod table id init
@@ -72,10 +76,212 @@
 				productlist.ajax.reload();
     		};
     		
+    		//popup elements
+    			//재고 입력 팝업
+        	var lotinsertPop = (function () {
+	            //Adding event listeners
+	            function _addEventListeners() {
+	                $('#inveninsertbt').click(function () {
+	                    $('#lotinsertwindow').jqxWindow('open');
+	                });
+	            };
+	
+	            //Creating all page elements which are jqxWidgets
+	            function _createElements() {
+	            	$('#inveninsertbt').jqxButton({ width: 80, height: 28 });
+	            };
+	
+	            //Creating the window
+	            function _createWindow() {
+	                var jqxWidget = $('#mainArea');
+	                var content = $('#inventorylist');
+	                var offset = content.offset();
+	
+	                $('#lotinsertwindow').jqxWindow({
+						autoOpen: false,
+	                    position: { x: offset.left+250, y: offset.top } ,
+	                    showCollapseButton: false, 
+	                    height: 560, width: 500,
+	                    initContent: function () {
+	                        $('#lotinsertwindow').jqxWindow('focus');
+	                    }
+	                });
+	                $('#lotinsertwindow').jqxWindow('resizable', false);
+	                $('#lotinsertwindow').jqxWindow('draggable', true);
+	            };
+	
+	            return {
+	                config: {
+	                    dragArea: null
+	                },
+	                init: function () {
+	                    //Creating all jqxWindgets except the window
+	                    _createElements();
+	                    //Attaching event listeners
+	                    _addEventListeners();
+	                    //Adding jqxWindow
+	                    _createWindow();
+	                }
+	            };
+	        } ());
+    		
+    			//재고 수정 팝업
+        	var lotmanagePop = (function () {
+	            //Adding event listeners
+	            function _addEventListeners() {
+	                $('#invenmanagebt').click(function () {
+	                    $('#lotmanagewindow').jqxWindow('open');
+	                });
+	            };
+	
+	            //Creating all page elements which are jqxWidgets
+	            function _createElements() {
+	            	$('#invenmanagebt').jqxButton({ width: 80, height: 28 });
+	            };
+	
+	            //Creating the window
+	            function _createWindow() {
+	                var jqxWidget = $('#mainArea');
+	                var content = $('#inventorylist');
+	                var offset = content.offset();
+	
+	                $('#lotmanagewindow').jqxWindow({
+						autoOpen: false,
+	                    position: { x: offset.left+250, y: offset.top } ,
+	                    showCollapseButton: false, 
+	                    height: 560, width: 500,
+	                    initContent: function () {
+	                        $('#lotmanagewindow').jqxWindow('focus');
+	                    }
+	                });
+	                $('#lotmanagewindow').jqxWindow('resizable', false);
+	                $('#lotmanagewindow').jqxWindow('draggable', true);
+	            };
+	
+	            return {
+	                config: {
+	                    dragArea: null
+	                },
+	                init: function () {
+	                    //Creating all jqxWindgets except the window
+	                    _createElements();
+	                    //Attaching event listeners
+	                    _addEventListeners();
+	                    //Adding jqxWindow
+	                    _createWindow();
+	                }
+	            };
+	        } ());
+        	
+    			//상품 입력 팝업
+        	var prodinsertPop = (function () {
+	            //Adding event listeners
+	            function _addEventListeners() {
+	                $('#prodinsertbt').click(function () {
+	                    $('#prodinsertwindow').jqxWindow('open');
+	                });
+	            };
+	
+	            //Creating all page elements which are jqxWidgets
+	            function _createElements() {
+		        	$('#prodinsertbt').jqxButton({ width: 100, height: 28 });
+	            };
+	
+	            //Creating the window
+	            function _createWindow() {
+	                var jqxWidget = $('#mainArea');
+	                var content = $('#inventorylist');
+	                var offset = content.offset();
+	
+	                $('#prodinsertwindow').jqxWindow({
+						autoOpen: false,
+	                    position: { x: offset.left+250, y: offset.top } ,
+	                    showCollapseButton: false, 
+	                    height: 560, width: 500,
+	                    initContent: function () {
+	                    	$('#tab').jqxTabs({ height: '100%', width:  '100%' });
+	                        $('#prodinsertwindow').jqxWindow('focus');
+	                    }
+	                });
+	                $('#prodinsertwindow').jqxWindow('resizable', false);
+	                $('#prodinsertwindow').jqxWindow('draggable', true);
+	            };
+	
+	            return {
+	                config: {
+	                    dragArea: null
+	                },
+	                init: function () {
+	                    //Creating all jqxWindgets except the window
+	                    _createElements();
+	                    //Attaching event listeners
+	                    _addEventListeners();
+	                    //Adding jqxWindow
+	                    _createWindow();
+	                }
+	            };
+	        } ());
+        	
+    			//재고 관리 팝업
+        	var prodmanagePop = (function () {
+	            //Adding event listeners
+	            function _addEventListeners() {
+	                $('#prodmanagebt').click(function () {
+	                    $('#prodmanagewindow').jqxWindow('open');
+	                });
+	            };
+	
+	            //Creating all page elements which are jqxWidgets
+	            function _createElements() {
+		        	$('#prodmanagebt').jqxButton({ width: 80, height: 28 });
+	            };
+	
+	            //Creating the window
+	            function _createWindow() {
+	                var jqxWidget = $('#mainArea');
+	                var content = $('#productlist');
+	                var offset = content.offset();
+	
+	                $('#prodmanagewindow').jqxWindow({
+						autoOpen: false,
+	                    position: { x: offset.left+250, y: offset.top } ,
+	                    showCollapseButton: false, 
+	                    height: 560, width: 500,
+	                    initContent: function () {
+	                        $('#prodmanagewindow').jqxWindow('focus');
+	                    }
+	                });
+	                $('#prodmanagewindow').jqxWindow('resizable', false);
+	                $('#prodmanagewindow').jqxWindow('draggable', true);
+	            };
+	
+	            return {
+	                config: {
+	                    dragArea: null
+	                },
+	                init: function () {
+	                    //Creating all jqxWindgets except the window
+	                    _createElements();
+	                    //Attaching event listeners
+	                    _addEventListeners();
+	                    //Adding jqxWindow
+	                    _createWindow();
+	                }
+	            };
+	        } ());
+    		
 	        $(document).ready(function () {
+	        	lotinsertPop.init();
+				lotmanagePop.init();
+				prodinsertPop.init();
+				prodmanagePop.init();
+	        	
+				initLotForm();
+				
 	        	inventorylist = new DataTable('#inventorylist', { //init datatable
 	        		scrollCollapse: true,
 	        	    scrollY: '210px',
+	        	    pageLength: 25,
 	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/lotlist.json'
 	    		});
 	        	inventorylist.on('click', 'tbody tr', function () {	//datatable click func
@@ -97,7 +303,24 @@
 	        	    	url: 'http://localhost:8584/SMFPlatform/inventory/prodlotlist.json'
 	        	    }
 	    		});
+	        	
+	        	popinventorylist = new DataTable('#popinventorylist', { //init datatable
+	        		scrollCollapse: true,
+	        		paging: false,
+	        		info: false,
+	        	    scrollY: '210px',
+	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/lotlist.json'
+	    		});
+	        	
+	        	var warehouselist = new DataTable('#warehouselist', { //init datatable
+	        		scrollCollapse: true,
+	        		paging: false,
+	        		info: false,
+	        	    scrollY: '210px',
+	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/warehouselist.json'
+	    		});
 	        	checkNoti();
+	        	
 	        });   
 
         </script>   
@@ -189,68 +412,135 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">재고관리</li>
                         </ol>
-                        <div class="card mb-4">
-	                    	<div class="card-header">
-	                        	<i class="fas fa-table me-1"></i>
-	                            재고 목록
-	                        </div>
-	                    	<div class="card-body">
-	                    		<table id="inventorylist" class="display" style="width:100%">
-	                    			<thead>
-							            <tr>
-							                <th>LOT</th>
-							                <th>상품 이름</th>
-							                <th>재료 이름</th>
-							                <th>수량</th>
-							                <th>보관 위치</th>
-							            </tr>
-							        </thead>
-							        <tfoot>
-							            <tr>
-							                <th>LOT</th>
-							                <th>상품 이름</th>
-							                <th>재료 이름</th>
-							                <th>수량</th>
-							                <th>보관 위치</th>
-							            </tr>
-							        </tfoot>
-	                    		</table>
-	                    		<div>
-		                    		<button>재고입력</button>
-		                    		<button>재고수정</button>
-	                    		</div>
-	                    	</div>
-	                    </div>
-	                     <div class="card mb-4">
-	                    	<div class="card-header">
-	                        	<i class="fas fa-table me-1"></i>
-	                            재고 상세
-	                        </div>
-	                    	<div class="card-body">
-	                    		<table id="productlist" class="display" style="width:100%">
-	                    			<thead>
-							            <tr>
-							                <th>LOT</th>
-							                <th>상품 이름</th>
-							                <th>SerialNo</th>
-							                <th>PricessID</th>
-							                <th>QC</th>
-							            </tr>
-							        </thead>
-							        <tfoot>
-							            <tr>
-							                <th>LOT</th>
-							                <th>상품 이름</th>
-							                <th>SerialNo</th>
-							                <th>PricessID</th>
-							                <th>QC</th>
-							            </tr>
-							        </tfoot>
-	                    		</table>
-	                    		<div>
-	                    			<button>상품관리</button>
-	                    		</div>
-	                    	</div>
+                        <div id="mainArea">
+	                        <div class="card mb-4">
+		                    	<div class="card-header">
+		                        	<i class="fas fa-table me-1"></i>
+		                            재고 목록
+		                        </div>
+		                    	<div class="card-body">
+		                    		<table id="inventorylist" class="display" style="width:100%">
+		                    			<thead>
+								            <tr>
+								                <th>LOT</th>
+								                <th>상품 이름</th>
+								                <th>재료 이름</th>
+								                <th>수량</th>
+								                <th>보관 위치</th>
+								            </tr>
+								        </thead>
+								        <tfoot>
+								            <tr>
+								                <th>LOT</th>
+								                <th>상품 이름</th>
+								                <th>재료 이름</th>
+								                <th>수량</th>
+								                <th>보관 위치</th>
+								            </tr>
+								        </tfoot>
+		                    		</table>
+		                    		<div>
+			                    		<button id="inveninsertbt">재고입력</button>
+			                    		<button id="invenmanagebt">재고수정</button>
+			                    		<button id="prodinsertbt">항목상세입력</button>
+		                    		</div>
+		                    	</div>
+		                    </div>
+		                     <div class="card mb-4">
+		                    	<div class="card-header">
+		                        	<i class="fas fa-table me-1"></i>
+		                            재고 상세
+		                        </div>
+		                    	<div class="card-body">
+		                    		<table id="productlist" class="display" style="width:100%">
+		                    			<thead>
+								            <tr>
+								                <th>LOT</th>
+								                <th>상품 이름</th>
+								                <th>SerialNo</th>
+								                <th>PricessID</th>
+								                <th>QC</th>
+								            </tr>
+								        </thead>
+		                    		</table>
+		                    		<div>
+		                    			<button id="prodmanagebt">재고관리</button>
+		                    		</div>
+		                    	</div>
+		                    </div>
+		                    <div id="lotinsertwindow">
+		                    	<div id="windowHeader">
+						            <span>
+						            	<i class="fa fa-pencil-square" aria-hidden="true"></i> 재고입력
+						            </span>
+								</div>
+								<div style="overflow: hidden;" id="windowContent">
+									<div id='lotinsertform' style="width: auto; height: auto;"></div>
+								</div>
+		                    </div>
+		                    <div id="lotmanagewindow">
+		                    	<div id="windowHeader">
+						            <span>
+						            	<i class="fa fa-pencil-square" aria-hidden="true"></i> 재고수정
+						            </span>
+								</div>
+								<div style="overflow: hidden;" id="windowContent">
+									<table id="popinventorylist" class="display" style="width:100%">
+		                    			<thead>
+								            <tr>
+								                <th>LOT</th>
+								                <th>상품 이름</th>
+								                <th>재료 이름</th>
+								                <th>수량</th>
+								                <th>보관 위치</th>
+								            </tr>
+								        </thead>
+		                    		</table>
+		                    		<hr>
+								</div>
+		                    </div>
+		                    <div id="prodinsertwindow">
+		                    	<div id="windowHeader">
+						            <span>
+						            	<i class="fa fa-pencil-square" aria-hidden="true"></i> 상품등록
+						            </span>
+								</div>
+								<div style="overflow: hidden;" id="windowContent">
+									<div id="tab">
+                        				<ul style="margin-left: 20px;">
+                            				<li>상품 분류</li>
+                            				<li>자재 분류</li>
+                            				<li>창고 분류</li>
+                            			</ul>
+                            			<div>
+                            				상품분류 폼
+                            			</div>
+                            			<div>
+                            				자재분류 폼
+                            			</div>
+                            			<div>
+                            				<table id="warehouselist" class="display" style="width:100%">
+				                    			<thead>
+										            <tr>
+										                <th>창고 코드</th>
+										                <th>창고 이름</th>
+										                <th>위치</th>
+										            </tr>
+										        </thead>
+		                    				</table>
+                            			</div>
+									</div>
+								</div>
+		                    </div>
+		                    <div id="prodmanagewindow">
+		                    	<div id="windowHeader">
+						            <span>
+						            	<i class="fa fa-pencil-square" aria-hidden="true"></i> 재고관리
+						            </span>
+								</div>
+								<div style="overflow: hidden;" id="windowContent">
+								</div>
+		                    </div>
 	                    </div>
                     </div>
                 </main>

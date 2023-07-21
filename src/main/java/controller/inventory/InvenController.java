@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import spring.dao.LOT;
 import spring.dao.LOTprod;
 import spring.dao.User;
+import spring.dao.Warehouse;
 import spring.inventory.InventoryService;
 
 @Controller
@@ -89,6 +90,20 @@ public class InvenController {
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer = response.getWriter();
 		
+		JSONArray whArray = new JSONArray();
+		JSONObject jsonInfo = new JSONObject();
 		
+		List<Warehouse> list = invenService.allWarehouseList();
+		for(Warehouse wh : list) {
+			JSONArray whInfo = new JSONArray();
+			whInfo.add(wh.getWareNo());
+			whInfo.add(wh.getWareName());
+			whInfo.add(wh.getWareLocation());
+			whArray.add(whInfo);
+		}
+			jsonInfo.put("data", whArray);
+			String data = jsonInfo.toJSONString();
+			System.out.print(data);
+			writer.print(data);
 	}
 }

@@ -68,7 +68,6 @@ public class OracleDbConfig{
 	public ManageService manageService() {
 		ManageService manageService = new ManageService();
 		manageService.setuserDao(userDao());
-		manageService.setplanDao(planDao());
 		return manageService;
 	}
 	

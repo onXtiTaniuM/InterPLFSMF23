@@ -42,8 +42,17 @@
 	        	if(${sessionScope.authInfo.getAdmin()}){
 	        		checkNoti();
 	        	}
-	        	var issuetable = new DataTable('#issueList', {searching: false});
-	        	var plantable = new DataTable('#planList');
+	        	var issuetable = new DataTable('#issueList', {
+	        		searching: false,
+	        		paging: false,
+	        		ordering: false,
+	        		info: false
+	        		});
+	        	var plantable = new DataTable('#planList',{
+	        		searching: false,
+	        		paging: false,
+	        		info: false
+	        	});
 	        });   
         </script>
     </head>
