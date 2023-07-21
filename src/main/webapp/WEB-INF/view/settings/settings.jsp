@@ -63,7 +63,7 @@
             <c:if test="${sessionScope.authInfo.getAdmin()}">
 	            <ul class="navbar-nav justify-content-end align-items-md-end">
 		            <li class="nav-item">
-		            	<a class="nav-link" id="navbarDropdown" href="manage/usermanagement" role="button"  aria-expanded="false">
+		            	<a class="nav-link" id="navbarDropdown" href="${path}/manage/approvalpage" role="button"  aria-expanded="false">
 		            		<span id="notification-icon"></span>
 		            	</a>
 		            </li>
@@ -73,11 +73,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="settings">Settings</a></li>
+                        <li><a class="dropdown-item" href="${path}/settings">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
-	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
+	                        <li><a class="dropdown-item" href="${path}/manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
                         <li><a class="dropdown-item" href="${path}/logout">Logout</a></li>
@@ -136,7 +136,7 @@
 		                    <div class="col-xl-3 col-md-6">
 			                    <div class="card mb-4">
 				                    <div class="card-body">비밀번호 변경</div>
-				                    <a class="small stretched-link" href="settings/changepassword"></a>
+				                    <a class="small stretched-link" href="${path}/settings/changepassword"></a>
 			                    </div>
 		                    </div>
 	                    </div>

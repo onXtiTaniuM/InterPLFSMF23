@@ -343,7 +343,7 @@
             <c:if test="${sessionScope.authInfo.getAdmin()}">
 	            <ul class="navbar-nav justify-content-end align-items-md-end">
 		            <li class="nav-item">
-		            	<a class="nav-link" id="navbarDropdown" href="${path}/manage/usermanagement" role="button"  aria-expanded="false">
+		            	<a class="nav-link" id="navbarDropdown" href="${path}/manage/approvalpage" role="button"  aria-expanded="false">
 		            		<span id="notification-icon"></span>
 		            	</a>
 		            </li>

@@ -61,7 +61,7 @@
             <c:if test="${sessionScope.authInfo.getAdmin()}">
 	            <ul class="navbar-nav justify-content-end align-items-md-end">
 		            <li class="nav-item">
-		            	<a class="nav-link" id="navbarDropdown" href="manage/approvalpage" role="button"  aria-expanded="false">
+		            	<a class="nav-link" id="navbarDropdown" href="${path}/manage/approvalpage" role="button"  aria-expanded="false">
 		            		<span id="notification-icon"></span>
 		            	</a>
 		            </li>
@@ -75,10 +75,10 @@
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
-	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
+	                        <li><a class="dropdown-item" href="${path}/manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
-                        <li><a class="dropdown-item" href="logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="${path}/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -134,13 +134,13 @@
 		                    <div class="col-xl-3 col-md-6">
 			                    <div class="card mb-4">
 				                    <div class="card-body">사용자 관리</div>
-				                    <a class="small stretched-link" href="manage/usermanagement"></a>
+				                    <a class="small stretched-link" href="${path}/manage/usermanagement"></a>
 			                    </div>
 		                    </div>
 		                    <div class="col-xl-3 col-md-6">
 			                    <div class="card mb-4">
 				                    <div class="card-body">미결제 내역</div>
-				                    <a class="small stretched-link" href="manage/approvalpage"></a>
+				                    <a class="small stretched-link" href="${path}/manage/approvalpage"></a>
 			                    </div>
 		                    </div>
 	                    </div>
