@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 import controller.login.LogoutController;
 import controller.manage.ManageController;
-import controller.plan.PReportController;
 import controller.plan.PlanController;
 import controller.preport.Pr_ProductController;
 import controller.process.ProcessController;
@@ -74,11 +73,6 @@ public class ControllerConfig {
 	@Bean
 	public ProcessOrController processOrController() {
 		return new ProcessOrController(processDao);
-	}
-	
-	@Bean
-	public PReportController processreportController() {
-		return new PReportController();
 	}
 	
 	@Bean

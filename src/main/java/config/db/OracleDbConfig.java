@@ -56,10 +56,6 @@ public class OracleDbConfig{
 		return new MainDao(dataSource());
 	}
 	
-	@Bean
-	public PlanDao planDao() {
-		return new PlanDao(dataSource());
-	}
 
 	@Bean
 	public ProcessDao processDao() {
