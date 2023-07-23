@@ -9,10 +9,12 @@ import controller.manage.ManageController;
 import controller.plan.PReportController;
 import controller.plan.PlanController;
 import controller.process.ProcessController;
+import controller.setting.SettingController;
 import controller.TestController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
 import spring.auth.AuthService;
+import spring.inventory.InventoryService;
 import spring.manage.ManageService;
 
 @Configuration
@@ -23,6 +25,9 @@ public class ControllerConfig {
 	
 	@Autowired
 	private ManageService manageService;
+	
+	@Autowired
+	private InventoryService inventoryService;
 	
 	@Bean
 	public LoginController loginController() {
@@ -50,7 +55,9 @@ public class ControllerConfig {
 	
 	@Bean
 	public InvenController invenController() {
-		return new InvenController();
+		InvenController controller = new InvenController();
+		controller.setInvenService(inventoryService);
+		return controller;
 	}
 	
 	@Bean
@@ -61,6 +68,13 @@ public class ControllerConfig {
 	@Bean
 	public PReportController processreportController() {
 		return new PReportController();
+	}
+	
+	@Bean
+	public SettingController settingsController() {
+		SettingController controller = new SettingController();
+		controller.setManageService(manageService);
+		return controller;
 	}
 	
 	//Bean For Test Page. Will Not Use.

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="spring.auth.AuthInfo" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -11,14 +12,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Manage</title>
-        <link href="resources/css/styles.css" rel="stylesheet" />
-        <link href="resources/css/customstyle.css" rel="stylesheet" />
-    	<link href="resources/css/jquery.dataTables.css" rel="stylesheet" />
-        <script src="resources/js/jquery-3.6.0.js"></script>
-    	<script src="resources/js/jquery.dataTables.js"></script>
+        <title>미결제 내역</title>
+        <link href="${path}/resources/css/styles.css" rel="stylesheet" />
+        <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <script>
+   		<link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
+        <script src="${path}/resources/js/jquery-3.6.0.js"></script>
+    	<script src="${path}/resources/js/jquery.dataTables.js"></script>
+   		<!-- script for jq link -->
+        <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxscrollbar.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxinput.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxlistbox.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxdropdownlist.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxradiobutton.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpasswordinput.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxnumberinput.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxform.js"></script>
+	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
+    <script>
+	    	//notification checker
 			function checkNoti(){
 				$.ajax({
 	       			type:"post",  
@@ -34,18 +53,74 @@
 	       			},
 	       			error:function(data, textStatus){
 	          			alert("에러발생: " + data);
-	       			},
+	       			}
 	    		});
-			}
-			
-	        $(document).ready(function () {
-	        	checkNoti();
-	        });   
-        </script>
+			} 
+	    	
+	    	var planlist;
+	    	
+    		//usertable refresh(DataTables Function)
+    		function reloadList() {
+				planlist.ajax.reload();
+    		};
+    		
+    		function checkPlan(planid){
+    			$.ajax({
+	       			type:"post",  
+	       			async:false,
+	       			url:"http://localhost:8584/SMFPlatform/manage/approveplan.do",
+	       			data:{planid:planid},
+	       			success:function (data, textStatus) {
+						alert("승인하였습니다.");
+	       			},
+	       			complete:function(data,textStatus){
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("에러발생: " + data);
+	       			}
+	    		});
+    		}
+    		
+    		function checkPlanVerify(planid){
+    			if(confirm("계획 ID : " + planid + " 승인하시겠습니까?") == true){
+    				checkPlan(planid);
+    			}else{
+    				return;
+    			}
+    		}
+    		
+        	//page ready js script
+	    	$(document).ready(function () {
+	    		planlist = new DataTable('#planlist', { //init datatable
+	    		    ajax: 'http://localhost:8584/SMFPlatform/manage/notcheckedprocess.json' ,
+	    		    paging: false,
+	    		    columnDefs: [
+	    		        {
+	    		            data: null,
+	    		            defaultContent: '<button>승인</button>',
+	    		            targets: -1
+	    		        }
+	    		    ],
+	    		    "language": {
+	    		        "emptyTable": "미결제 내역이 없습니다."
+	    		      }
+	    		});
+	    		planlist.on('click', 'button', function (e) {
+	    		    let data = planlist.row(e.target.closest('tr')).data();
+	    		    checkPlanVerify(data[0])
+	    		    reloadList();
+	    		});
+	        	
+	        	if(${sessionScope.authInfo.getAdmin()}){
+	        		checkNoti();
+	        	} //notification check
+
+	        });
+    	</script>
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
-        <script src="resources/js/kor_clock.js"></script>
+        <script src="${path}/resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="${path}">Platform Name</a>
@@ -126,29 +201,40 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Manage</h1>
+                        <h1 class="mt-4">미결제 내역</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Manage</li>
+                        	<li class="breadcrumb-item active"><a href="${path}/manage">Manage</a></li>
+                            <li class="breadcrumb-item active">미결제 내역</li>
                         </ol>
-	    				<div class="row">
-		                    <div class="col-xl-3 col-md-6">
-			                    <div class="card mb-4">
-				                    <div class="card-body">사용자 관리</div>
-				                    <a class="small stretched-link" href="${path}/manage/usermanagement"></a>
-			                    </div>
-		                    </div>
-		                    <div class="col-xl-3 col-md-6">
-			                    <div class="card mb-4">
-				                    <div class="card-body">미결제 내역</div>
-				                    <a class="small stretched-link" href="${path}/manage/approvalpage"></a>
-			                    </div>
-		                    </div>
-	                    </div>
+                        <div class="card mb-4">
+	                    	<div class="card-header">
+	                        	<i class="fas fa-table me-1"></i>
+	                            생산 계획 결제
+	                        </div>
+	                    	<div class="card-body">
+			    				<table id="planlist" class="display" style="width:100%">
+							        <thead>
+							            <tr>
+							                <th>계획번호</th>
+							                <th>라인번호</th>
+							                <th>상품명</th>
+							                <th>수량</th>
+							                <th>기간</th>
+							                <th>직급</th>
+							                <th>등록자명</th>
+							                <th>확인</th>
+							            </tr>
+							        </thead>
+							    </table>
+							</div>
+						</div>
                     </div>
                 </main>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="resources/js/scripts.js"></script>
+        <script src="${path}/resources/js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     </body>
 </html>

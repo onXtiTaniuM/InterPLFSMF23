@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import controller.login.LoginCommandValidator;
+import spring.dao.ApprovalPlan;
 import spring.dao.User;
 import spring.manage.ManageService;
 
@@ -113,4 +114,130 @@ public class ManageController {
 		writer.print(manageS.planNotification());
 	}
 	
+	@RequestMapping("/duplicateidcheck.do")
+	public void idDupCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		System.out.println("[JSON REQUEST]duplicateidcheck id: " + request.getParameter("id"));
+		System.out.println("[JSON RESPONSE]duplicateidcheck data: " + manageS.idDuplicate(request.getParameter("id")));
+		
+		PrintWriter writer = response.getWriter();
+		writer.print(manageS.idDuplicate(request.getParameter("id")));
+	}
+	
+
+	@RequestMapping("/ranklist.json")
+	public void rankJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		JSONArray ranksArray = new JSONArray();
+		JSONObject jsonInfo = new JSONObject();
+		
+		List<String> list = manageS.rankList();
+		for(String rank : list) {
+			System.out.println(rank);
+			ranksArray.add(rank);
+		}
+		
+		writer.print(ranksArray);
+	}
+	
+	@RequestMapping("/userdata.json")
+	public void userJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		String id = request.getParameter("id");
+
+		User user = manageS.getUserById(id);
+
+		JSONObject userInfo = new JSONObject();
+		userInfo.put("empno",user.getEmpNo());
+		userInfo.put("name",user.getName());
+		userInfo.put("id",user.getId());
+		userInfo.put("password",user.getPassword());
+		userInfo.put("rank",user.getRank());
+		userInfo.put("admin",user.isAdmin());
+
+		String data = userInfo.toJSONString();
+		//System.out.print(data);
+		writer.print(data);
+	}
+	
+	@RequestMapping("/deleteuser.do")
+	public void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		String id = request.getParameter("id");
+		
+		System.out.println("[DELETE User] id : " + id);
+		manageS.deleteUser(id);
+	}
+	
+	@RequestMapping("/updateuser.do")
+	public void updateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		boolean admin = false;
+		
+		if(request.getParameter("admin").equals("true")) {
+			admin = true;
+		}
+		
+		User user = new User(request.getParameter("empno"),
+				request.getParameter("id"),
+				request.getParameter("password"),
+				request.getParameter("name"),
+				request.getParameter("rank"),
+				admin);
+		
+		System.out.println("[UPDATE User] id : " + request.getParameter("id"));
+		manageS.updateUser(user);
+	}
+	
+	@RequestMapping("/approvalpage")
+	public String manageApproval() {
+		return "manage/managePlan";
+	}
+	
+	@RequestMapping("/notcheckedprocess.json")
+	public void processListJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		JSONArray plansArray = new JSONArray();
+		JSONObject jsonInfo = new JSONObject();
+		
+		List<ApprovalPlan> list = manageS.getApprovalPlanList();
+		for(ApprovalPlan plan : list) {
+			JSONArray planInfo = new JSONArray();
+			planInfo.add(plan.getPlanid());
+			planInfo.add(plan.getLineid());
+			planInfo.add(plan.getProdname());
+			planInfo.add(plan.getQty());
+			planInfo.add(manageS.planPeriodDate(plan));
+			planInfo.add(plan.getRank());
+			planInfo.add(plan.getName());
+			plansArray.add(planInfo);
+		}
+		
+		jsonInfo.put("data", plansArray);
+		String data = jsonInfo.toJSONString();
+		//System.out.print(data);
+		writer.print(data);
+	}
+	
+	@RequestMapping("/approveplan.do")
+	public void approvePlanDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		String planid = request.getParameter("planid");
+		manageS.planChecked(planid);
+	}
 }

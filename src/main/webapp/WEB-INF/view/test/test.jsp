@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- jqWidgets script -->
-        <script type="text/javascript" src="${path}/resources/jquery-3.6.0.js"></script>
+        <script type="text/javascript" src="${path}/resources/js/jquery-3.6.0.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxwindow.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
@@ -26,10 +26,36 @@
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
-	    <script type="text/javascript" src="${path}/resources/scripts/demos.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxinput.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxlistbox.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxdropdownlist.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxradiobutton.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpasswordinput.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxnumberinput.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxform.js"></script>
 	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
     	<!-- jqWidgets popup window script -->
-    	<script type="text/javascript">
+    	<script type="text/javascript">    		        
+    		//rank dropdown array
+    		var options;
+            function fetchDataAndSetDropdownOptions() {
+                $.ajax({
+                  type: 'POST',
+                  url: 'http://localhost:8584/SMFPlatform/manage/ranklist.json',
+                  dataType: 'json',
+                  async: false,
+                  success: function(data) {
+                    options = data.map(function(item) {
+                      return { label: item, value: item };
+                    });
+                  },
+                  error: function(xhr, status, error) {
+                    console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                  }
+                });
+              }
+            fetchDataAndSetDropdownOptions();  
+            
 	        var basicDemo = (function () {
 	            //Adding event listeners
 	            function _addEventListeners() {
@@ -62,17 +88,20 @@
 	                $('#resizeCheckBox').jqxCheckBox({ width: '185px', checked: true });
 	                $('#dragCheckBox').jqxCheckBox({ width: '185px', checked: true });
 	            };
-	
+				
 	            //Creating the demo window
 	            function _createWindow() {
 	                var jqxWidget = $('#jqxWidget');
 	                var offset = jqxWidget.offset();
 	
 	                $('#window').jqxWindow({
+	                	autoOpen: false,
 	                    position: { x: offset.left + 50, y: offset.top + 50} ,
-	                    showCollapseButton: true, maxHeight: 400, maxWidth: 700, minHeight: 200, minWidth: 200, height: 300, width: 500,
+	                    showCollapseButton: true, 
+	                    maxHeight: 400, maxWidth: 700, 
+	                    minHeight: 200, minWidth: 200, 
+	                    height: 400, width: 500,
 	                    initContent: function () {
-	                        $('#tab').jqxTabs({ height: '100%', width:  '100%' });
 	                        $('#window').jqxWindow('focus');
 	                    }
 	                });
@@ -92,10 +121,111 @@
 	                }
 	            };
 	        } ());
-	
+			
+	        var template = [
+                {
+                    bind: 'empno',
+                    type: 'text',
+                    label: 'Text input',
+                    labelPosition: 'left',
+                    labelWidth: '30%',
+                    align: 'left',
+                    width: '250px',
+                    required: true
+                },
+                {
+                    bind: 'name',
+                    type: 'text',
+                    label: 'Text input',
+                    labelPosition: 'left',
+                    labelWidth: '30%',
+                    align: 'left',
+                    width: '250px',
+                    required: true
+                },
+                {
+                    bind: 'id',
+                    type: 'text',
+                    label: 'Text input',
+                    labelPosition: 'left',
+                    labelWidth: '30%',
+                    align: 'left',
+                    width: '250px',
+                    required: true
+                },
+                {
+                    bind: 'password',
+                    type: 'password',
+                    label: 'Password input',
+                    labelPosition: 'left',
+                    labelWidth: '30%',
+                    align: 'left',
+                    width: '250px',
+                    required: true
+                },
+                {
+                    bind: 'rank',
+                    type: 'option',
+                    label: 'Drop down list',
+                    labelPosition: 'left',
+                    labelWidth: '30%',
+                    align: 'left',
+                    width: '250px',
+                    required: true,
+                    component: 'jqxDropDownList',
+                    options:  options
+                },
+                {
+                    columns: [
+                        {
+                            columnWidth: '140px',
+                            bind: 'admin',
+                            type: 'boolean',
+                            label: '관리자 권한',
+                            labelPosition: 'left',
+                            align: 'left',
+                            labelPadding: {left: 5, top: 5, right: 0, bottom: 5}
+                        } 
+                    ]
+                },
+                {
+                    type: 'blank',
+                    rowHeight: '20px',
+                },
+                {
+                    name: 'submitButton',
+                    type: 'button',
+                    text: 'Submit Form Data',
+                    align: 'right',
+                    padding: {left: 0, top: 5, bottom: 5, right: 40}
+                }
+            ];
+            var sampleValue = {
+                'empno': '사번',
+                'name': '이름',
+                'id': '아이디',
+                'password': 'password123',
+                'rank': 'Guest',
+                'admin': false,
+            };
+            
 	        $(document).ready(function () {  
 	            //Initializing the demo
 	            basicDemo.init();
+	            var sampleForm = $('#sampleForm');
+	            sampleForm.jqxForm({
+	                template: template,
+	                value: sampleValue,
+	                padding: { left: 10, top: 10, right: 0, bottom: 10 }
+	            });
+	            var btn = sampleForm.jqxForm('getComponentByName', 'submitButton');
+	            btn.on('click', function () {
+	                // function: submit
+	                // arg1: url
+	                // arg2, optional: target, default is _blank
+	                // arg3, optional: submit method - GET or POST, default is POST
+	                sampleForm.jqxForm('submit', "https://www.jqwidgets.com/form_demo/", "_blank", 'POST');
+	            });
 	        });
 	    </script>
     </head>
@@ -216,78 +346,118 @@
 					            <div id="window">
 					                <div id="windowHeader">
 					                    <span>
-					                        <img src="../../../images/movie.png" alt="" style="margin-right: 15px" />Movies
+					                        Test
 					                    </span>
 					                </div>
 					                <div style="overflow: hidden;" id="windowContent">
-					                    <div id="tab">
-					                        <ul style="margin-left: 30px;">
-					                            <li>Avatar</li>
-					                            <li>End Game</li>
-					                            <li>Twilight</li>
-					                            <li>Unstoppable</li>
-					                            <li>Priest</li>
-					                        </ul>
-					                        <div>
-					                            <img src="../../../images/avatar.png" style="float: left; margin: 10px;" alt="" />
-					                            Avatar is a 2009 American[6][7] epic science fiction film written and directed by
-					                            James Cameron, and starring Sam Worthington, Zoe Saldana, Stephen Lang, Michelle
-					                            Rodriguez, Joel David Moore, Giovanni Ribisi and Sigourney Weaver. The film is set
-					                            in the mid-22nd century, when humans are mining a precious mineral called unobtanium
-					                            on Pandora , a lush habitable moon of a gas giant in the Alpha Centauri star system.
-					                            The expansion of the mining colony threatens the continued existence of a local
-					                            tribe of Na'vi—a humanoid species indigenous to Pandora. The film's title refers
-					                            to the genetically engineered Na'vi-human hybrid bodies used by a team of researchers
-					                            to interact with the natives of Pandora.
-					                     </div>   <div>
-					                            <img src="../../../images/endgame.png" style="float: left; margin: 10px;" alt="" />
-					                            End Game is a 2006 action/thriller film, written and directed by Andy Cheng. The
-					                            film stars Cuba Gooding, Jr. as Secret Service agent Alex Thomas, who is shot in
-					                            the hand, while unsuccessfully trying to protect the President (played by Jack Scalia)
-					                            from an assassin's bullet. Later, with the help of a persistent newspaper reporter
-					                            named Kate Crawford (played by Angie Harmon), he uncovers a vast conspiracy behind
-					                            what initially appeared to be a lone gunman. James Woods, Burt Reynolds, and Anne
-					                            Archer co–star in this film that was originally set to be shown in cinemas by MGM
-					                            in 2005, but was delayed by the takeover from Sony and eventually sent direct to
-					                            DVD.
-					                        </div>
-					                        <div>
-					                            <img src="../../../images/twilight.png" style="float: left; margin: 10px;" alt="" />
-					                            The project was in development for approximately three years at Paramount Pictures,
-					                            during which time a screen adaptation that differed significantly from the novel
-					                            was written. Summit Entertainment acquired the rights to the novel after three years
-					                            of the project's stagnant development. Melissa Rosenberg wrote a new adaptation
-					                            of the novel shortly before the 2007–2008 Writers Guild of America strike and sought
-					                            to be faithful to the novel's storyline. Principal photography took 44 days, and
-					                            completed on May 2, 2008; the film was primarily shot in Oregon
-					                        </div>
-					                        <div>
-					                            <img src="../../../images/unstoppable.png" style="float: left; margin: 10px;" alt="" />
-					                            Meanwhile, in a rail yard within the northern town of Fuller, two AWVR hostlers,
-					                            Dewey (Ethan Suplee) and Gilleece (T.J. Miller), are ordered by Fuller operations
-					                            dispatcher Bunny (Kevin Chapman) to move a freight train led by locomotive #777
-					                            (nicknamed "Triple Seven") off its current track to clear the track for an excursion
-					                            train carrying schoolchildren. Dewey attempts to take shortcuts, instructing Gilleece
-					                            to leave the hoses for the air brakes disconnected for the short trip. Dewey later
-					                            leaves the moving cab to throw a misaligned rail switch along the train's path,
-					                            but is unable to climb back on, as the train's throttle jumps from idle, to full
-					                            power. He is forced to report the train as a "coaster" to Fuller yardmaster Connie
-					                            Hooper (Rosario Dawson)...
-					                        </div>
-					                        <div>
-					                            <img src="../../../images/priest.png" style="float: left; margin: 10px;" alt="" />
-					                            Priest is a 2011 American post-apocalyptic sci-fi western and supernatural action
-					                            film starring Paul Bettany as the title character. The film, directed by Scott Stewart,
-					                            is based on the Korean comic of the same name. In an alternate world, humanity and
-					                            vampires have warred for centuries. After the last Vampire War, the veteran Warrior
-					                            Priest (Bettany) lives in obscurity with other humans inside one of the Church's
-					                            walled cities. When the Priest's niece (Lily Collins) is kidnapped by vampires,
-					                            the Priest breaks his vows to hunt them down. He is accompanied by the niece's boyfriend
-					                            (Cam Gigandet), who is a wasteland sheriff, and a former Warrior Priestess (Maggie
-					                            Q).
-					                        </div>
-					                    </div>
+					                    <div id='sampleForm' style="width: 420px; height: auto;"></div>   
 					                </div>
+					                <center>
+        <h1 style="color: green;">
+              GeeksforGeeks
+          </h1>
+        
+        <h3>jQWidgets jqxForm getComponentByName() method</h3>
+        <div id='Form' style="width: 400px; height: auto;"></div>  
+    </center>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+         
+            var tp = [
+                {
+                    name: 'Name',
+                    bind: 'Name',
+                    type: 'text',
+                    label: 'Name',
+                    required: true,
+                    labelWidth: '80px',
+                    width: '250px',
+                    info: 'Enter Name',
+                    infoPosition: 'right'
+                }, 
+                {
+                    bind: 'Email',
+                    type: 'text',
+                    label: 'Email',
+                    required: true,
+                    labelWidth: '80px',
+                    width: '250px'
+                },
+                {
+                    bind: 'Social',
+                    type: 'text',
+                    label: 'Social',
+                    required: true,
+                    labelWidth: '80px',
+                    width: '250px'
+                },
+                {
+                    bind: 'Gender',
+                    type: 'option',
+                    label: 'Gender',
+                    required: false,
+                    labelWidth: '80px',
+                    width: '250px',
+                    component: 'jqxDropDownList',
+                    options: [
+                        { value: 'Male' },
+                        { value: 'Female'}
+                    ]
+                },
+                {
+                    bind: 'Password',
+                    type: 'password',
+                    label: 'Password',
+                    required: true,
+                    labelWidth: '80px',
+                    width: '250px'
+                },
+                  
+                {
+                    columns: [
+                        {
+                            type: 'button',
+                            text: 'Submit',
+                            width: '90px',
+                            height: '30px',
+                            rowHeight: '40px',
+                            columnWidth: '50%',
+                            align: 'right'
+                        },
+                        {
+                            type: 'button',
+                            text: 'Cancel',
+                            width: '90px',
+                            height: '30px',
+                            rowHeight: '40px',
+                            columnWidth: '50%'
+                        }                
+                    ]
+                }
+            ];
+            var value = {
+                Name: 'ABC',
+                Email: 'ABC@gmail.com',
+                Social: 'abc',
+                Gender: 'Female',
+                Password: 'abc',
+            };    
+            
+              
+            $('#Form').jqxForm({
+                template: tp
+            });
+              
+            $("#Form").jqxForm("val", value);
+  
+            var name = $('#Form').jqxForm(
+                'getComponentByName', "Name");
+            console.log(name);
+            console.log(name[0]);
+            console.log(name[0].value);
+        });
+    </script>
 					            </div>
 					        </div>
 					    </div>
@@ -298,7 +468,5 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     </body>
 </html>

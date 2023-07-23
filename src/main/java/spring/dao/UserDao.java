@@ -17,7 +17,7 @@ import controller.manage.ManageUserCommand;
 public class UserDao {
 
 	/*
-	 * Dao for user data
+	 * Dao for Oracle DB
 	 */
 	
 	private JdbcTemplate jdbcTemplate;
@@ -26,6 +26,8 @@ public class UserDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
+	/*-----------------------------------------------------------------User Data-----------------------------------------------------------*/
+	
 	public User selectById(String id) { //ID로 User 조회
 		Object[] where = new Object[] {id};
 		List<User> results = jdbcTemplate.query(
@@ -86,5 +88,200 @@ public class UserDao {
 			}
 		});
 	}
+	
+	public User selectIdPwMatch(String id, String pw) { //ID, PW 공통 조회
+		Object[] where = new Object[] {id, pw};
+		List<User> results = jdbcTemplate.query(
+				"select * from e_user where id = ? and pw = ?", where,
+				new RowMapper<User>() {
+					@Override
+					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+						User user = new User(
+								rs.getString("empno"),
+								rs.getString("id"),
+								rs.getString("pw"),
+								rs.getString("name"),
+								rs.getString("rank"),
+								(1 == rs.getLong("admin")),
+								rs.getTimestamp("regidate").toLocalDateTime());
+						user.setuserNo(rs.getLong("userNo"));
+						return user;
+					}
+				});
+		return results.isEmpty() ? null : results.get(0);
+	}
+	
+	public void updatePassword(String id, String pw) { //PW 변경
+		jdbcTemplate.update(
+				"update e_user set pw = ? where id = ?", pw, id);
+	}
+	
+	public void updateUser(User user) { //정보 변경
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(
+						"update e_user set empno = ?, name = ?, pw = ?, rank = ?, admin = ? where id = ?");
+				pstmt.setString(1, user.getEmpNo());
+				pstmt.setString(2, user.getName());
+				pstmt.setString(3, user.getPassword());
+				pstmt.setString(4, user.getRank());
+				pstmt.setString(5, user.getAdmin());
+				pstmt.setString(6, user.getId());
+				return pstmt;
+			}
+		});
+	}
+	
+	public List<String> rankList() { //등록된 Rank 전체 조회
+		List<String> results = jdbcTemplate.query(
+				"select distinct rank from e_user", 
+				new RowMapper<String>() {
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getString("rank");
+					}
+				});
+		return results;
+	}
+	
+	public void deleteUser(String id) { //사용자 삭제
+		jdbcTemplate.update(
+				"delete from e_user where id = ?", id);
+	}
 
+	/*-----------------------------------------------------------------Inventory Data-----------------------------------------------------------*/
+	
+	public List<LOT> selectAllLOT() { //LOT 전체 조회
+		List<LOT> results = jdbcTemplate.query(
+				"SELECT LOT,PRODNAME,MATERNAME,QTY,WHSENAME FROM (SELECT *  FROM inventory i LEFT JOIN product p ON i.prodno = p.prodno "
+				+ "LEFT JOIN material m ON i.materno = m.materno) it, warehouse w WHERE it.whseno=w.whseno", 
+				new RowMapper<LOT>() {
+					@Override
+					public LOT mapRow(ResultSet rs, int rowNum) throws SQLException {
+						LOT lot = new LOT(
+								rs.getString("LOT"),
+								rs.getString("prodname"),
+								rs.getString("matername"),
+								rs.getInt("qty"),
+								rs.getString("whsename"));
+						return lot;
+					}
+				});
+		
+		return results;
+	}
+	
+	public List<LOTprod> selectRProdByLOT(String lot){ //LOT로 ResProduct조회
+		Object[] where = new Object[] {lot};
+		List<LOTprod> results = jdbcTemplate.query(
+				"SELECT i.LOT,PRODNAME,SERIALNO,PROCESSID,CYCLETIME,STATUS FROM INVENTORY i JOIN RESULT_PROD rp on i.LOT = rp.LOT "
+				+ "LEFT JOIN product p ON p.PRODNO = i.PRODNO WHERE i.LOT = ?", where,
+				new RowMapper<LOTprod>() {
+					@Override
+					public LOTprod mapRow(ResultSet rs, int rowNum) throws SQLException {
+						LOTprod prod = new LOTprod(
+								rs.getString("LOT"),
+								rs.getString("prodname"),
+								rs.getString("serialno"),
+								rs.getString("processid"),
+								rs.getInt("cycletime"),
+								rs.getInt("status"));
+						return prod;
+					}
+				});
+		
+		return results;
+	}
+	
+	public List<Warehouse> selectAllWareHs() { //warehouse 전체조회
+		List<Warehouse> results = jdbcTemplate.query(
+				"SELECT * FROM warehouse", 
+				new RowMapper<Warehouse>() {
+					@Override
+					public Warehouse mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Warehouse wh = new Warehouse(
+								rs.getString("whseno"),
+								rs.getString("whseloc"),
+								rs.getString("whsename"));
+						return wh;
+					}
+				});
+		
+		return results;
+	}
+	
+	public List<Warehouse> selectAllProduct() { //Product 전체조회
+		List<Warehouse> results = jdbcTemplate.query(
+				"SELECT * FROM warehouse", 
+				new RowMapper<Warehouse>() {
+					@Override
+					public Warehouse mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Warehouse wh = new Warehouse(
+								rs.getString("whseno"),
+								rs.getString("whseloc"),
+								rs.getString("whsename"));
+						return wh;
+					}
+				});
+		
+		return results;
+	}
+	
+	public List<Warehouse> selectAllMaterial() { //Material 전체조회
+		List<Warehouse> results = jdbcTemplate.query(
+				"SELECT * FROM warehouse", 
+				new RowMapper<Warehouse>() {
+					@Override
+					public Warehouse mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Warehouse wh = new Warehouse(
+								rs.getString("whseno"),
+								rs.getString("whseloc"),
+								rs.getString("whsename"));
+						return wh;
+					}
+				});
+		
+		return results;
+	}
+	
+	/*-----------------------------------------------------------------Plan Data-----------------------------------------------------------*/
+	
+	public List<ApprovalPlan> selectApprovalPlan(String check) { //미결제 계획 조회
+		Object[] where = new Object[] {check};
+		List<ApprovalPlan> results = jdbcTemplate.query(
+				"SELECT PLANID, LINEID, prodname, PRODQTY,  STARTDATE, ENDDATE, RANK, name FROM PROCESS_PLAN pp "
+				+ "LEFT JOIN E_USER u ON pp.EMPNO = u.EMPNO "
+				+ "LEFT JOIN PRODUCT p ON p.PRODNO = pp.PRODNO "
+				+ "WHERE CHECK_YN = ?", where,
+				new RowMapper<ApprovalPlan>() {
+					@Override
+					public ApprovalPlan mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ApprovalPlan plan = new ApprovalPlan(
+								rs.getString("planid"),
+								rs.getString("lineid"),
+								rs.getString("prodname"),
+								rs.getInt("prodqty"),
+								rs.getTimestamp("startdate").toLocalDateTime(),
+								rs.getTimestamp("enddate").toLocalDateTime(),
+								rs.getString("rank"),
+								rs.getString("name"));
+						return plan;
+					}
+				});
+		
+		return results;
+	}
+
+	public void planChecked(String planid) { //계획 결제 입력
+			jdbcTemplate.update(
+					"update process_plan set check_yn = 'Y' where planid = ?", planid);	
+	}
+	
+	public boolean planNotification() { //계획 결제 확인
+		int needCheckP = jdbcTemplate.queryForObject(
+				"SELECT count(*) FROM PROCESS_PLAN WHERE CHECK_YN = 'N'",
+					Integer.class);
+		return needCheckP != 0 ? true : false;
+	}
 }

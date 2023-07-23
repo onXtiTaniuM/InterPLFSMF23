@@ -5,20 +5,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import controller.manage.ManageUserCommand;
+import spring.dao.ApprovalPlan;
 import spring.dao.PlanDao;
 import spring.dao.User;
 import spring.dao.UserDao;
 
 public class ManageService {
 	private UserDao userDao;
-	private PlanDao planDao;
 	
 	public void setuserDao(UserDao userDao) {
 		this.userDao = userDao;
-	}
-
-	public void setplanDao(PlanDao planDao) {
-		this.planDao = planDao;
 	}
 
 	public List<User> allUserList(){
@@ -48,6 +44,58 @@ public class ManageService {
 	}
 	
 	public boolean planNotification() {
-		return planDao.planNotification();
+		return userDao.planNotification();
+	}
+	
+	public boolean idDuplicate(String id) {
+		return (userDao.selectById(id) != null) ? true:false ;
+	}
+	
+	public void changePassword(String id, String pw) {
+		userDao.updatePassword(id, pw);
+	}
+	
+	public boolean passwordCheck(String id, String pw) {
+		if(userDao.selectIdPwMatch(id, pw) != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public User getUserById(String id) {
+		User user = userDao.selectById(id);
+		return user;
+	}
+	
+	public List<String> rankList(){
+		return userDao.rankList();
+	}
+	
+	public void deleteUser(String id) {
+		userDao.deleteUser(id);
+	}
+
+	public void updateUser(User user) {
+		userDao.updateUser(user);
+	}
+	
+	public List<ApprovalPlan> getApprovalPlanList() {
+		return userDao.selectApprovalPlan("N");
+		
+	}
+	
+	public String planPeriodDate(ApprovalPlan plan) {
+		String date;
+		LocalDateTime stdate = plan.getStartdate();
+		LocalDateTime eddate = plan.getEnddate();
+		
+		date = stdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " ~ " + 
+				eddate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		return date;
+	}
+
+	public void planChecked(String planid) {
+		userDao.planChecked(planid);	
 	}
 }

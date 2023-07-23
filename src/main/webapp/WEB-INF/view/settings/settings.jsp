@@ -12,11 +12,11 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Manage</title>
-        <link href="resources/css/styles.css" rel="stylesheet" />
-        <link href="resources/css/customstyle.css" rel="stylesheet" />
-    	<link href="resources/css/jquery.dataTables.css" rel="stylesheet" />
-        <script src="resources/js/jquery-3.6.0.js"></script>
-    	<script src="resources/js/jquery.dataTables.js"></script>
+        <link href="${path}/resources/css/styles.css" rel="stylesheet" />
+        <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
+    	<link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" />
+        <script src="${path}/resources/js/jquery-3.6.0.js"></script>
+    	<script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script>
 			function checkNoti(){
@@ -39,7 +39,9 @@
 			}
 			
 	        $(document).ready(function () {
-	        	checkNoti();
+	        	if(${sessionScope.authInfo.getAdmin()}){
+	        		checkNoti();
+	        	}
 	        });   
         </script>
     </head>
@@ -71,7 +73,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="settings">Settings</a></li>
+                        <li><a class="dropdown-item" href="${path}/settings">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
@@ -126,21 +128,15 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Manage</h1>
+                        <h1 class="mt-4">Settings</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Manage</li>
+                            <li class="breadcrumb-item active">Settings</li>
                         </ol>
 	    				<div class="row">
 		                    <div class="col-xl-3 col-md-6">
 			                    <div class="card mb-4">
-				                    <div class="card-body">사용자 관리</div>
-				                    <a class="small stretched-link" href="${path}/manage/usermanagement"></a>
-			                    </div>
-		                    </div>
-		                    <div class="col-xl-3 col-md-6">
-			                    <div class="card mb-4">
-				                    <div class="card-body">미결제 내역</div>
-				                    <a class="small stretched-link" href="${path}/manage/approvalpage"></a>
+				                    <div class="card-body">비밀번호 변경</div>
+				                    <a class="small stretched-link" href="${path}/settings/changepassword"></a>
 			                    </div>
 		                    </div>
 	                    </div>
@@ -149,6 +145,6 @@
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="resources/js/scripts.js"></script>
+        <script src="${path}/resources/js/scripts.js"></script>
     </body>
 </html>

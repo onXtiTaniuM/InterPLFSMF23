@@ -28,12 +28,40 @@
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxpanel.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxtabs.js"></script>
 	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcheckbox.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxinput.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxlistbox.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxdropdownlist.js"></script>
+	    <script type="text/javascript" src="${path}/resources/jqwidgets/jqxradiobutton.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxpasswordinput.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxnumberinput.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxform.js"></script>
 	    <link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
-	    <script type="text/javascript">
+	    <script>
+	    	//notification checker
+			function checkNoti(){
+				$.ajax({
+	       			type:"post",  
+	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
+	       			success:function (data, textStatus) {
+						if(JSON.parse(data)){
+							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
+						}else{
+							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell-slash"></i>'
+						}
+	       			},
+	       			complete:function(data,textStatus){
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("에러발생: " + data);
+	       			}
+	    		});
+			} 
+	    	
 	    	//password, id checker
 	    	var passchecked = false;
 	    	var passExpchecked = false;
 	    	var emptychecked = false;
+	    	var iddupchecked = false;
 	    	
 	    	$("#passConfirm").css('display', 'none');
 	    	$("#passLength").css('display', 'none');
@@ -62,6 +90,31 @@
 	    		};
 	    	};
 			
+	    	function idDupChecker(){
+	    		var input = document.getElementById("id");
+	    		var id = input.value;
+	    		
+	    		$.ajax({
+	       			type:"post",  
+	       			url:"http://localhost:8584/SMFPlatform/manage/duplicateidcheck.do",
+	       			data:{id:id},
+	       			success:function (data, textStatus) {
+	       				if(JSON.parse(data)){
+							document.getElementById("idCheckMessage").innerHTML = '<p style="color:red">중복된 ID 입니다</p>';
+							iddupchecked = false;
+						}else{
+							document.getElementById("idCheckMessage").innerHTML = '<p>사용가능한 ID 입니다</p>';
+							iddupchecked = true;
+						}
+	       			},
+	       			complete:function(data,textStatus){
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("에러발생: " + data);
+	       			}
+	       		});
+	    	};
+	    	
 	    	function fn_isempty(){
 	    		var empno = document.getElementById("empNo");
 	    		var id = document.getElementById("id");
@@ -73,17 +126,141 @@
 	    		  };
 	    	};
 	    	
+	    	//rank dropdown array
+    		var options;
+            function fetchDataAndSetDropdownOptions() {
+                $.ajax({
+                  type: 'POST',
+                  url: 'http://localhost:8584/SMFPlatform/manage/ranklist.json',
+                  dataType: 'json',
+                  async: false,
+                  success: function(data) {
+                    options = data.map(function(item) {
+                      return { label: item, value: item };
+                    });
+                  },
+                  error: function(xhr, status, error) {
+                    console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                  }
+                });
+              } 
+
+            
+            //user update form template
+            var template;
+            function generateTemplate(){
+            	fetchDataAndSetDropdownOptions(); 
+            	
+            	template = [
+                    {
+                    	name: 'empno',
+                        bind: 'empno',
+                        type: 'text',
+                        label: '사 번',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                    	name: 'name',
+                        bind: 'name',
+                        type: 'text',
+                        label: '이 름',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                    	name: 'id',
+                        bind: 'id',
+                        type: 'label',
+                        label: 'ID',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px'
+                    },
+                    {
+                    	name: 'password',
+                        bind: 'password',
+                        type: 'password',
+                        label: '비밀번호',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true
+                    },
+                    {
+                    	name: 'rank',
+                        bind: 'rank',
+                        type: 'option',
+                        label: '직 급',
+                        labelPosition: 'left',
+                        labelWidth: '30%',
+                        align: 'left',
+                        width: '250px',
+                        required: true,
+                        component: 'jqxDropDownList',
+                        options:  options
+                    },
+                    {
+                        columns: [
+                            {
+                                columnWidth: '140px',
+                                name: 'admin',
+                                bind: 'admin',
+                                type: 'boolean',
+                                label: '관리자 권한',
+                                labelPosition: 'left',
+                                align: 'left',
+                                labelPadding: {left: 5, top: 5, right: 0, bottom: 5}
+                            } 
+                        ]
+                    },
+                    {
+                        type: 'blank',
+                        rowHeight: '20px',
+                    },
+                    {
+                        name: 'submitButton',
+                        type: 'button',
+                        text: '사용자 수정',
+                        align: 'right',
+                        padding: {left: 0, top: 5, bottom: 5, right: 40}
+                    },
+                    {
+                        name: 'deleteButton',
+                        type: 'button',
+                        text: '사용자 삭제',
+                        align: 'right',
+                        padding: {left: 0, top: 5, bottom: 5, right: 40}
+                    }
+                ];
+            }
+	    	
     		//register user ajax func
     		var usertable;
     		
+    		//usertable refresh(DataTables Function)
     		function reloadList() {
 				usertable.ajax.reload();
     		};
     	
+    		//register function
         	function fn_register() {
         		fn_isempty();
         		if(emptychecked==false){
         			alert("입력되지 않은 값이 있습니다");
+        			return;
+        		}
+        		
+        		if(iddupchecked==false){
+        			alert("ID를 확인하세요");
         			return;
         		}
         		
@@ -93,6 +270,7 @@
         		}else{
 	    			var form = $("#registerForm")
 		    		var regiuser = form.serialize();
+	    			
 		    		$.ajax({
 		       			type:"post",  
 		       			url:form.attr("action"),
@@ -116,7 +294,7 @@
 	            //Adding event listeners
 	            function _addEventListeners() {
 	                $('#register').click(function () {
-	                    $('#window').jqxWindow('open');
+	                    $('#regiwindow').jqxWindow('open');
 	                });
 	                $('#regsubmit').click(fn_register);
 	            };
@@ -133,17 +311,17 @@
 	                var content = $('#userlist');
 	                var offset = content.offset();
 	
-	                $('#window').jqxWindow({
+	                $('#regiwindow').jqxWindow({
 						autoOpen: false,
 	                    position: { x: offset.left+250, y: offset.top } ,
 	                    showCollapseButton: true, 
 	                    height: 560, width: 500,
 	                    initContent: function () {
-	                        $('#window').jqxWindow('focus');
+	                        $('#regiwindow').jqxWindow('focus');
 	                    }
 	                });
-	                $('#window').jqxWindow('resizable', false);
-	                $('#window').jqxWindow('draggable', true);
+	                $('#regiwindow').jqxWindow('resizable', false);
+	                $('#regiwindow').jqxWindow('draggable', true);
 	            };
 	
 	            return {
@@ -161,15 +339,179 @@
 	            };
 	        } ());
         	
+        	function fn_update(){
+        		
+        	}
+        	
+        	var updatePop = (function () {
+	            //Adding event listeners
+	            function _addEventListeners() {
+	                //$('#updatesubmit').click(fn_update);
+	            };
+	
+	            //Creating all page elements which are jqxWidgets
+	            function _createElements() {
+	                //$('#updatesubmit').jqxButton({ width: '65px' });
+	            };
+	
+	            //Creating the window
+	            function _createWindow() {
+	                var jqxWidget = $('#jqxWidget');
+	                var content = $('#userlist');
+	                var offset = content.offset();
+	
+	                $('#updatewindow').jqxWindow({
+						autoOpen: false,
+	                    position: { x: offset.left+250, y: offset.top } ,
+	                    showCollapseButton: true, 
+	                    height: 380, width: 430,
+	                    initContent: function () {
+	                        $('#updatewindow').jqxWindow('focus');
+	                    }
+	                });
+	                $('#updatewindow').jqxWindow('resizable', false);
+	                $('#updatewindow').jqxWindow('draggable', true);
+	            };
+	
+	            return {
+	                config: {
+	                    dragArea: null
+	                },
+	                init: function () {
+	                    //Creating all jqxWindgets except the window
+	                    _createElements();
+	                    //Attaching event listeners
+	                    _addEventListeners();
+	                    //Adding jqxWindow
+	                    _createWindow();
+	                }
+	            };
+	        } ());
+        	
+            //init userData with id
+            var userData;
+            function getUserData(userid){
+            	 $.ajax({
+                     type: 'POST',
+                     url: 'http://localhost:8584/SMFPlatform/manage/userdata.json',
+                     data:{id : userid},
+                     dataType: 'json',
+                     async: false,
+                     success: function(data) {
+						userData = data;
+						console.log(userData);
+                     },
+                     error: function(xhr, status, error) {
+                       console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                     }
+                   });
+            }
+            
+            function delUser(){
+            	var targetid= $("#userUpdateForm").jqxForm('getComponentByName' , "id");
+            	console.log(targetid[0].innerHTML);
+				
+            	$.ajax({
+                     type: 'POST',
+                     url: 'http://localhost:8584/SMFPlatform/manage/deleteuser.do',
+                     data: {id:targetid[0].innerHTML},
+                     async: false,
+                     success: function(data) {
+                     	alert("삭제완료");
+                     	reloadList();
+                     },
+                     error: function(xhr, status, error) {
+                       console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                     }
+                   }); 
+            
+            }
+            
+            function updateUser(){
+            	var targetempno= $("#userUpdateForm").jqxForm('getComponentByName' , "empno");
+            	var targetname= $("#userUpdateForm").jqxForm('getComponentByName' , "name");
+            	var targetid= $("#userUpdateForm").jqxForm('getComponentByName' , "id");
+            	var targetpass= $("#userUpdateForm").jqxForm('getComponentByName' , "password");
+            	var targetrank= $("#userUpdateForm").jqxForm('getComponentByName' , "rank");
+            	var targetadmin= $("#userUpdateForm").jqxForm('getComponentByName' , "admin");
+            	
+            	console.log(targetempno[0].value);
+            	console.log(targetname[0].value);
+            	console.log(targetid[0].innerHTML);
+            	console.log(targetpass[0].value);
+            	console.log(targetrank[0].textContent);
+            	console.log(targetadmin[0].ariaChecked);
+            	
+            	var dataset = {
+            			empno : targetempno[0].value,
+            			name : targetname[0].value ,
+            			id : targetid[0].innerHTML ,
+            			password : targetpass[0].value ,
+            			rank : targetrank[0].textContent ,
+            			admin : targetadmin[0].ariaChecked
+            	}
+            	
+            	$.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8584/SMFPlatform/manage/updateuser.do',
+                    data: dataset,
+                    async: false,
+                    success: function(data) {
+                    	alert("변경완료");
+                    	reloadList();
+                    },
+                    error: function(xhr, status, error) {
+                      console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                    }
+                  }); 
+            	
+            }
+            
+        	function initUserForm(userid){
+        			getUserData(userid);
+        		
+        			var userUpdateForm = $('#userUpdateForm');
+	        		userUpdateForm.jqxForm({
+		                template: template,
+		                value: userData,
+		                padding: { left: 10, top: 10, right: 0, bottom: 10 }
+	            	});
+		            var subbtn = userUpdateForm.jqxForm('getComponentByName', 'submitButton');
+		            subbtn.on('click', function () {
+		            	updateUser();
+		            });	
+		            var delbtn = userUpdateForm.jqxForm('getComponentByName', 'deleteButton');
+		            delbtn.jqxButton({ template: "danger" });
+		            delbtn.on('click', function () {
+		            	delUser();
+		            });	
+
+        	}
+        	
         	//page ready js script
 	    	$(document).ready(function () {
-	    		usertable = new DataTable('#userlist', {
+	        	singupPop.init(); //signup popupwindow init
+	        	updatePop.init(); //update popupwindow init 
+	    		usertable = new DataTable('#userlist', { //init datatable
 	    		    ajax: 'http://localhost:8584/SMFPlatform/manage/userlist.json'
 	    		});
-	        	singupPop.init();
-	        	$("#passConfirm").css('display', 'none');
+	        	usertable.on('click', 'tbody tr', function () {	//datatable click func
+			        let data = usertable.row(this).data();
+			        if(userUpdateForm){
+			        	$('#userUpdateForm').jqxForm('destroy');
+			        	document.getElementById("userjqForm").innerHTML = "<div id='userUpdateForm' style='width: 420px; height: auto;'></div>";
+			        }
+			        generateTemplate();
+			        initUserForm(data[2]);
+			        $('#updatewindow').jqxWindow('open');
+		        });
+	        	$("#passConfirm").css('display', 'none'); 
+	        	
+	        	if(${sessionScope.authInfo.getAdmin()}){
+	        		checkNoti();
+	        	} //notification check
+	        	userUpdateForm = $('#userUpdateForm');
 	        });
-        	
     	</script>
     </head>
     <body class="sb-nav-fixed">
@@ -186,11 +528,21 @@
 		        <div id="time" class="time"></div>
             </div>
             <!-- Navbar-->
+            <!-- Notification Icon for Admin User -->
+            <c:if test="${sessionScope.authInfo.getAdmin()}">
+	            <ul class="navbar-nav justify-content-end align-items-md-end">
+		            <li class="nav-item">
+		            	<a class="nav-link" id="navbarDropdown" href="${path}/manage/approvalpage" role="button"  aria-expanded="false">
+		            		<span id="notification-icon"></span>
+		            	</a>
+		            </li>
+	            </ul>
+            </c:if>
             <ul class="navbar-nav justify-content-end align-items-md-end">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="${path}/settings">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
@@ -211,15 +563,15 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Menu</div>
                             <a class="nav-link" href="${path}/plan">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-list-ol"></i></div>
                                 계획관리
                             </a>
-                            <a class="nav-link" href="${path}/inventory">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <a class="nav-link" href="inventory">
+                                <div class="sb-nav-link-icon"><i class="fa fa-archive"></i></div>
                                 재고관리
                             </a>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-industry"></i></div>
                                 생산관리
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
@@ -229,30 +581,10 @@
                                     <a class="nav-link" href="${path}/report">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="${path}/logout">
+                            <a class="nav-link" href="${path}/report">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                보고서관리
+                                보고서
                             </a>
-                            <!-- Menu For Test-->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Authentication
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login">Login</a>
-                                            <a class="nav-link" href="register.html">Register</a>
-                                        </nav>
-                                    </div>
-                                </nav>
-                            </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -265,9 +597,10 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Manage</h1>
+                        <h1 class="mt-4">사용자 관리</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Manage</li>
+                        	<li class="breadcrumb-item active"><a href="${path}/manage">Manage</a></li>
+                            <li class="breadcrumb-item active">사용자 관리</li>
                         </ol>
 	    				<div class="card mb-4">
 	                    	<div class="card-header">
@@ -301,7 +634,7 @@
 								    <div>
 	       								<input type="button" value="사용자 신규등록" id='register' />	
 	       							</div>
-							  		<div id="window">
+							  		<div id="regiwindow">
 					                	<div id="windowHeader">
 					                    	<span>
 					                        	사용자 신규등록
@@ -318,9 +651,9 @@
 	                                                <label for="name">이름</label>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
-	                                                <form:input class="form-control" placeholder="ID" path="id" autocomplete="off" />
+	                                                <form:input class="form-control" placeholder="ID" path="id" id="id" autocomplete="off" onkeyup="idDupChecker()"/>
 	                                                <label for="id">ID</label>
-	                                                <p>아이디확인</p>
+	                                                <span id="idCheckMessage"></span>
 	                                            </div>
 	                                            <div class="form-floating mb-3">
 	                                                <form:password class="form-control" placeholder="Password" path="password" id="password" onkeyup="passExpChecker()"/>
@@ -338,6 +671,17 @@
 	                                            </div>
                                         	</form:form>
   											<input type="button" value="입력" id="regsubmit"/>
+						                </div>
+							    	</div>
+							    	
+							    	<div id="updatewindow">
+					                	<div id="windowHeader">
+					                    	<span>
+					                        	사용자 수정
+					                    	</span>
+					                	</div>
+					                	<div id='userjqForm'>
+						                	<div id='userUpdateForm' style="width: 420px; height: auto;"></div>
 						                </div>
 							    	</div>
 						    	</div>

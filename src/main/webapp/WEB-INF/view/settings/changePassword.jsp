@@ -12,19 +12,97 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Manage</title>
-        <link href="resources/css/styles.css" rel="stylesheet" />
-        <link href="resources/css/customstyle.css" rel="stylesheet" />
-    	<link href="resources/css/jquery.dataTables.css" rel="stylesheet" />
-        <script src="resources/js/jquery-3.6.0.js"></script>
-    	<script src="resources/js/jquery.dataTables.js"></script>
+        <link href="${path}/resources/css/styles.css" rel="stylesheet" />
+        <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
+    	<link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" />
+        <script src="${path}/resources/js/jquery-3.6.0.js"></script>
+    	<script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- script for jq link -->
+        <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
+    	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
+    	<link rel="stylesheet" href="${path}/resources/jqwidgets/styles/jqx.base.css" type="text/css" />
         <script>
+        	var passchecked = false;
+        	var passExpchecked = false;
+        	
+			let passExp = new RegExp('(?=.{6,})');
+	    	
+	    	function passExpChecker(){
+	    		var password = document.getElementById("newPassword");
+	    		 if(!passExp.test(password.value)){
+	    			 $("#passLength").css('display', 'inline-block');
+	    			 passExpchecked = false;
+	    		 }else{
+	    			 $("#passLength").css('display', 'none');
+	    			 passExpchecked = true;
+	    		 };
+	    	};
+        	
+        	function passwordChecker(){
+	    		var password = document.getElementById("newPassword");
+	    		var confirm_password = document.getElementById("passwordConfirm");
+	    		if(password.value != confirm_password.value){
+	    			$("#passConfirm").css('display', 'inline-block');
+	    			passchecked = false;
+	    		}else{
+	    			$("#passConfirm").css('display', 'none');
+	    			passchecked = true;
+	    		};
+	    	};
+        
+        	function changepassword(){
+        		var input = document.getElementById("recentPassword");
+	    		var pass = input.value;
+	    		
+	    		$.ajax({
+	       			type:"post", 
+	       			async:false,
+	       			url:"http://localhost:8584/SMFPlatform/settings/passcheck.do",
+	       			data:{password:pass},
+	       			success:function (data, textStatus) {
+	       				if(!JSON.parse(data)){
+							alert("현재 비밀번호가 일치하지 않습니다");
+							return;
+	       				}else{
+	       					(function change(){
+	       		        		if((passExpchecked==false) || (passchecked==false)){
+	       		        			alert("잘못된 신규 비밀번호 입니다");
+	       		        			return;
+	       		        		}
+	       		        		
+	       		        		var password = document.getElementById("newPassword").value;
+	       		        		
+	       		        		$.ajax({
+	       			       			type:"post", 
+	       			       			async:false,
+	       			       			url:"http://localhost:8584/SMFPlatform/settings/changepassword.do",
+	       			       			data:{password:password},
+	       			       			success:function (data, textStatus) {
+	       			       				alert("변경 완료했습니다!");
+	       			       				document.location.href = document.location.href;
+	       			       			},
+	       			       			error:function(data, textStatus){
+	       			          			alert("변경처리 에러");
+	       			       			}
+	       			       		});
+	       		        	})();
+	       				};
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("아이디 검증 에러");
+	       			}
+	       		});
+        	}	
+        	
 			function checkNoti(){
 				$.ajax({
 	       			type:"post",  
 	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
 	       			success:function (data, textStatus) {
-						if(JSON.parse(data)){
+	       				if(data=="<anonymous>"){
+	       					return;
+	       				}else if(JSON.parse(data)){
 							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
 						}else{
 							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell-slash"></i>'
@@ -39,13 +117,18 @@
 			}
 			
 	        $(document).ready(function () {
-	        	checkNoti();
+	        	$('#submit').jqxButton({theme: "arctic"});
+	        	$('#submit').on('click', changepassword);
+	        	
+	        	if(${sessionScope.authInfo.getAdmin()}){
+	        		checkNoti();
+	        	}
 	        });   
         </script>
     </head>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
-        <script src="resources/js/kor_clock.js"></script>
+        <script src="${path}/resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="${path}">Platform Name</a>
@@ -126,29 +209,45 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Manage</h1>
+                        <h1 class="mt-4">등록정보 수정</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Manage</li>
+                        	<li class="breadcrumb-item"><a href="${path}/settings">Settings</a></li>
+                            <li class="breadcrumb-item active">등록정보 수정</li>
                         </ol>
-	    				<div class="row">
-		                    <div class="col-xl-3 col-md-6">
-			                    <div class="card mb-4">
-				                    <div class="card-body">사용자 관리</div>
-				                    <a class="small stretched-link" href="${path}/manage/usermanagement"></a>
-			                    </div>
-		                    </div>
-		                    <div class="col-xl-3 col-md-6">
-			                    <div class="card mb-4">
-				                    <div class="card-body">미결제 내역</div>
-				                    <a class="small stretched-link" href="${path}/manage/approvalpage"></a>
-			                    </div>
-		                    </div>
-	                    </div>
+                        <div class="row justify-content-center">
+	                        <div class="col-xl-6">
+			    				<div class="card mb-4">
+		                            <div class="card-header">
+		                                <i class="fa fa-cogs"></i>
+		                                등록정보 수정
+		                            </div>
+		                            <div class="card-body">
+		                            	<form id="passwordchange" method='POST'>
+				                            <div class="form-floating mb-3">
+					                            <input class="form-control" id="recentPassword" type="password" placeholder="현재 비밀번호" />
+					                            <label for="inputEmail">현재 비밀번호</label>
+				                            </div>
+				                            <div class="form-floating mb-3">
+					                            <input class="form-control" id="newPassword" type="password" placeholder="새로운 비밀번호" onkeyup="passExpChecker()"/>
+					                            <label for="inputPassword">새로운 비밀번호</label>
+				                            </div>
+				                            <div class="form-floating mb-3">
+					                            <input class="form-control" id="passwordConfirm" type="password" placeholder="비밀번호 확인" onkeyup="passwordChecker()"/>
+					                            <label for="inputPassword">비밀번호 확인</label>
+					                            <span id="passConfirm" display="none">비밀번호가 일치하지 않습니다.</span>
+										     	<span id="passLength" display="none">비밀번호는 6자리 이상이어야 합니다.</span>
+				                            </div>
+		                            	</form>
+				                        <button id="submit">비밀번호 변경</button> 
+		                            </div>
+		                        </div>
+	                        </div>
+                        </div>
                     </div>
                 </main>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="resources/js/scripts.js"></script>
+        <script src="${path}/resources/js/scripts.js"></script>
     </body>
 </html>
