@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import spring.dao.PlanDAO;
 import spring.plan.PlanInfo;
+import spring.plan.PlanTable;
 
 @Controller
 @RequestMapping("/boards")
@@ -82,6 +83,7 @@ public class PlanController {
 		request.setCharacterEncoding("UTF-8");
 		PlanDAO bMgr = new PlanDAO();
 		bMgr.insertBoard(request);
+	    bMgr.insertPlan(request);
 		return "redirect:/boards/plan.do";
 	}
 	

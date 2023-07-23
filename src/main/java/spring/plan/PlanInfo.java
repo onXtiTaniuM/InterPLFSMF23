@@ -5,10 +5,15 @@ import java.sql.Date;
 public class PlanInfo {
 	
 	private int num;
-	private String empName;        
-	private String prodName;
+	private String planID;
 	private String prodNo;
+	private String lineID;
+	private String empName;        
+	private Date startdate;
+	private Date enddate;
+	private String prodName;
 	private String content;     
+	
 	private int pos;            
 	private int depth;        
 	private int ref;        
@@ -17,9 +22,21 @@ public class PlanInfo {
 	private String  ip;        
 	private String filename;
 	private int filesize;
-	private Date startdate;
-	private Date enddate;
 	
+	
+	
+	public String getPlanID() {
+		return planID;
+	}
+	public void setPlanID(String planID) {
+		this.planID = planID;
+	}
+	public String getLineID() {
+		return lineID;
+	}
+	public void setLineID(String lineID) {
+		this.lineID = lineID;
+	}
 	public Date getStartdate() {
 		return startdate;
 	}

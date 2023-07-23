@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Date;
 import java.util.Vector;
 
 //import javax.servlet.ServletOutputStream;
@@ -27,6 +28,7 @@ import config.db.DBConnectionMgr;
 import spring.plan.BomInfo;
 import spring.plan.PlanInfo;
 import spring.plan.ProdInfo;
+import spring.plan.PlanTable;
 
 public class PlanDAO {
 	private static final String SAVEFOLDER = "D:\\Temp\\boards\\fileuploads";
@@ -173,6 +175,7 @@ public class PlanDAO {
 					bean.setPos(rs.getInt("pos"));
 					bean.setDepth(rs.getInt("depth"));
 					bean.setRegdate(rs.getString("regdate"));
+					bean.setContent(rs.getString("content"));
 					vlist.add(bean);
 				}
 			} catch (Exception e) {
@@ -267,6 +270,62 @@ public class PlanDAO {
 				pool.freeConnection(con, pstmt, rs);	//DB리소스 반환
 			}
 		}
+		
+		// insert process_plan table
+		public void insertPlan(HttpServletRequest request) {
+		    Connection con = null;
+		    PreparedStatement pstmt = null;
+		    String sql = null;
+
+		    try {
+		        con = pool.getConnection();
+		        sql = "INSERT INTO process_plan(planID, prodNo, prodQty, lineID, startdate, enddate, empNo, check_yn) " +
+		              "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		        int prodCnt = 0;
+		        String prodCntStr = request.getParameter("prodCnt");
+		        if (prodCntStr != null && !prodCntStr.isEmpty()) {
+		        	prodCnt = Integer.parseInt(prodCntStr);
+		        }
+		        String startdateStr = request.getParameter("startdate");
+		        String enddateStr = request.getParameter("enddate");
+		        
+		        pstmt = con.prepareStatement(sql);
+		        pstmt.setString(1, request.getParameter("planID"));
+		        pstmt.setString(2, request.getParameter("prodNo"));
+		        pstmt.setInt(3, prodCnt);
+		        pstmt.setString(4, request.getParameter("lineID"));
+
+		        if (startdateStr != null && !startdateStr.isEmpty()) {
+		            try {
+		                pstmt.setDate(5, java.sql.Date.valueOf(startdateStr));
+		            } catch (IllegalArgumentException e) {
+		                e.printStackTrace();
+		            }
+		        } else {
+		            pstmt.setNull(5, java.sql.Types.DATE);
+		        }
+
+		        if (enddateStr != null && !enddateStr.isEmpty()) {
+		            try {
+		                pstmt.setDate(6, java.sql.Date.valueOf(enddateStr));
+		            } catch (IllegalArgumentException e) {
+		                e.printStackTrace();
+		            }
+		        } else {
+		            pstmt.setNull(6, java.sql.Types.DATE);
+		        }
+		        pstmt.setString(7, request.getParameter("empName"));
+		        pstmt.setString(8, request.getParameter("check_yn"));
+		        
+		        pstmt.executeUpdate();
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    } finally {
+		        pool.freeConnection(con, pstmt);
+		    }
+		}
+
+
 		
 		// 게시물 리턴
 		public PlanInfo getBoard(int num) {

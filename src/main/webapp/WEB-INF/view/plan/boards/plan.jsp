@@ -5,6 +5,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <!-- list.jsp Setting-->
 <%@page import="spring.plan.PlanInfo"%>
+<%@page import="spring.plan.PlanTable"%>
 <%@page import="spring.plan.ProdInfo"%>
 <%@page import="spring.dao.PlanDAO"%>
 <%@page import="java.util.Vector"%>
@@ -287,6 +288,11 @@
 		    prodNoInput.value = selectedOption.value;
 		    console.log(prodNoInput.value);    
 		}
+		
+		function updateProdNoBeforeSubmit() {
+	        // 폼 전송 직전에 상품코드 업데이트
+	        updateProdNo(document.getElementById('prodVal'));
+	    }
 		
         function prodSubmitX() {
         	var prodVal = $('#prodVal').val();
@@ -636,7 +642,7 @@
                     <div class = "vertical_align_center">
                         <div><!--context-->
 						<div>
-						<form name="postFrm" method="post" action="boardPost.do" enctype="multipart/form-data">
+						<form name="postFrm" method="post" action="boardPost.do" enctype="multipart/form-data" onsubmit="updateProdNoBeforeSubmit()">
 						<table width="600" cellpadding="5" align="left" >
 							<tr>
 								<td align=center>
@@ -674,42 +680,10 @@
 									</tr>
 									<tr>
 										<td class="new_form_table_col_1" nowrap>재고현황</td>
-										<td class="new_form_table_col_1" nowrap>
-											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
-											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
-										</td>
+										<td><textarea name="content" rows="2" cols="21"></textarea></td>
 									</tr>
 									<tr>
-										<td></td>
-										<td class="new_form_table_col_1" nowrap>
-											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
-											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
-										</td>
-									</tr>
-									<tr>
-										<td></td>
-										<td class="new_form_table_col_1" nowrap>
-											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
-											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
-										</td>
-									</tr>
-									<tr>
-										<td></td>
-										<td class="new_form_table_col_1" nowrap>
-											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
-											<input name="" size="10" maxlength="20">
-											<input name="" size="7" maxlength="20">&nbsp;&nbsp;
-										</td>
-									</tr>
-									<tr>
-										<td class="new_form_table_col_1" nowrap>비 고</td>
+										<td class="new_form_table_col_1" nowrap>비  고</td>
 										<td><textarea name="content" rows="2" cols="48"></textarea></td>
 									</tr>
 									<tr>
@@ -722,6 +696,21 @@
 										<td><input type="password" name="pass" size="21" maxlength="15"></td>
 									</tr>
 									<tr>
+										<td class="new_form_table_col_1" nowrap>PlanID</td>
+										<td><input name="planID" size="21" maxlength="15"></td>
+									</tr>
+									<tr>
+										<td class="new_form_table_col_1" nowrap>LineID</td>
+										<td>
+											<select id="lineID" name="lineID" style="width:200px">
+											      <option value="" disabled selected hidden>Line을 선택하세요</option>
+											      <option value="KBB01">KBB01</option>
+											      <option value="KBB02">KBB02</option>
+											      <option value="KCS01">KCS01</option>
+											      <option value="KCS02">KCS02</option>
+											</select>
+										</td>
+									</tr>
 									 <tr>
 						     			<td class="new_form_table_col_1" nowrap>파일찾기</td> 
 						     			<td><input type="file" name="filename" size="50" maxlength="50"></td>
