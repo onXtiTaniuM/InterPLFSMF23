@@ -4,13 +4,13 @@ import java.util.List;
 
 import spring.dao.LOT;
 import spring.dao.LOTprod;
-import spring.dao.UserDao;
+import spring.dao.MainDao;
 import spring.dao.Warehouse;
 
 public class InventoryService {
-	private UserDao userDao;
+	private MainDao userDao;
 	
-	public void setuserDao(UserDao userDao) {
+	public void setuserDao(MainDao userDao) {
 		this.userDao = userDao;
 	}
 	

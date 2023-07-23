@@ -8,12 +8,12 @@ import controller.manage.ManageUserCommand;
 import spring.dao.ApprovalPlan;
 import spring.dao.PlanDao;
 import spring.dao.User;
-import spring.dao.UserDao;
+import spring.dao.MainDao;
 
 public class ManageService {
-	private UserDao userDao;
+	private MainDao userDao;
 	
-	public void setuserDao(UserDao userDao) {
+	public void setuserDao(MainDao userDao) {
 		this.userDao = userDao;
 	}
 

@@ -2,13 +2,13 @@ package spring.auth;
 
 import exeptions.WrongIdPasswordException;
 import spring.dao.User;
-import spring.dao.UserDao;
+import spring.dao.MainDao;
 
 public class AuthService {
 
-	private UserDao userDao;
+	private MainDao userDao;
 
-	public void setuserDao(UserDao userDao) {
+	public void setuserDao(MainDao userDao) {
 		this.userDao = userDao;
 	}
 

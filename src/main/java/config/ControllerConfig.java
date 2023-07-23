@@ -8,17 +8,23 @@ import controller.login.LogoutController;
 import controller.manage.ManageController;
 import controller.plan.PReportController;
 import controller.plan.PlanController;
+import controller.preport.Pr_ProductController;
 import controller.process.ProcessController;
+import controller.process.ProcessOrController;
 import controller.setting.SettingController;
 import controller.TestController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
 import spring.auth.AuthService;
+import spring.dao.ProcessDao;
 import spring.inventory.InventoryService;
 import spring.manage.ManageService;
 
 @Configuration
 public class ControllerConfig {
+	
+	@Autowired
+	private ProcessDao processDao;
 
 	@Autowired
 	private AuthService authService;
@@ -62,7 +68,12 @@ public class ControllerConfig {
 	
 	@Bean
 	public ProcessController processController() {
-		return new ProcessController();
+		return new ProcessController(processDao);
+	}
+	
+	@Bean
+	public ProcessOrController processOrController() {
+		return new ProcessOrController(processDao);
 	}
 	
 	@Bean
@@ -75,6 +86,11 @@ public class ControllerConfig {
 		SettingController controller = new SettingController();
 		controller.setManageService(manageService);
 		return controller;
+	}
+	
+	@Bean
+	public Pr_ProductController pr_productController() {
+		return new Pr_ProductController();
 	}
 	
 	//Bean For Test Page. Will Not Use.

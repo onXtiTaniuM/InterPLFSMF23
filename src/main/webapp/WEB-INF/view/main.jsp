@@ -123,7 +123,7 @@
                                     <a class="nav-link" href="${path}/report">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="${path}/report">
+                            <a class="nav-link" href="${path}/preport/pr_product">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 보고서
                             </a>
