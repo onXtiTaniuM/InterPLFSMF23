@@ -97,6 +97,7 @@ public class PlanController {
 		PlanDAO bMgr = new PlanDAO();
 		PlanInfo reBean = new PlanInfo();
 		reBean.setEmpName(request.getParameter("empname"));
+		reBean.setPlanID(request.getParameter("planID"));
 		reBean.setProdName(request.getParameter("prodName"));
 		reBean.setContent(request.getParameter("content"));
 		reBean.setRef(Integer.parseInt(request.getParameter("ref"))); 
@@ -127,9 +128,10 @@ public class PlanController {
 		PlanDAO bMgr = new PlanDAO();
 		PlanInfo bean = (PlanInfo) session.getAttribute("bean");
 		String nowPage = request.getParameter("nowPage");
-		
+
 		PlanInfo upBean = new PlanInfo();
 		upBean.setNum(Integer.parseInt(request.getParameter("num")));
+		upBean.setPlanID(request.getParameter("planID"));
 		upBean.setEmpName(request.getParameter("empname"));
 		upBean.setProdName(request.getParameter("prodName"));
 		upBean.setContent(request.getParameter("content"));
@@ -154,7 +156,7 @@ public class PlanController {
 		
 		return null;
 	}
-	
+		
 
 	
 } 

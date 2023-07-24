@@ -12,7 +12,8 @@ public class PlanInfo {
 	private Date startdate;
 	private Date enddate;
 	private String prodName;
-	private String content;     
+	private String content;
+	private int prodQty;
 	
 	private int pos;            
 	private int depth;        
@@ -25,6 +26,13 @@ public class PlanInfo {
 	
 	
 	
+
+	public int getProdQty() {
+		return prodQty;
+	}
+	public void setProdQty(int prodQty) {
+		this.prodQty = prodQty;
+	}
 	public String getPlanID() {
 		return planID;
 	}

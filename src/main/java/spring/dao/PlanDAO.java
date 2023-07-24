@@ -168,6 +168,7 @@ public class PlanDAO {
 				while (rs.next()) {
 					PlanInfo bean = new PlanInfo();
 					bean.setNum(rs.getInt("num"));
+					bean.setPlanID(rs.getString("planID"));
 					bean.setEmpName(rs.getString("empName"));
 					bean.setProdName(rs.getString("prodName"));
 					bean.setProdNo(rs.getString("prodNo"));
@@ -251,20 +252,21 @@ public class PlanDAO {
 				if (multi.getParameter("contentType").equalsIgnoreCase("TEXT")) {
 					content = UtilMgr.replace(content, "<", "&lt;");
 				}
-				sql = "insert into Board(num,empName,content,prodName,prodNo,startdate,enddate,ref,pos,depth,regdate,pass,ip,filename,filesize)"
-						+"values(board_seq.currval,?, ?, ?, ?, ?, ?, ?, 0, 0, sysdate, ?, ?, ?, ?)";
+				sql = "insert into Board(num,planID,empName,content,prodName,prodNo,startdate,enddate,ref,pos,depth,regdate,pass,ip,filename,filesize)"
+						+"values(board_seq.currval,?,?, ?, ?, ?, ?, ?, ?, 0, 0, sysdate, ?, ?, ?, ?)";
 				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, multi.getParameter("empName"));
-				pstmt.setString(2, content);
-				pstmt.setString(3, multi.getParameter("prodName"));
-				pstmt.setString(4, multi.getParameter("prodNo"));
-				pstmt.setDate(5, java.sql.Date.valueOf(multi.getParameter("startdate")));
-				pstmt.setDate(6, java.sql.Date.valueOf(multi.getParameter("enddate")));
-				pstmt.setInt(7, ref);
-				pstmt.setString(8, multi.getParameter("pass"));
-				pstmt.setString(9, multi.getParameter("ip"));
-				pstmt.setString(10, filename);
-				pstmt.setInt(11, filesize);
+				pstmt.setString(1, multi.getParameter("planID"));
+				pstmt.setString(2, multi.getParameter("empName"));
+				pstmt.setString(3, content);
+				pstmt.setString(4, multi.getParameter("prodName"));
+				pstmt.setString(5, multi.getParameter("prodNo"));
+				pstmt.setDate(6, java.sql.Date.valueOf(multi.getParameter("startdate")));
+				pstmt.setDate(7, java.sql.Date.valueOf(multi.getParameter("enddate")));
+				pstmt.setInt(8, ref);
+				pstmt.setString(9, multi.getParameter("pass"));
+				pstmt.setString(10, multi.getParameter("ip"));
+				pstmt.setString(11, filename);
+				pstmt.setInt(12, filesize);
 				pstmt.executeUpdate();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -283,7 +285,8 @@ public class PlanDAO {
 		    Connection con = null;
 		    PreparedStatement pstmt = null;
 		    String sql = null;
-
+		    String check_yn = "N";
+		    
 		    try {
 		        con = pool.getConnection();
 		        sql = "INSERT INTO process_plan(planID, prodNo, prodQty, lineID, startdate, enddate, empNo, check_yn) " +
@@ -296,7 +299,7 @@ public class PlanDAO {
 		        pstmt.setDate(5, java.sql.Date.valueOf(request.getParameter("startdate")));
 				pstmt.setDate(6, java.sql.Date.valueOf(request.getParameter("enddate")));
 		        pstmt.setString(7, request.getParameter("empName"));
-		        pstmt.setString(8, request.getParameter("check_yn"));
+		        pstmt.setString(8, check_yn);
 		        
 		        pstmt.executeUpdate();
 		    } catch (Exception e) {
@@ -307,7 +310,6 @@ public class PlanDAO {
 		}
 
 
-		
 		// 게시물 리턴
 		public PlanInfo getBoard(int num) {
 			Connection con = null;
@@ -323,8 +325,10 @@ public class PlanDAO {
 				rs = pstmt.executeQuery();
 				if (rs.next()) {
 					bean.setNum(rs.getInt("num"));
+					bean.setPlanID(rs.getString("planID"));
 					bean.setEmpName(rs.getString("empName"));
 					bean.setProdName(rs.getString("prodName"));
+					bean.setProdNo(rs.getString("prodNo"));
 					bean.setStartdate(rs.getDate("startdate"));
 					bean.setEnddate(rs.getDate("enddate"));
 					bean.setContent(rs.getString("content"));
@@ -343,6 +347,32 @@ public class PlanDAO {
 				pool.freeConnection(con, pstmt, rs);
 			}
 			return bean;
+		}
+		
+		public PlanTable getPlan(String planID) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = null;
+			PlanTable bean2 = new PlanTable();
+			try {
+				con = pool.getConnection();
+				sql = "SELECT planID, lineID, prodQty, check_yn FROM process_plan WHERE planID = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, planID);
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					bean2.setPlanID(rs.getString("planID"));
+					bean2.setLineID(rs.getString("lineID"));
+					bean2.setProdQty(rs.getInt("prodQty"));
+					bean2.setCheck_yn(rs.getString("check_yn"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt, rs);
+			}
+			return bean2;
 		}
 
 		// 게시물 삭제
@@ -382,14 +412,15 @@ public class PlanDAO {
 			String sql = null;
 			try {
 				con = pool.getConnection();
-				sql = "update Board set empName = ?, prodName=?, startdate= ?, enddate= ?, content = ? where num = ?";
+				sql = "update Board set planID = ?, empName = ?, prodName=?, startdate= ?, enddate= ?, content = ? where num = ?";
 				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, bean.getEmpName());
-				pstmt.setString(2, bean.getProdName());
-				pstmt.setDate(3, bean.getStartdate());
-				pstmt.setDate(4, bean.getEnddate());
-				pstmt.setString(5, bean.getContent());
-				pstmt.setInt(6, bean.getNum());
+				pstmt.setString(1, bean.getPlanID());
+				pstmt.setString(2, bean.getEmpName());
+				pstmt.setString(3, bean.getProdName());
+				pstmt.setDate(4, bean.getStartdate());
+				pstmt.setDate(5, bean.getEnddate());
+				pstmt.setString(6, bean.getContent());
+				pstmt.setInt(7, bean.getNum());
 				pstmt.executeUpdate();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -405,21 +436,22 @@ public class PlanDAO {
 			String sql = null;
 			try {
 				con = pool.getConnection();
-				sql = "insert into Board (num,empName,content,prodName,startdate,enddate,ref,pos,depth,regdate,pass,ip)";
-				sql += "values(board_seq.nextval,?,?,?,?,?,?,?,?,sysdate,?,?)";
+				sql = "insert into Board (num,planID,empName,content,prodName,startdate,enddate,ref,pos,depth,regdate,pass,ip)";
+				sql += "values(board_seq.nextval,?,?,?,?,?,?,?,?,?,sysdate,?,?)";
 				int depth = bean.getDepth() + 1;
 				int pos = bean.getPos() + 1;
 				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, bean.getEmpName());
-				pstmt.setString(2, bean.getContent());
-				pstmt.setString(3, bean.getProdName());
-				pstmt.setDate(4, bean.getStartdate());
-				pstmt.setDate(5, bean.getEnddate());
-				pstmt.setInt(6, bean.getRef());
-				pstmt.setInt(7, pos);
-				pstmt.setInt(8, depth);
-				pstmt.setString(9, bean.getPass());
-				pstmt.setString(10, bean.getIp());
+				pstmt.setString(1, bean.getPlanID());
+				pstmt.setString(2, bean.getEmpName());
+				pstmt.setString(3, bean.getContent());
+				pstmt.setString(4, bean.getProdName());
+				pstmt.setDate(5, bean.getStartdate());
+				pstmt.setDate(6, bean.getEnddate());
+				pstmt.setInt(7, bean.getRef());
+				pstmt.setInt(8, pos);
+				pstmt.setInt(9, depth);
+				pstmt.setString(10, bean.getPass());
+				pstmt.setString(11, bean.getIp());
 				pstmt.executeUpdate();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -552,8 +584,8 @@ public class PlanDAO {
 			String sql = null;
 			try {
 				con = pool.getConnection();
-				sql = "insert into Board(empName,content,prodName,startdate,enddate,ref,pos,depth,regdate,pass,ip,filename,filesize)";
-				sql+="values('aaa', 'bbb', 'ccc', now(), now(), 0, 0, 0, now(), '1111', '127.0.0.1', null, 0);";
+				sql = "insert into Board(empName,planID,content,prodName,startdate,enddate,ref,pos,depth,regdate,pass,ip,filename,filesize)";
+				sql+="values('aaa','planid', 'bbb', 'ccc', now(), now(), 0, 0, 0, now(), '1111', '127.0.0.1', null, 0);";
 				pstmt = con.prepareStatement(sql);
 				for (int i = 0; i < 1000; i++) {
 					pstmt.executeUpdate();

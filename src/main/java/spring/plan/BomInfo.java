@@ -14,9 +14,18 @@ public class BomInfo {
 	//product	
 	private String prodName;
 	private int prodPrice;
+	private int prodCnt;
 	//inventory
 	private int Qty;
 	
+	
+	
+	public int getProdCnt() {
+		return prodCnt;
+	}
+	public void setProdCnt(int prodCnt) {
+		this.prodCnt = prodCnt;
+	}
 	public int getQty() {
 		return Qty;
 	}

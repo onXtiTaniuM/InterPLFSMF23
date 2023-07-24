@@ -285,7 +285,7 @@
 		    var prodNoInput = document.getElementById('prodNoInput');
 		    
 		    //옵션추가
-		    prodNoInput.value = selectedOption.value;
+		    prodNoInput.value = selectedOption.text;
 		    console.log(prodNoInput.value);    
 		}
 		
@@ -513,6 +513,7 @@
 										  <table width="100%" cellpadding="2" cellspacing="0">
 											<tr align="center" bgcolor="#D0D0D0" height="120%">
 												<td align="center" style="width: 30px;">번 호</td>
+												<td align="center" style="width: 30px;">planID</td>
 												<td align="center" style="width: 150px;">생성일자</td>
 												<td align="center" style="width: 70px;">생산상품</td>
 												<td align="center" style="width: 220px;">생산계획기간</td>
@@ -526,6 +527,7 @@
 											PlanInfo bean = vlist.get(i);
 											
 											int num = bean.getNum();
+											String planID = bean.getPlanID();
 											String content = bean.getContent();
 											String prodName = bean.getProdName();
 											String prodNo = bean.getProdNo();
@@ -539,6 +541,7 @@
 												<td align="center">
 													<%=(nowPage-1)*numPerPage+listSize-i%>
 												</td>
+												<td align="center" style="width: 70px;"><%=planID%></td>
 												<td align="center" style="width: 150px;"><%=regdate.toString().substring(0, 16)%></td>
 												<td align="center" style="width: 70px;"><%=prodName%></td>
 												<td align="center" style="width: 220px;"><%=startdate%> ~ <%=enddate%></td>
@@ -658,7 +661,7 @@
 									  	<td class="new_form_table_col_1" nowrap>생산상품</td>
 										<td class="new_form_table_col_1" nowrap>
 				
-										    <select id="prodVal" name="prodName" style="width:235px" onchange="updateProdNo(this)">
+										    <select id="prodVal" name="prodNo" style="width:235px" onchange="updateProdNo(this)">
 										      <option value="" disabled selected hidden>상품을 선택하세요</option>
 										      <%= bMgr.prodOptions()%>
 									          <!-- <option value="KBD001">Keyboard_click</option>
@@ -668,7 +671,7 @@
 										      <option value="KBD005">KeyCap_Shot</option> -->
 										    </select>
 										    <span class="new_form_table_col_2" nowrap >상품코드</span>
-										    <input type="text" name="prodNo" id="prodNoInput" size="10" maxlength="8">
+										    <input type="text" name="prodName" id="prodNoInput" size="10" maxlength="8">
 										</td>
 									</tr>
 									<tr>
