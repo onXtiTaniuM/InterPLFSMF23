@@ -197,7 +197,7 @@
 						autoOpen: false,
 	                    position: { x: offset.left+250, y: offset.top } ,
 	                    showCollapseButton: false, 
-	                    height: 570, width: 500,
+	                    height: 590, width: 500,
 	                    initContent: function () {
 	                    	$('#tab').jqxTabs({ height: '100%', width:  '100%' });
 	                        $('#prodinsertwindow').jqxWindow('focus');
