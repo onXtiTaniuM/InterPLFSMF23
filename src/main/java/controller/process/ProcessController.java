@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import spring.dao.ProcessBean;
@@ -26,19 +27,41 @@ private ProcessDao processDao;
 		this.processDao = processDao;
 	}
 	
-	/*
-	@GetMapping("/process") // 주소창에 /process 입력시 실행
-    public String single_value(Model model) {
-		List<ProcessBean> single = processDao.selectAll();
-		for(ProcessBean p : single) {
-			
-		model.addAttribute("single", single);
-		}
-		List<ProcessBean> issueList = processDao.selectIssueAll();
-		System.out.println("issueList" + issueList);
-		model.addAttribute("issueList", issueList);
-		return "test3.jsp";
-	}*/
+	@RequestMapping("/processres")
+	public String processmain() {
+		return "process/processmain";
+	}
+	
+	@RequestMapping("/processorder")
+	public String processordermain(Model model) {
+		List<ProcessBean>orderlist = processDao.select_plan();
+		model.addAttribute("orderlist", orderlist);
+		System.out.println("orderlist 실행");
+		return "process/processordermain";
+	}
+	
+	@GetMapping("/ORDelete")
+	public String deleteProcess(Model model, @RequestParam("num") Integer num) {
+		System.out.println("[ProcessOrController] deleteProcess: prodNo=" + num);
+		processDao.deleteProcess(num);
+		System.out.println("deleprocess 완료 2");
+		
+		List<ProcessBean>orderlist = processDao.select_plan();
+		model.addAttribute("orderlist", orderlist);
+		return "process/processordermain";
+	}
+	
+	@GetMapping("/ORstart")
+	public String insertLine(Model model, @RequestParam("prodNo") String prodNo,@RequestParam("value") String value) {
+		System.out.println("[ProcessOrController] insertLine : prodNo=" + prodNo);
+		System.out.println("[ProcessOrController] insertLine : value=" + value);
+		
+		
+		String insertProdNo = prodNo;
+		processDao.insertLineid(value, prodNo);
+		model.addAttribute("insertProdNo", insertProdNo);
+		return "process/processmain";	
+	}
 	
 	@GetMapping("/process") // 주소창에 /process 입력시 실행
     public String single_value(Model model,@RequestParam("procid") String procid) {
@@ -78,101 +101,9 @@ private ProcessDao processDao;
 			System.out.println("process_rate" + process_rate);
 		}
 	
-		return "test/test";
+		return "process/processmain";
 	}
-	
-/*
-		@GetMapping("/process1") // 주소창에 /process 입력시 실행
-	    public String single_value1(Model model, @RequestParam("procid") String procid) {
-			System.out.println("[ProcessController] /process1 : procid=" + procid);
-			
-			List<ProcessBean> processList = processDao.selectById(procid);
-			System.out.println("processList" + processList);
-			model.addAttribute("processList", processList);
-			
-			List<ProcessBean> issueList = processDao.selectIssueAll();
-			System.out.println("issueList" + issueList);
-			model.addAttribute("issueList", issueList);
-			return "test3.jsp";
-		}
 
-		*/
-	//---------------------------------------------------------------------------------
-	/*
-	@PostMapping("/process") 
-	public void doChart_gauge(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value="procid", required=false ) String procid) throws ServletException, IOException{
-		System.out.println("[GaugeChart]");
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter writer = response.getWriter();
-		
-		// DB에 저장된 값을 process_gauge 변수에 저장
-		List<ProcessBean> process_gauge = processDao.selectGauge(procid);
-		System.out.println("Gauge Chart : " + process_gauge);
-		// JSON 배열 선언
-		JSONArray chart = new JSONArray();
-		// xvals에 DB에서 받아온 변수값 저장
-		for(ProcessBean p : process_gauge) {
-			chart.add(p.getProcess_gauge());
-		}
-		/*
-		String xvals = process_gauge;
-		chart.add(xvals);
-		*/
-		//String jsonInfo = chart.toJSONString();
-		//System.out.println(jsonInfo);
-		//writer.print(jsonInfo);
-	//}
-	
-	/*
-	@PostMapping("/process") 
-	public void doChart_gauge(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		System.out.println("[GaugeChart]");
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter writer = response.getWriter();
-		
-		// DB에 저장된 값을 process_gauge 변수에 저장
-		String process_gauge = processDao.selectGauge();
-		System.out.println("Gauge Chart : " + process_gauge);
-		// JSON 배열 선언
-		JSONArray chart = new JSONArray();
-		// xvals에 DB에서 받아온 변수값 저장
-		String xvals = process_gauge;
-		chart.add(xvals);
-		
-		String jsonInfo = chart.toJSONString();
-		System.out.println(jsonInfo);
-		writer.print(jsonInfo);
-	}*/
-	//---------------------------------------------------------------------------------
-	/*
-	@PostMapping("/process1") // 주소창에 /process 입력시 실행
-	public void doChart_rate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		System.out.println("[PieChart]");
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter writer = response.getWriter();
-		
-		// DB에 저장된 값을 process_gauge 변수에 저장
-		// List<ProcessBean>process = processDao.select_rate();
-		List<ProcessBean> process = processDao.select_rate(id);
-		System.out.println("Pie Chart : " + process);
-		// JSON 배열 선언
-		JSONArray chart = new JSONArray();
-		// xvals에 DB에서 받아온 변수값 저장
-		// for(ProcessBean k : process) {
-		for(ProcessBean p : process) {
-			chart.add(p.getGoodprod_rate());
-			chart.add(p.getBadprod_rate());
-		}
-		// }
-		String jsonInfo = chart.toJSONString();
-		System.out.println(jsonInfo);
-		writer.print(jsonInfo);
-	}*/
-	//---------------------------------------------------------------------------------
 	
 	@PostMapping("/process2")
 	public void doChart_time(HttpServletRequest request, HttpServletResponse response, @RequestParam("procid") String procid) throws ServletException, IOException{
@@ -185,8 +116,8 @@ private ProcessDao processDao;
 		System.out.println("Leadtime : " + process_leadtime);
 		
 		List<ProcessBean>process_cycletime = processDao.select_cycletime(procid);
-		int count = processDao.count(); 
-		System.out.println("Cycletime : " + count);
+		/*int count = processDao.count(); 
+		System.out.println("Cycletime : " + count);*/
 		
 		JSONArray chart = new JSONArray();
 		chart.add(process_leadtime);
@@ -199,13 +130,8 @@ private ProcessDao processDao;
 		System.out.println(jsonInfo);
 		writer.print(jsonInfo);
 		
-		/*
-		JSONArray chart = new JSONArray();
-		chart.add(process_leadtime);
-		chart.add(process_cycletime);
-		*/
 	}
-	//---------------------------------------------------------------------------------
+
 	@PostMapping("/process3")
 	public void doChart_material(HttpServletRequest request, HttpServletResponse response,@RequestParam("procid")String procid) throws ServletException, IOException{
 		System.out.println("[timechart]");
@@ -226,7 +152,7 @@ private ProcessDao processDao;
 		System.out.println(jsonInfo);
 		writer.print(jsonInfo);
 	}
-	//---------------------------------------------------------------------------------
+
 	@PostMapping("/process4")
 	public void doChart_material2(HttpServletRequest request, HttpServletResponse response,@RequestParam("procid")String procid) throws ServletException, IOException{
 		System.out.println("[timechart]");
@@ -247,7 +173,6 @@ private ProcessDao processDao;
 		System.out.println(jsonInfo);
 		writer.print(jsonInfo);
 	}
-	//---------------------------------------------------------------------------------
 	
 	@PostMapping("/process5")
 	public void doChart_material3(HttpServletRequest request, HttpServletResponse response,@RequestParam("procid")String procid) throws ServletException, IOException{
@@ -269,17 +194,5 @@ private ProcessDao processDao;
 		System.out.println(jsonInfo);
 		writer.print(jsonInfo);
 	}
-	/*
-	@GetMapping("/test3")
-	public String one(Model model) {
-		return test3
-	} 
-	*/
 
-	/*
-	@RequestMapping("/process")
-    public String manage() {
-    	return "process/process";
-    }
-	*/
 }

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="spring.auth.AuthInfo, java.util.List,spring.dao.ProcessBean" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<%@ page import="spring.auth.AuthInfo, java.util.List, spring.dao.ProcessBean" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,16 +13,36 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>공정진행</title>
-        <link href="resources/css/styles.css" rel="stylesheet" />
-        <link href="resources/css/customstyle.css" rel="stylesheet" />
+        <link href="${path}/resources/css/styles.css" rel="stylesheet" />
+        <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
-        <script type="text/javascript" src="resources/js/jquery-1.12.4.js"></script>
+        <script type="text/javascript" src="${path}/resources/js/jquery-3.6.0.js"></script>
     </head>
      <%--드롭다운 메뉴 선택시 해당 value 값 ProcessController에 전송 --%> 
         <script>
+	        function checkNoti(){
+				$.ajax({
+	       			type:"post",  
+	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
+	       			success:function (data, textStatus) {
+						if(JSON.parse(data)){
+							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
+						}else{
+							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell-slash"></i>'
+						}
+	       			},
+	       			complete:function(data,textStatus){
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("에러발생: " + data);
+	       			},
+	    		});
+			}
+        
 	        $(document).ready(function() {
+	        	checkNoti();
 		        $("#procid").change(function() {
 		        	var procid = $("#procid").val();
 		  			<%--alert(procid);--%>
@@ -45,24 +65,33 @@
 		        <div id="time" class="time"></div>
             </div>
             <!-- Navbar-->
+            <!-- Notification Icon for Admin User -->
+            <c:if test="${sessionScope.authInfo.getAdmin()}">
+	            <ul class="navbar-nav justify-content-end align-items-md-end">
+		            <li class="nav-item">
+		            	<a class="nav-link" id="navbarDropdown" href="${path}/manage/approvalpage" role="button"  aria-expanded="false">
+		            		<span id="notification-icon"></span>
+		            	</a>
+		            </li>
+	            </ul>
+            </c:if>
             <ul class="navbar-nav justify-content-end align-items-md-end">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="${path}/settings">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
-                        < <c:if test="${sessionScope.authInfo.getAdmin()}">
-	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
+                        <c:if test="${sessionScope.authInfo.getAdmin()}">
+	                        <li><a class="dropdown-item" href="${path}/manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
-                        <li><a class="dropdown-item" href="logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="${path}/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
         </nav>
         <!-- Side and Main Area-->
-        <!-- 사이드바 + 메인 -->
         <div id="layoutSidenav">
             <!-- Side Nav Area-->
             <div id="layoutSidenav_nav">
@@ -70,49 +99,29 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Menu</div>
-                            <a class="nav-link" href="plan">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <a class="nav-link" href="${path}/boards/plan.do">
+                                <div class="sb-nav-link-icon"><i class="fa fa-list-ol"></i></div>
                                 계획관리
                             </a>
-                            <a class="nav-link" href="inventory">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <a class="nav-link" href="${path}/inventory">
+                                <div class="sb-nav-link-icon"><i class="fa fa-archive"></i></div>
                                 재고관리
                             </a>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-industry"></i></div>
                                 생산관리
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="process">공정명령</a>
-                                    <a class="nav-link" href="report">공정결과</a>
+                                    <a class="nav-link" href="${path}/processorder">공정명령</a>
+                                    <a class="nav-link" href="${path}/processres">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="logout">
+                            <a class="nav-link" href="${path}/preport/pr_product">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                보고서관리
+                                보고서
                             </a>
-                            <!-- Menu For Test-->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Authentication
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login">Login</a>
-                                            <a class="nav-link" href="register.html">Register</a>
-                                        </nav>
-                                    </div>
-                                </nav>
-                            </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -133,10 +142,11 @@
                         	<h1 class="mt-4"></h1>
                         </div>
                         <div class="col-md-4">
-                 			 	<form id="procForm" action="${contextPath}/process" method="get">
+                 			 	<form id="procForm" action="${path}/process" method="get">
 				                	<select id="procid" name = "procid"> <!-- 공정선택 -->
+				                	
 				                		<option>공정선택</option> 
-				                		<option value = "KBD001">1공정</option>
+				                		<option value = "${insertProdNo}">1공정</option>
 								        <option value = "KBD003">2공정</option>
 								        <option value = "KC002">3공정</option>
 								    </select>     
@@ -350,15 +360,15 @@
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/scripts.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-     <script src="resources/js/chart-gauge.js"></script>
-     <script src="resources/js/chart-bar-leadtime.js"></script>
-     <script src="resources/js/chart-bar-produce.js"></script>
-     <script src="resources/js/chart-bar-produce2.js"></script>
-     <script src="resources/js/chart-bar-produce3.js"></script>
-     <script src="resources/js/chart-pie.js"></script>
-     <script src="resources/js/chart-datatables.js"></script>
+     <script src="${path}/resources/js/chart-gauge.js"></script>
+     <script src="${path}/resources/js/chart-bar-leadtime.js"></script>
+     <script src="${path}/resources/js/chart-bar-produce.js"></script>
+     <script src="${path}/resources/js/chart-bar-produce2.js"></script>
+     <script src="${path}/resources/js/chart-bar-produce3.js"></script>
+     <script src="${path}/resources/js/chart-pie.js"></script>
+     <script src="${path}/resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-     <script src="resources/js/datatables-simple-demo.js"></script>
+     <script src="${path}/resources/js/datatables-simple-demo.js"></script>
      <script>
      	
      	<c:if test="${not empty process_gauge}">

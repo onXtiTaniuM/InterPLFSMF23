@@ -17,10 +17,36 @@
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
         <link href="${path}/resources/css/bootstrap.css" rel="stylesheet" />
 		<link href="${path}/resources/css/style.css" rel="stylesheet" />
+		<script src="${path}/resources/js/jquery-3.6.0.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <link rel="shortcut icon" href="favicon.ico">
-        
+        <script>
+	        function checkNoti(){
+				$.ajax({
+	       			type:"post",  
+	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
+	       			success:function (data, textStatus) {
+						if(JSON.parse(data)){
+							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
+						}else{
+							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell-slash"></i>'
+						}
+	       			},
+	       			complete:function(data,textStatus){
+	       			},
+	       			error:function(data, textStatus){
+	          			alert("에러발생: " + data);
+	       			},
+	    		});
+			}
+	        
+	        $(document).ready(function () {
+	        	if(${sessionScope.authInfo.getAdmin()}){
+	        		checkNoti();
+	        	}
+	        });
+	   </script>
     </head>
     
     <body class="sb-nav-fixed">
@@ -37,11 +63,21 @@
 		        <div id="time" class="time"></div>
             </div>
             <!-- Navbar-->
+            <!-- Notification Icon for Admin User -->
+            <c:if test="${sessionScope.authInfo.getAdmin()}">
+	            <ul class="navbar-nav justify-content-end align-items-md-end">
+		            <li class="nav-item">
+		            	<a class="nav-link" id="navbarDropdown" href="${path}/manage/approvalpage" role="button"  aria-expanded="false">
+		            		<span id="notification-icon"></span>
+		            	</a>
+		            </li>
+	            </ul>
+            </c:if>
             <ul class="navbar-nav justify-content-end align-items-md-end">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="${path}/settings">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
@@ -60,36 +96,30 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Check</div>
-                            <a class="nav-link" href="${path}/plan">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            <div class="sb-sidenav-menu-heading">Menu</div>
+                            <a class="nav-link" href="${path}/boards/plan.do">
+                                <div class="sb-nav-link-icon"><i class="fa fa-list-ol"></i></div>
                                 계획관리
                             </a>
                             <a class="nav-link" href="${path}/inventory">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-archive"></i></div>
                                 재고관리
                             </a>
-                            <div class="sb-sidenav-menu-heading">Process</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fa fa-industry"></i></div>
                                 생산관리
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="${path}/process">공정명령</a>
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                        공정결과
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="${path}/preport/pr_product">상품별</a>
-                                            <a class="nav-link" href="${path}/preport/pr_line">라인별</a>
-                                        </nav>
-                                    </div>
+                                    <a class="nav-link" href="${path}/processorder">공정명령</a>
+                                    <a class="nav-link" href="${path}/processres">공정결과</a>
                                 </nav>
                             </div>
+                            <a class="nav-link" href="${path}/preport/pr_product">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                보고서
+                            </a>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -97,9 +127,7 @@
                         ${sessionScope.authInfo.getName()}
                     </div>
                 </nav>
-            </div> 
-                       
-
+            </div>
             <!-- Inner Contents Area(main) -->
             <div id="layoutSidenav_content">
             	<main>

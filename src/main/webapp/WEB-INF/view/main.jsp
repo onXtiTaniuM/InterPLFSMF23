@@ -70,11 +70,11 @@
 		        <div id="time" class="time"></div>
             </div>
             <!-- Navbar-->
-             <!-- Notification Icon for Admin User -->
+            <!-- Notification Icon for Admin User -->
             <c:if test="${sessionScope.authInfo.getAdmin()}">
 	            <ul class="navbar-nav justify-content-end align-items-md-end">
 		            <li class="nav-item">
-		            	<a class="nav-link" id="navbarDropdown" href="manage/approvalpage" role="button"  aria-expanded="false">
+		            	<a class="nav-link" id="navbarDropdown" href="${path}/manage/approvalpage" role="button"  aria-expanded="false">
 		            		<span id="notification-icon"></span>
 		            	</a>
 		            </li>
@@ -84,14 +84,14 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="settings">Settings</a></li>
+                        <li><a class="dropdown-item" href="${path}/settings">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
                         <c:if test="${sessionScope.authInfo.getAdmin()}">
-	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
+	                        <li><a class="dropdown-item" href="${path}/manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
-                        <li><a class="dropdown-item" href="logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="${path}/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -108,7 +108,7 @@
                                 <div class="sb-nav-link-icon"><i class="fa fa-list-ol"></i></div>
                                 계획관리
                             </a>
-                            <a class="nav-link" href="inventory">
+                            <a class="nav-link" href="${path}/inventory">
                                 <div class="sb-nav-link-icon"><i class="fa fa-archive"></i></div>
                                 재고관리
                             </a>
@@ -119,8 +119,8 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="${path}/process">공정명령</a>
-                                    <a class="nav-link" href="${path}/report">공정결과</a>
+                                    <a class="nav-link" href="${path}/processorder">공정명령</a>
+                                    <a class="nav-link" href="${path}/processres">공정결과</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="${path}/preport/pr_product">

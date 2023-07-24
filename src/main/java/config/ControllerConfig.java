@@ -10,7 +10,6 @@ import controller.plan.BomController;
 import controller.plan.PlanController;
 import controller.preport.Pr_ProductController;
 import controller.process.ProcessController;
-import controller.process.ProcessOrController;
 import controller.setting.SettingController;
 import controller.TestController;
 import controller.inventory.InvenController;
@@ -77,11 +76,6 @@ public class ControllerConfig {
 	}
 	
 	@Bean
-	public ProcessOrController processOrController() {
-		return new ProcessOrController(processDao);
-	}
-	
-	@Bean
 	public SettingController settingsController() {
 		SettingController controller = new SettingController();
 		controller.setManageService(manageService);
@@ -92,13 +86,5 @@ public class ControllerConfig {
 	public Pr_ProductController pr_productController() {
 		return new Pr_ProductController();
 	}
-	
-	//Bean For Test Page. Will Not Use.
-	@Bean
-	public TestController testController() {
-		return new TestController();
-	}
-	
-	
 	
 }
