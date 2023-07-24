@@ -9,6 +9,7 @@
 request.setCharacterEncoding("UTF-8");
 	String nowPage = request.getParameter("nowPage");
 	int num = Integer.parseInt(request.getParameter("num"));
+    String planID = request.getParameter("planID");
 	
 	if (request.getParameter("pass") != null) {
 		String inPass = request.getParameter("pass");
@@ -17,6 +18,7 @@ request.setCharacterEncoding("UTF-8");
 		
 		if (inPass.equals(dbPass)) {
 	bMgr.deleteBoard(num);
+	bMgr.deletePlan(planID);
 	String url = "plan.do?nowPage=" + nowPage;
 	response.sendRedirect(url);
 		} else {

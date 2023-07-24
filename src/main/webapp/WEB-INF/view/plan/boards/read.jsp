@@ -144,7 +144,7 @@
 					 [ <a href="javascript:plan()" >Back</a> | 
 					 <a href="update.do?nowPage=<%=nowPage%>&num=<%=num%>" >Edit</a> |
 					 <a href="reply.do?nowPage=<%=nowPage%>" >Reply</a> |
-					 <a href="delete.do?nowPage=<%=nowPage%>&num=<%=num%>">Delete</a> ]<br/>
+					 <a href="delete.do?nowPage=<%=nowPage%>&num=<%=num%>&planID=<%=planID%>">Delete</a> ]<br/>
 				  </td>
 				 </tr>
 			</table>

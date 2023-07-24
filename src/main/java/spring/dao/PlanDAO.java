@@ -404,6 +404,25 @@ public class PlanDAO {
 				pool.freeConnection(con, pstmt, rs);
 			}
 		}
+		
+		// 게시물 삭제
+				public void deletePlan(String planID) {
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					String sql = null;
+					ResultSet rs = null;
+					try {
+						con = pool.getConnection();
+						sql = "delete from process_plan where planID=?";
+						pstmt = con.prepareStatement(sql);
+						pstmt.setString(1, planID);
+						pstmt.executeUpdate();
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+				}
 
 		// 게시물 수정
 		public void updateBoard(PlanInfo bean) {
