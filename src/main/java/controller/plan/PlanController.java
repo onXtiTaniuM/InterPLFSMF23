@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.oreilly.servlet.MultipartRequest;
+
 import spring.dao.PlanDAO;
 import spring.plan.PlanInfo;
 import spring.plan.PlanTable;
@@ -82,8 +84,8 @@ public class PlanController {
 		System.out.println("[BoardController] : POST:/boardPost.do");
 		request.setCharacterEncoding("UTF-8");
 		PlanDAO bMgr = new PlanDAO();
-		bMgr.insertBoard(request);
-	    bMgr.insertPlan(request);
+		MultipartRequest multi =  bMgr.insertBoard(request);
+		bMgr.insertPlan(multi);
 		return "redirect:/boards/plan.do";
 	}
 	
