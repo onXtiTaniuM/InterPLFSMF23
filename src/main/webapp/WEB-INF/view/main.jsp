@@ -144,44 +144,6 @@
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                         <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Primary Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">Warning Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Success Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Danger Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
@@ -288,12 +250,10 @@
                                     			<tr>
 									                <th>계획번호</th>
 									                <th>라인번호</th>
-									                <th>상품명</th>
-									                <th>수량</th>
-									                <th>기간</th>
-									                <th>직급</th>
-									                <th>등록자명</th>
-									                <th>확인</th>
+									                <th>이슈코드</th>
+									                <th>이슈명</th>
+									                <th>상세</th>
+									                <th>시간</th>
 							            		</tr>
                                     		</thead>
                                     		<tbody>
@@ -304,23 +264,9 @@
 													<td>확인용</td>
 													<td>확인용</td>
 													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
 							            		</tr>
 							            		<tr>
 									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-							            		<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
 													<td>확인용</td>
 													<td>확인용</td>
 													<td>확인용</td>
@@ -334,13 +280,17 @@
 													<td>확인용</td>
 													<td>확인용</td>
 													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
 							            		</tr>
 							            		<tr>
 									                <td>확인용</td>
 													<td>확인용</td>
 													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+													<td>확인용</td>
+							            		</tr>
+							            		<tr>
+									                <td>확인용</td>
 													<td>확인용</td>
 													<td>확인용</td>
 													<td>확인용</td>
