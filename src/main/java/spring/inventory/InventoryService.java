@@ -5,24 +5,38 @@ import java.util.List;
 import spring.dao.LOT;
 import spring.dao.LOTprod;
 import spring.dao.MainDao;
+import spring.dao.Material;
+import spring.dao.Product;
 import spring.dao.Warehouse;
 
 public class InventoryService {
-	private MainDao userDao;
+	private MainDao mainDao;
 	
-	public void setuserDao(MainDao userDao) {
-		this.userDao = userDao;
+	public void setmainDao(MainDao mainDao) {
+		this.mainDao = mainDao;
 	}
 	
 	public List<LOT> allInvenList(){
-		return userDao.selectAllLOT();
+		return mainDao.selectAllLOT();
 	}
 	
 	public List<LOTprod> lotSelectProductList(String lot){
-		return userDao.selectRProdByLOT(lot);
+		return mainDao.selectRProdByLOT(lot);
 	}
 	
 	public List<Warehouse> allWarehouseList(){
-		return userDao.selectAllWareHs();
+		return mainDao.selectAllWareHs();
+	}
+	
+	public List<Material> allMaterialList(){
+		return mainDao.selectAllMaterial();
+	}
+	
+	public List<Product> allProductList(){
+		return mainDao.selectAllProduct();
+	}
+
+	public LOT lotData(String lot) {
+		return mainDao.selectLOT(lot);
 	}
 }

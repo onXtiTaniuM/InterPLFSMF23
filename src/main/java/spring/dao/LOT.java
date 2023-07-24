@@ -10,8 +10,14 @@ public class LOT {
 	private String lotNo;
 	private String prodName;
 	private String materialName;
+	private String prodNo;
+	private String materNo;
 	private int qty;
 	private String warehouseName;
+	private String warehouseNo;
+	
+	public LOT() {
+	}
 	
 	public LOT(String lotno, String prodname, String materialname, int qty, String whsename) {
 		this.lotNo = lotno;
@@ -20,6 +26,7 @@ public class LOT {
 		this.qty = qty;
 		this.warehouseName = whsename;
 	}
+
 
 	public String getLotNo() {
 		return lotNo;
@@ -64,6 +71,29 @@ public class LOT {
 	public void setWarehouseName(String warehouseName) {
 		this.warehouseName = warehouseName;
 	}
-	
+
+	public String getProdNo() {
+		return prodNo;
+	}
+
+	public void setProdNo(String prodNo) {
+		this.prodNo = prodNo;
+	}
+
+	public String getMaterNo() {
+		return materNo;
+	}
+
+	public void setMaterNo(String materNo) {
+		this.materNo = materNo;
+	}
+
+	public String getWarehouseNo() {
+		return warehouseNo;
+	}
+
+	public void setWarehouseNo(String warehouseNo) {
+		this.warehouseNo = warehouseNo;
+	}
 	
 }

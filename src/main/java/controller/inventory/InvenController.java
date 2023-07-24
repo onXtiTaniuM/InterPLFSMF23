@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.dao.LOT;
 import spring.dao.LOTprod;
+import spring.dao.Material;
+import spring.dao.Product;
 import spring.dao.User;
 import spring.dao.Warehouse;
 import spring.inventory.InventoryService;
@@ -105,5 +107,71 @@ public class InvenController {
 			String data = jsonInfo.toJSONString();
 			System.out.print(data);
 			writer.print(data);
+	}
+	
+	@RequestMapping("/productnolist.json")
+	public void productListJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		JSONArray prodArray = new JSONArray();
+		JSONObject jsonInfo = new JSONObject();
+		
+		List<Product> list = invenService.allProductList();
+		for(Product prod : list) {
+			JSONArray whInfo = new JSONArray();
+			whInfo.add(prod.getProdno());
+			whInfo.add(prod.getProdname());
+			prodArray.add(whInfo);
+		}
+			jsonInfo.put("data", prodArray);
+			String data = jsonInfo.toJSONString();
+			System.out.print(data);
+			writer.print(data);
+	}
+	
+	@RequestMapping("/materialnolist.json")
+	public void materialListJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		JSONArray materArray = new JSONArray();
+		JSONObject jsonInfo = new JSONObject();
+		
+		List<Material> list = invenService.allMaterialList();
+		for(Material mt: list) {
+			JSONArray whInfo = new JSONArray();
+			whInfo.add(mt.getNo());
+			whInfo.add(mt.getName());
+			materArray.add(whInfo);
+		}
+			jsonInfo.put("data", materArray);
+			String data = jsonInfo.toJSONString();
+			System.out.print(data);
+			writer.print(data);
+	}
+	
+	@RequestMapping("/lotdata.json")
+	public void userJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		String lot = request.getParameter("lot");
+
+		LOT lotdata = invenService.lotData(lot);
+
+		JSONObject lotInfo = new JSONObject();
+		lotInfo.put("lotno",lotdata.getLotNo());
+		lotInfo.put("prodno",lotdata.getProdNo());
+		lotInfo.put("materno",lotdata.getMaterNo());
+		lotInfo.put("qty",lotdata.getQty());
+		lotInfo.put("whseno",lotdata.getWarehouseNo());
+
+		String data = lotInfo.toJSONString();
+		//System.out.print(data);
+		writer.print(data);
 	}
 }

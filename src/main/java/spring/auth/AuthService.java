@@ -6,14 +6,14 @@ import spring.dao.MainDao;
 
 public class AuthService {
 
-	private MainDao userDao;
+	private MainDao mainDao;
 
-	public void setuserDao(MainDao userDao) {
-		this.userDao = userDao;
+	public void setmainDao(MainDao mainDao) {
+		this.mainDao = mainDao;
 	}
 
 	public AuthInfo authenticate(String id, String password) {
-		User user = userDao.selectById(id);
+		User user = mainDao.selectById(id);
 		if (user == null) {
 			throw new WrongIdPasswordException();
 		}

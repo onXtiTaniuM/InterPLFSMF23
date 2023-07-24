@@ -52,7 +52,7 @@ public class OracleDbConfig{
 	}
 
 	@Bean
-	public MainDao userDao() {
+	public MainDao mainDao() {
 		return new MainDao(dataSource());
 	}
 	
@@ -64,27 +64,27 @@ public class OracleDbConfig{
 	
 	@Bean
 	public UserRegisterService memberRegSvc() {
-		return new UserRegisterService(userDao());
+		return new UserRegisterService(mainDao());
 	}
 	
 	@Bean
 	public AuthService authService() {
 		AuthService authService = new AuthService();
-		authService.setuserDao(userDao());
+		authService.setmainDao(mainDao());
 		return authService;
 	}
 	
 	@Bean
 	public ManageService manageService() {
 		ManageService manageService = new ManageService();
-		manageService.setuserDao(userDao());
+		manageService.setmainDao(mainDao());
 		return manageService;
 	}
 	
 	@Bean
 	public InventoryService inventoryService() {
 		InventoryService invenService = new InventoryService();
-		invenService.setuserDao(userDao());
+		invenService.setmainDao(mainDao());
 		return invenService;
 	}
 	

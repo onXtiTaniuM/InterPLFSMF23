@@ -11,19 +11,19 @@ import spring.dao.User;
 import spring.dao.MainDao;
 
 public class ManageService {
-	private MainDao userDao;
+	private MainDao mainDao;
 	
-	public void setuserDao(MainDao userDao) {
-		this.userDao = userDao;
+	public void setmainDao(MainDao mainDao) {
+		this.mainDao = mainDao;
 	}
 
 	public List<User> allUserList(){
-		List<User> userlist = userDao.selectAll();
+		List<User> userlist = mainDao.selectAll();
 		return userlist;
 	}
 	
 	public void insertUser(ManageUserCommand newUser) {
-		userDao.insertUser(newUser);
+		mainDao.insertUser(newUser);
 	}
 	
 	public String userAdminString(User user) {
@@ -44,43 +44,43 @@ public class ManageService {
 	}
 	
 	public boolean planNotification() {
-		return userDao.planNotification();
+		return mainDao.planNotification();
 	}
 	
 	public boolean idDuplicate(String id) {
-		return (userDao.selectById(id) != null) ? true:false ;
+		return (mainDao.selectById(id) != null) ? true:false ;
 	}
 	
 	public void changePassword(String id, String pw) {
-		userDao.updatePassword(id, pw);
+		mainDao.updatePassword(id, pw);
 	}
 	
 	public boolean passwordCheck(String id, String pw) {
-		if(userDao.selectIdPwMatch(id, pw) != null) {
+		if(mainDao.selectIdPwMatch(id, pw) != null) {
 			return true;
 		}
 		return false;
 	}
 	
 	public User getUserById(String id) {
-		User user = userDao.selectById(id);
+		User user = mainDao.selectById(id);
 		return user;
 	}
 	
 	public List<String> rankList(){
-		return userDao.rankList();
+		return mainDao.rankList();
 	}
 	
 	public void deleteUser(String id) {
-		userDao.deleteUser(id);
+		mainDao.deleteUser(id);
 	}
 
 	public void updateUser(User user) {
-		userDao.updateUser(user);
+		mainDao.updateUser(user);
 	}
 	
 	public List<ApprovalPlan> getApprovalPlanList() {
-		return userDao.selectApprovalPlan("N");
+		return mainDao.selectApprovalPlan("N");
 		
 	}
 	
@@ -96,6 +96,6 @@ public class ManageService {
 	}
 
 	public void planChecked(String planid) {
-		userDao.planChecked(planid);	
+		mainDao.planChecked(planid);	
 	}
 }

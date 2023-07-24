@@ -101,7 +101,7 @@
 						autoOpen: false,
 	                    position: { x: offset.left+250, y: offset.top } ,
 	                    showCollapseButton: false, 
-	                    height: 560, width: 500,
+	                    height: 300, width: 500,
 	                    initContent: function () {
 	                        $('#lotinsertwindow').jqxWindow('focus');
 	                    }
@@ -149,7 +149,7 @@
 						autoOpen: false,
 	                    position: { x: offset.left+250, y: offset.top } ,
 	                    showCollapseButton: false, 
-	                    height: 560, width: 500,
+	                    height: 610, width: 500,
 	                    initContent: function () {
 	                        $('#lotmanagewindow').jqxWindow('focus');
 	                    }
@@ -197,7 +197,7 @@
 						autoOpen: false,
 	                    position: { x: offset.left+250, y: offset.top } ,
 	                    showCollapseButton: false, 
-	                    height: 560, width: 500,
+	                    height: 570, width: 500,
 	                    initContent: function () {
 	                    	$('#tab').jqxTabs({ height: '100%', width:  '100%' });
 	                        $('#prodinsertwindow').jqxWindow('focus');
@@ -270,6 +270,10 @@
 	            };
 	        } ());
     		
+    		var warehouselist;	
+    		var productdblist;
+    		var materiallist;
+    			
 	        $(document).ready(function () {
 	        	lotinsertPop.init();
 				lotmanagePop.init();
@@ -277,6 +281,10 @@
 				prodmanagePop.init();
 	        	
 				initLotForm();
+				initLotUpForm();
+				initWhForm();
+				initMaterForm();
+				initProdForm();
 				
 	        	inventorylist = new DataTable('#inventorylist', { //init datatable
 	        		scrollCollapse: true,
@@ -311,14 +319,49 @@
 	        	    scrollY: '210px',
 	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/lotlist.json'
 	    		});
-	        	
-	        	var warehouselist = new DataTable('#warehouselist', { //init datatable
+	        	popinventorylist.on('click', 'tbody tr', function () {
+	        		let data = popinventorylist.row(this).data();
+	        		lotfiller(data[0]);
+	        	});
+	        	warehouselist = new DataTable('#warehouselist', { //init datatable
 	        		scrollCollapse: true,
 	        		paging: false,
 	        		info: false,
-	        	    scrollY: '210px',
+	        	    scrollY: '135px',
 	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/warehouselist.json'
 	    		});
+	        	warehouselist.on('click', 'tbody tr', function () {
+	        		let data = warehouselist.row(this).data();
+	        		window.navigator.clipboard.writeText(data[0]).then(() => {
+			        		alert("창고 코드 " + data[0] + " 복사완료");
+	        			});
+	        	});
+	        	productdblist = new DataTable('#productdblist', { //init datatable
+	        		scrollCollapse: true,
+	        		paging: false,
+	        		info: false,
+	        	    scrollY: '135px',
+	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/productnolist.json'
+	    		});
+	        	productdblist.on('click', 'tbody tr', function () {
+	        		let data = productdblist.row(this).data();
+	        		window.navigator.clipboard.writeText(data[0]).then(() => {
+		        		alert("상품 코드 " + data[0] + " 복사완료");
+        			});
+	        	});
+	        	materiallist = new DataTable('#materiallist', { //init datatable
+	        		scrollCollapse: true,
+	        		paging: false,
+	        		info: false,
+	        	    scrollY: '135px',
+	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/materialnolist.json'
+	    		});
+	        	materiallist.on('click', 'tbody tr', function () {
+	        		let data = materiallist.row(this).data();
+	        		window.navigator.clipboard.writeText(data[0]).then(() => {
+		        		alert("자재 코드 " + data[0] + " 복사완료");
+        			});
+	        	});
 	        	checkNoti();
 	        	
 	        });   
@@ -488,7 +531,7 @@
 									<table id="popinventorylist" class="display" style="width:100%">
 		                    			<thead>
 								            <tr>
-								                <th>LOT</th>
+								                <th>LOT</t25h>
 								                <th>상품 이름</th>
 								                <th>재료 이름</th>
 								                <th>수량</th>
@@ -497,6 +540,7 @@
 								        </thead>
 		                    		</table>
 		                    		<hr>
+		                    		<div id='lotupdateform' style="width: auto; height: auto;"></div>
 								</div>
 		                    </div>
 		                    <div id="prodinsertwindow">
@@ -513,10 +557,30 @@
                             				<li>창고 분류</li>
                             			</ul>
                             			<div>
-                            				상품분류 폼
+                            				<table id="productdblist" class="display" style="width:100%">
+				                    			<thead>
+										            <tr>
+										                <th>상품 코드</th>
+										                <th>상품 이름</th>
+										            </tr>
+										        </thead>
+		                    				</table>
+		                    				<span style="color:red">**열을 눌러 코드 복사</span>
+		                    				<hr>
+                            				<div id='prodinsertform' style="width: auto; height: auto;"></div>
                             			</div>
                             			<div>
-                            				자재분류 폼
+                            				<table id="materiallist" class="display" style="width:100%">
+				                    			<thead>
+										            <tr>
+										                <th>자재 코드</th>
+										                <th>자재 이름</th>
+										            </tr>
+										        </thead>
+		                    				</table>
+		                    				<span style="color:red">**열을 눌러 코드 복사</span>
+		                    				<hr>
+                            				<div id='materinsertform' style="width: auto; height: auto;"></div>
                             			</div>
                             			<div>
                             				<table id="warehouselist" class="display" style="width:100%">
@@ -528,6 +592,9 @@
 										            </tr>
 										        </thead>
 		                    				</table>
+		                    				<span style="color:red">**열을 눌러 코드 복사</span>
+		                    				<hr>
+		                    				<div id='warehsinsertform' style="width: auto; height: auto;"></div>
                             			</div>
 									</div>
 								</div>

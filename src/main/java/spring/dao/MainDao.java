@@ -172,6 +172,26 @@ public class MainDao {
 		return results;
 	}
 	
+	public LOT selectLOT(String lot) { //LOT 전체 조회
+		Object[] where = new Object[] {lot};
+		List<LOT> results = jdbcTemplate.query(
+				"SELECT * FROM inventory WHERE lot = ?", where, 
+				new RowMapper<LOT>() {
+					@Override
+					public LOT mapRow(ResultSet rs, int rowNum) throws SQLException {
+						LOT lot = new LOT();
+						lot.setLotNo(rs.getString("lot"));
+						lot.setProdNo(rs.getString("prodno"));
+						lot.setMaterNo(rs.getString("materno"));
+						lot.setQty(rs.getInt("qty"));
+						lot.setWarehouseNo(rs.getString("whseno"));
+						return lot;
+					}
+				});
+		
+		return results.get(0);
+	}
+	
 	public List<LOTprod> selectRProdByLOT(String lot){ //LOT로 ResProduct조회
 		Object[] where = new Object[] {lot};
 		List<LOTprod> results = jdbcTemplate.query(
@@ -211,34 +231,37 @@ public class MainDao {
 		return results;
 	}
 	
-	public List<Warehouse> selectAllProduct() { //Product 전체조회
-		List<Warehouse> results = jdbcTemplate.query(
-				"SELECT * FROM warehouse", 
-				new RowMapper<Warehouse>() {
+	public List<Product> selectAllProduct() { //Material 전체조회
+		List<Product> results = jdbcTemplate.query(
+				"SELECT * FROM product", 
+				new RowMapper<Product>() {
 					@Override
-					public Warehouse mapRow(ResultSet rs, int rowNum) throws SQLException {
-						Warehouse wh = new Warehouse(
-								rs.getString("whseno"),
-								rs.getString("whseloc"),
-								rs.getString("whsename"));
-						return wh;
+					public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Product pd = new Product(
+								rs.getString("prodno"),
+								rs.getString("prodname"),
+								rs.getInt("prodprice"),
+								rs.getString("category"),
+								rs.getInt("leadtime"));
+						return pd;
 					}
 				});
 		
 		return results;
 	}
 	
-	public List<Warehouse> selectAllMaterial() { //Material 전체조회
-		List<Warehouse> results = jdbcTemplate.query(
-				"SELECT * FROM warehouse", 
-				new RowMapper<Warehouse>() {
+	public List<Material> selectAllMaterial() { //Material 전체조회
+		List<Material> results = jdbcTemplate.query(
+				"SELECT * FROM material", 
+				new RowMapper<Material>() {
 					@Override
-					public Warehouse mapRow(ResultSet rs, int rowNum) throws SQLException {
-						Warehouse wh = new Warehouse(
-								rs.getString("whseno"),
-								rs.getString("whseloc"),
-								rs.getString("whsename"));
-						return wh;
+					public Material mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Material mt = new Material(
+								rs.getString("materno"),
+								rs.getString("matername"),
+								rs.getInt("materprice"),
+								rs.getString("unit"));
+						return mt;
 					}
 				});
 		
