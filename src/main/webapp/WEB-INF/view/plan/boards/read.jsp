@@ -73,9 +73,9 @@
 	     		조회
 	  	</div>
 		<div class="card-body">
-			<table class="table_padding" align="left" width="700" cellspacing="3">
+			<table align="center" width="700" cellspacing="3">
 				 <tr>
-				  	<td bgcolor="#C5C5C5" height="25" align="center"></td>
+				  	<td bgcolor="#4B69EE" height="25" align="center"></td>
 				 </tr>
 				 <tr>
 				  <td>

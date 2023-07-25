@@ -57,8 +57,10 @@ public class PlanController {
 	}
 
 	@RequestMapping("/delete.do")
-	public String delete(Model model) {
+	public String delete(@RequestParam(value="planID", required = false) String planID, Model model) {
 		System.out.println("[BoardController] : /boards/delete.do");
+		System.out.println("planID="+planID);
+		model.addAttribute("planID", planID);
 		return "plan/boards/delete";
 	}
 	

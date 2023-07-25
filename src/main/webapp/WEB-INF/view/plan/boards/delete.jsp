@@ -6,10 +6,13 @@
 <title>Delete Board</title>
 <link href="style.css" rel="stylesheet" type="text/css">
 <%
-request.setCharacterEncoding("UTF-8");
+	request.setCharacterEncoding("UTF-8");
 	String nowPage = request.getParameter("nowPage");
 	int num = Integer.parseInt(request.getParameter("num"));
     String planID = request.getParameter("planID");
+    
+    System.out.println("[delete.jsp] num="+num);
+	System.out.println("[delete.jsp] planID="+ planID);
 	
 	if (request.getParameter("pass") != null) {
 		String inPass = request.getParameter("pass");
@@ -17,11 +20,12 @@ request.setCharacterEncoding("UTF-8");
 		String dbPass = bean.getPass();
 		
 		if (inPass.equals(dbPass)) {
-	bMgr.deleteBoard(num);
-	bMgr.deletePlan(planID);
-	String url = "plan.do?nowPage=" + nowPage;
-	response.sendRedirect(url);
-		} else {
+			bMgr.deleteBoard(num);
+			bMgr.deletePlan(planID);
+			String url = "plan.do?nowPage=" + nowPage;
+			response.sendRedirect(url);
+		} 
+		else {
 %>
 <script type="text/javascript">
 	alert("입력하신 비밀번호가 아닙니다.");
@@ -77,6 +81,7 @@ request.setCharacterEncoding("UTF-8");
 			</table>
 			<input type="hidden" name="nowPage" value="<%=nowPage%>"> 
 			<input type="hidden" name="num" value="<%=num%>">
+			<input type="hidden" name="planID" value="<%=planID%>">
 		</form>
 	</div>
 	<%}%>
