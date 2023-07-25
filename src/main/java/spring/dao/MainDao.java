@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -295,6 +296,30 @@ public class MainDao {
 		
 		return results;
 	}
+	
+	public List<ApprovalPlan> selectPlanWithName() { //계획 조회
+		List<ApprovalPlan> results = jdbcTemplate.query(
+				"SELECT PLANID, LINEID, prodname, PRODQTY,  STARTDATE, ENDDATE, RANK, name FROM PROCESS_PLAN pp "
+				+ "LEFT JOIN E_USER u ON pp.EMPNO = u.EMPNO "
+				+ "LEFT JOIN PRODUCT p ON p.PRODNO = pp.PRODNO ", 
+				new RowMapper<ApprovalPlan>() {
+					@Override
+					public ApprovalPlan mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ApprovalPlan plan = new ApprovalPlan(
+								rs.getString("planid"),
+								rs.getString("lineid"),
+								rs.getString("prodname"),
+								rs.getInt("prodqty"),
+								rs.getTimestamp("startdate").toLocalDateTime(),
+								rs.getTimestamp("enddate").toLocalDateTime(),
+								rs.getString("rank"),
+								rs.getString("name"));
+						return plan;
+					}
+				});
+		
+		return results;
+	}
 
 	public void planChecked(String planid) { //계획 결제 입력
 			jdbcTemplate.update(
@@ -468,4 +493,28 @@ public class MainDao {
 		//return results.isEmpty() ? null : results.get(0);
 		return results;
 	}
+	
+	/*-----------------------------------------------------------------Process Data-----------------------------------------------------------*/
+	
+	public List<Issue> selectAllIssue() { //Material 전체조회
+		List<Issue> results = jdbcTemplate.query(
+				"SELECT * FROM PROCESS_ISSUE pi LEFT JOIN PROCESS_ORDER po ON pi.PLANID = po.PLANID "
+				+ "LEFT JOIN ISSUE i ON i.ISSUENO = pi.ISSUENO", 
+				new RowMapper<Issue>() {
+					@Override
+					public Issue mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Issue is = new Issue(
+								rs.getString("planid"),
+								rs.getString("lineid"),
+								rs.getString("issueno"),
+								rs.getString("issuename"),
+								rs.getString("issueinfo"),
+								rs.getTimestamp("timestamp").toLocalDateTime());
+						return is;
+					}
+				});
+		
+		return results;
+	}
+	
 }

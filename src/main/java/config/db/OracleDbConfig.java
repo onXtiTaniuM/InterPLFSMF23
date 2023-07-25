@@ -8,6 +8,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import config.db.OracleInfo;
+import controller.statistics.StatisticsService;
 import spring.auth.AuthService;
 import spring.dao.MainDao;
 import spring.dao.L_InvenDao;
@@ -86,6 +87,13 @@ public class OracleDbConfig{
 		InventoryService invenService = new InventoryService();
 		invenService.setmainDao(mainDao());
 		return invenService;
+	}
+	
+	@Bean
+	public StatisticsService statisticsService() {
+		StatisticsService statisticsService = new StatisticsService();
+		statisticsService.setmainDao(mainDao());
+		return statisticsService;
 	}
 	
 	@Bean

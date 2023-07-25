@@ -15,6 +15,7 @@
         <link href="${path}/resources/css/styles.css" rel="stylesheet" />
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
         <link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
+        <link href="${path}/resources/css/maintable.css" rel="stylesheet" />
         <script src="${path}/resources/js/jquery-3.6.0.js"></script>
         <script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -45,13 +46,16 @@
 	        	var issuetable = new DataTable('#issueList', {
 	        		searching: false,
 	        		paging: false,
-	        		ordering: false,
-	        		info: false
-	        		});
+	        		scrollY: '350px',
+	        		info: false,
+	        		ajax: 'http://localhost:8584/SMFPlatform/statistics/issuelist.json'
+	        	});
 	        	var plantable = new DataTable('#planList',{
 	        		searching: false,
 	        		paging: false,
-	        		info: false
+	        		scrollY: '350px',
+	        		info: false,
+	        		ajax: 'http://localhost:8584/SMFPlatform/statistics/planlist.json'
 	        	});
 	        });   
         </script>
@@ -161,61 +165,8 @@
 									                <th>기간</th>
 									                <th>직급</th>
 									                <th>등록자명</th>
-									                <th>확인</th>
 							            		</tr>
                                     		</thead>
-                                    		<tbody>
-                                    			<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-							            		<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-							            		<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-							            		<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-							            		<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-                                    		</tbody>
                                     	</table>
                                     </div>
                                 </div>
@@ -248,56 +199,12 @@
                                     	<table id="issueList">
                                     		<thead>
                                     			<tr>
-									                <th>계획번호</th>
 									                <th>라인번호</th>
-									                <th>이슈코드</th>
 									                <th>이슈명</th>
 									                <th>상세</th>
 									                <th>시간</th>
 							            		</tr>
                                     		</thead>
-                                    		<tbody>
-                                    			<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-							            		<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-							            		<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-							            		<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-							            		<tr>
-									                <td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-													<td>확인용</td>
-							            		</tr>
-                                    		</tbody>
                                     	</table>
                                     </div>
                                 </div>

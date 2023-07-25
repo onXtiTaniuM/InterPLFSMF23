@@ -11,6 +11,8 @@ import controller.plan.PlanController;
 import controller.preport.Pr_ProductController;
 import controller.process.ProcessController;
 import controller.setting.SettingController;
+import controller.statistics.StatisticsController;
+import controller.statistics.StatisticsService;
 import controller.TestController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
@@ -33,6 +35,9 @@ public class ControllerConfig {
 	
 	@Autowired
 	private InventoryService inventoryService;
+	
+	@Autowired
+	private StatisticsService statisticsService;
 	
 	@Bean
 	public LoginController loginController() {
@@ -85,6 +90,13 @@ public class ControllerConfig {
 	@Bean
 	public Pr_ProductController pr_productController() {
 		return new Pr_ProductController();
+	}
+	
+	@Bean
+	public StatisticsController statisticsController() {
+		StatisticsController controller = new StatisticsController();
+		controller.setStatisticsService(statisticsService);
+		return controller;
 	}
 	
 }
