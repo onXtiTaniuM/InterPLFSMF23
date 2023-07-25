@@ -269,6 +269,22 @@ public class MainDao {
 		return results;
 	}
 	
+	public List<LOT> selectEAMaterialQty() { //Material 갯수 조회
+		List<LOT> results = jdbcTemplate.query(
+				"SELECT * FROM INVENTORY i LEFT JOIN MATERIAL m ON m.MATERNO = i.MATERNO WHERE i.materno IS NOT NULL AND m.UNIT  = 'EA'", 
+				new RowMapper<LOT>() {
+					@Override
+					public LOT mapRow(ResultSet rs, int rowNum) throws SQLException {
+						LOT mt = new LOT();
+						mt.setMaterialName(rs.getString("matername"));
+						mt.setQty(rs.getInt("qty"));
+						return mt;
+					}
+				});
+		
+		return results;
+	}
+	
 	/*-----------------------------------------------------------------Plan Data-----------------------------------------------------------*/
 	
 	public List<ApprovalPlan> selectApprovalPlan(String check) { //미결제 계획 조회

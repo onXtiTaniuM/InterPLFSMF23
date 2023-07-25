@@ -6,6 +6,7 @@ import java.util.List;
 
 import spring.dao.ApprovalPlan;
 import spring.dao.Issue;
+import spring.dao.LOT;
 import spring.dao.MainDao;
 import spring.dao.User;
 
@@ -42,6 +43,9 @@ public class StatisticsService {
 	
 	public List<ApprovalPlan> getPlanList() {
 		return mainDao.selectPlanWithName();
-		
+	}
+	
+	public List<LOT> getInvenMaterQtyList(){
+		return mainDao.selectEAMaterialQty();
 	}
 }

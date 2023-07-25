@@ -18,6 +18,7 @@
         <link href="${path}/resources/css/maintable.css" rel="stylesheet" />
         <script src="${path}/resources/js/jquery-3.6.0.js"></script>
         <script src="${path}/resources/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script>
 			function checkNoti(){
@@ -57,6 +58,7 @@
 	        		info: false,
 	        		ajax: 'http://localhost:8584/SMFPlatform/statistics/planlist.json'
 	        	});
+	        	fn_invenchart();
 	        });   
         </script>
     </head>
@@ -155,7 +157,7 @@
                                         공정 계획
                                     </div>
                                     <div class="card-body">
-                                    	<table id="planList">
+                                    	<table id="planList" width="100%">
                                     		<thead>
                                     			<tr>
 									                <th>계획번호</th>
@@ -177,7 +179,9 @@
                                         <i class="fas fa-chart-area me-1"></i>
                                         자재 현황
                                     </div>
-                                    <div class="card-body"></div>
+                                    <div class="card-body">
+                                    	<canvas id="inventoryBarChart" width="100%" height="70"></canvas>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
@@ -196,7 +200,7 @@
                                         이슈 목록
                                     </div>
                                     <div class="card-body">
-                                    	<table id="issueList">
+                                    	<table id="issueList" width="100%">
                                     		<thead>
                                     			<tr>
 									                <th>라인번호</th>
@@ -243,5 +247,6 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/scripts.js"></script>
+        <script src="${path}/resources/js/chart-bar-maininventory.js"></script>
     </body>
 </html>
