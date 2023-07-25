@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import spring.plan.BomInfo;
-import spring.dao.PlanDao;
+import spring.dao.PlanDAO;
 
 @Controller
 @RequestMapping("/ajax")
@@ -37,8 +37,8 @@ public class BomController {
         JSONArray jsonObject = new JSONArray();
 
         try {
-            PlanDao PlanDao = new PlanDao();
-            Vector<BomInfo> bom = PlanDao.getBomList(prodVal);
+            PlanDAO planDAO = new PlanDAO();
+            Vector<BomInfo> bom = planDAO.getBomList(prodVal);
 
             JSONArray json1 = new JSONArray();
             JSONArray json2 = new JSONArray();

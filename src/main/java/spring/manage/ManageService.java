@@ -6,7 +6,7 @@ import java.util.List;
 
 import controller.manage.ManageUserCommand;
 import spring.dao.ApprovalPlan;
-import spring.dao.PlanDao;
+import spring.dao.PlanDAO;
 import spring.dao.User;
 import spring.dao.MainDao;
 

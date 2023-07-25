@@ -19,7 +19,7 @@ import spring.dao.P_InvenDao;
 import spring.dao.P_IssueDao;
 import spring.dao.P_NamesDao;
 import spring.dao.P_PRDao;
-import spring.dao.PlanDao;
+import spring.dao.PlanDAO;
 import spring.dao.ProcessDao;
 import spring.dao.UserRegisterService;
 import spring.inventory.InventoryService;

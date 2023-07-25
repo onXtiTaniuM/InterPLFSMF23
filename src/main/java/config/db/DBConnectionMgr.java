@@ -37,7 +37,7 @@ final static int MAX_DBPOOLING = 10;
     final static String _driver = "oracle.jdbc.driver.OracleDriver";
     final static String _url = "jdbc:oracle:thin:@localhost:1521:xe";
     private String _user = "HELLOUSER";	
-    private String _password = "HELLOUSER";
+    private String _password = "5161";
     
     private boolean _traceOn = false;
     private boolean initialized = false;

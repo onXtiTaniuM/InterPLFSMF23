@@ -1,12 +1,12 @@
 package spring.plan;
 
-import spring.dao.PlanDao;
+import spring.dao.PlanDAO;
 
 public class PlanService {
 
-	private PlanDao plandao;
+	private PlanDAO plandao;
 
-	public void setPlandao(PlanDao plandao) {
+	public void setPlandao(PlanDAO plandao) {
 		this.plandao = plandao;
 	}
 }
