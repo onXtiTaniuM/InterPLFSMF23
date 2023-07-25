@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 //lot form temp
 var lottemplate = [
     {
@@ -38,7 +34,7 @@ var lottemplate = [
 	{
     	name: 'qty',
         bind: 'qty',
-        type: 'text',
+        type: 'number',
         label: '수 량',
         labelPosition: 'left',
         labelWidth: '30%',
@@ -83,6 +79,7 @@ function initLotForm(){
     });	
 }
 
+//lotupform
 var lotuptemplate = [
     {
     	name: 'lotno',
@@ -118,7 +115,7 @@ var lotuptemplate = [
 	{
     	name: 'qty',
         bind: 'qty',
-        type: 'text',
+        type: 'number',
         label: '수 량',
         labelPosition: 'left',
         labelWidth: '30%',
@@ -392,3 +389,132 @@ function lotfiller(lotno){
               }
             });
 }
+
+function insertLot(){
+	var targetlot= $("#lotinsertform").jqxForm('getComponentByName' , "lotno");
+	var targetprodno= $("#lotinsertform").jqxForm('getComponentByName' , "prodno");
+	var targetmaterno= $("#lotinsertform").jqxForm('getComponentByName' , "materno");
+	var targetqty= $("#lotinsertform").jqxForm('getComponentByName' , "qty");
+	var targetwhseno= $("#lotinsertform").jqxForm('getComponentByName' , "whseno");
+	
+	var formdata = {lot:targetlot, prodno:targetprodno, materno:targetmaterno, qty:targetqty, whseno:targetwhseno};
+	
+	$.ajax({
+              type: 'POST',
+              url: 'http://localhost:8584/SMFPlatform/inventory/insertlot.do',
+              dataType: 'json',
+              async: false,
+              data:formdata,
+              success: function(data) {
+              	alert("입력 완료!");
+				inventorylist.ajax.reload();
+				$("#lotinsertform").jqxForm("val");
+              },
+              error: function(xhr, status, error) {
+                console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+                alert("입력 실패!");
+              }
+            });
+}
+
+function updateLot(){
+	var targetlot= $("#lotupdateform").jqxForm('getComponentByName' , "lotno");
+	var targetprodno= $("#lotupdateform").jqxForm('getComponentByName' , "prodno");
+	var targetmaterno= $("#lotupdateform").jqxForm('getComponentByName' , "materno");
+	var targetqty= $("#lotupdateform").jqxForm('getComponentByName' , "qty");
+	var targethseno= $("#lotupdateform").jqxForm('getComponentByName' , "whseno");
+	
+	var formdata = {lot:targetlot, prodno:targetprodno, materno:targetmaterno, qty:targetqty, whseno:targetwhseno};
+	
+	$.ajax({
+              type: 'POST',
+              url: 'http://localhost:8584/SMFPlatform/inventory/updatelot.do',
+              dataType: 'json',
+              async: false,
+              data:formdata,
+              success: function(data) {
+               	alert("입력 완료!");
+				popinventorylist.ajax.reload();
+				$("#lotupdateform").jqxForm("val");
+              },
+              error: function(xhr, status, error) {
+                console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+              }
+            });
+}
+
+function insertProduct(){
+	var targetprodno= $("#prodinsertform").jqxForm('getComponentByName' , "prodno");
+	var targetprodname= $("#prodinsertform").jqxForm('getComponentByName' , "prodname");
+	var targetcategory= $("#prodinsertform").jqxForm('getComponentByName' , "category");
+	var targetprodprice= $("#prodinsertform").jqxForm('getComponentByName' , "prodprice");
+	var targetleadtime= $("#prodinsertform").jqxForm('getComponentByName' , "leadtime");
+	
+	var formdata = {prodno:targetprodno,prodname:targetprodname,category:targetcategory,prodprice:targetprodprice,leadtime:targetleadtime};
+	
+	$.ajax({
+              type: 'POST',
+              url: 'http://localhost:8584/SMFPlatform/inventory/insertproduct.do',
+              dataType: 'json',
+              async: false,
+              data:formdata,
+              success: function(data) {
+               	alert("입력 완료!");
+				productlist.ajax.reload();
+				$("#prodinsertform").jqxForm("val");
+              },
+              error: function(xhr, status, error) {
+                console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+              }
+            });
+}
+
+function insertMaterial(){
+	var targetmaterno= $("#materinsertform").jqxForm('getComponentByName' , "materno");
+	var targetmatername= $("#materinsertform").jqxForm('getComponentByName' , "matername");
+	var targetmaterprice= $("#materinsertform").jqxForm('getComponentByName' , "materprice");
+	var targetunit= $("#materinsertform").jqxForm('getComponentByName' , "unit");
+	
+	var formdata = {materno:targetmaterno,matername:targetmatername,materprice:targetmaterprice,unit:targetunit}
+	
+	$.ajax({
+              type: 'POST',
+              url: 'http://localhost:8584/SMFPlatform/inventory/insertmaterial.do',
+              dataType: 'json',
+              async: false,
+              data:formdata,
+              success: function(data) {
+               	alert("입력 완료!");
+				materiallist.ajax.reload();
+				$("#prodinsertform").jqxForm("val");
+              },
+              error: function(xhr, status, error) {
+                console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+              }
+            });
+}
+
+function insertWhse(){
+	var targetwhseno= $("#warehsinsertform").jqxForm('getComponentByName' , "whseno");
+	var targetwhsename= $("#warehsinsertform").jqxForm('getComponentByName' , "whsename");
+	var targetwhseloc= $("#warehsinsertform").jqxForm('getComponentByName' , "whseloc");
+	
+	var formdata = {whseno:targetwhseno, whsename:targetwhsename, whseloc:targetwhseloc}
+	
+	$.ajax({
+              type: 'POST',
+              url: 'http://localhost:8584/SMFPlatform/inventory/insertwh.do',
+              dataType: 'json',
+              async: false,
+              data:{lot:lotno},
+              success: function(data) {
+               	alert("입력 완료!");
+				warehouselist.ajax.reload();
+				$("#prodinsertform").jqxForm("val");
+              },
+              error: function(xhr, status, error) {
+                console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
+              }
+            });
+}
+
