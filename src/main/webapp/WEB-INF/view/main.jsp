@@ -47,7 +47,7 @@
 	        	var issuetable = new DataTable('#issueList', {
 	        		searching: false,
 	        		paging: false,
-	        		scrollY: '350px',
+	        		scrollY: '460px',
 	        		info: false,
 	        		ajax: 'http://localhost:8584/SMFPlatform/statistics/issuelist.json'
 	        	});
@@ -188,9 +188,12 @@
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-area me-1"></i>
-                                        생산 라인 현황
+                                        계획 진행 현황
                                     </div>
-                                    <div class="card-body"></div>
+                                    <div class="card-body text-center" style="content-align-center">
+                                    	<h2 id="pertitle">plan</h2>
+                                    	<canvas id="planprogress" width="450" height="450"></canvas>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
@@ -249,5 +252,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/scripts.js"></script>
         <script src="${path}/resources/js/chart-bar-maininventory.js"></script>
+        <script src="${path}/resources/js/chart-guage-maininventory.js"></script>
     </body>
 </html>

@@ -313,6 +313,22 @@ public class MainDao {
 		return results;
 	}
 	
+	public int selectPlanQty(String planid) { //미결제 계획 조회
+		Object[] where = new Object[] {planid};
+		List<ApprovalPlan> results = jdbcTemplate.query(
+				"SELECT * FROM process_plan WHERE planid = ?", where,
+				new RowMapper<ApprovalPlan>() {
+					@Override
+					public ApprovalPlan mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ApprovalPlan plan = new ApprovalPlan();
+						plan.setQty(rs.getInt("prodqty"));
+						return plan;
+					}
+				});
+		
+		return results.get(0).getQty();
+	}
+	
 	public List<ApprovalPlan> selectPlanWithName() { //계획 조회
 		List<ApprovalPlan> results = jdbcTemplate.query(
 				"SELECT PLANID, LINEID, prodname, PRODQTY,  STARTDATE, ENDDATE, RANK, name FROM PROCESS_PLAN pp "
@@ -533,4 +549,23 @@ public class MainDao {
 		return results;
 	}
 	
+	public int countQcPass(String processid) {
+		Object[] where = new Object[] {processid};
+		int result = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM result_prod where processid = ? AND status = 0", where, Integer.class);
+
+		return result;
+	}
+	
+	public int countQcFail(String processid) {
+		Object[] where = new Object[] {processid};
+		int result = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM result_prod where processid = ? AND status = 1", where, Integer.class);
+
+		return result;
+	}
+	
+	public String selectprocessId(String planid) {
+		Object[] where = new Object[] {planid};
+		String result = jdbcTemplate.queryForObject("SELECT processid FROM process where planid = ?", where, String.class);
+		return result;
+	}
 }
