@@ -37,8 +37,8 @@ public class BomController {
         JSONArray jsonObject = new JSONArray();
 
         try {
-            PlanDao PlanDao = new PlanDao();
-            Vector<BomInfo> bom = PlanDao.getBomList(prodVal);
+            PlanDao planDAO = new PlanDao();
+            Vector<BomInfo> bom = planDAO.getBomList(prodVal);
 
             JSONArray json1 = new JSONArray();
             JSONArray json2 = new JSONArray();

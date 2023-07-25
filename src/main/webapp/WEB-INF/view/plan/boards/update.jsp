@@ -7,6 +7,7 @@ int num = Integer.parseInt(request.getParameter("num"));
 	  String prodName = bean.getProdName();
 	  String empName = bean.getEmpName(); 
 	  String content = bean.getContent();
+	  String planID = bean.getPlanID();
 %>
 <html>
 <head>
@@ -41,6 +42,12 @@ int num = Integer.parseInt(request.getParameter("num"));
 	  <input name="empName" value="<%=empName%>" size="30" maxlength="20">
 	 </td>
 	</tr>
+	<tr>
+     <td>PlanID</td>
+     <td>
+	  <input name="planID" size="50" value="<%=planID%>" maxlength="50">
+	 </td>
+    <tr>
 	<tr>
      <td>생산상품</td>
      <td>

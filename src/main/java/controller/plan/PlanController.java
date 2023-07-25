@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.oreilly.servlet.MultipartRequest;
+
 import spring.dao.PlanDao;
 import spring.plan.PlanInfo;
 import spring.plan.PlanTable;
@@ -55,8 +57,10 @@ public class PlanController {
 	}
 
 	@RequestMapping("/delete.do")
-	public String delete(Model model) {
+	public String delete(@RequestParam(value="planID", required = false) String planID, Model model) {
 		System.out.println("[BoardController] : /boards/delete.do");
+		System.out.println("planID="+planID);
+		model.addAttribute("planID", planID);
 		return "plan/boards/delete";
 	}
 	
@@ -82,8 +86,8 @@ public class PlanController {
 		System.out.println("[BoardController] : POST:/boardPost.do");
 		request.setCharacterEncoding("UTF-8");
 		PlanDao bMgr = new PlanDao();
-		bMgr.insertBoard(request);
-	    bMgr.insertPlan(request);
+		MultipartRequest multi =  bMgr.insertBoard(request);
+		bMgr.insertPlan(multi);
 		return "redirect:/boards/plan.do";
 	}
 	
@@ -95,6 +99,7 @@ public class PlanController {
 		PlanDao bMgr = new PlanDao();
 		PlanInfo reBean = new PlanInfo();
 		reBean.setEmpName(request.getParameter("empname"));
+		reBean.setPlanID(request.getParameter("planID"));
 		reBean.setProdName(request.getParameter("prodName"));
 		reBean.setContent(request.getParameter("content"));
 		reBean.setRef(Integer.parseInt(request.getParameter("ref"))); 
@@ -125,9 +130,10 @@ public class PlanController {
 		PlanDao bMgr = new PlanDao();
 		PlanInfo bean = (PlanInfo) session.getAttribute("bean");
 		String nowPage = request.getParameter("nowPage");
-		
+
 		PlanInfo upBean = new PlanInfo();
 		upBean.setNum(Integer.parseInt(request.getParameter("num")));
+		upBean.setPlanID(request.getParameter("planID"));
 		upBean.setEmpName(request.getParameter("empname"));
 		upBean.setProdName(request.getParameter("prodName"));
 		upBean.setContent(request.getParameter("content"));
@@ -152,7 +158,7 @@ public class PlanController {
 		
 		return null;
 	}
-	
+		
 
 	
 } 
