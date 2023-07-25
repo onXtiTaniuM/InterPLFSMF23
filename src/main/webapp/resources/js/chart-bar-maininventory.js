@@ -13,15 +13,15 @@ function invenbarChart(jval){
 function drawinvenChart(title, value){
     var dom = document.getElementById('inventoryBarChart');
     var myChart = echarts.init(dom, null, {
-    width : 740,
-    height : 390,
-      renderer: 'canvas',
-      useDirtyRect: false
-    });
-    var app = {};
-    
-    var option;
-
+		  width : 740,
+		  height : 390,
+	      renderer: 'canvas',
+	      useDirtyRect: false
+	    });
+	    
+	var app = {};
+	var option;
+	
     option = {
 	  	tooltip: {
 	    trigger: 'axis',
@@ -29,40 +29,37 @@ function drawinvenChart(title, value){
 	      type: 'shadow'
 	   }
   	},
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
-  },
-  xAxis: [
-    {
-      type: 'category',
-	  data: title,
-      axisTick: {
-        alignWithLabel: true
-      }
-    }
-  ],
-  yAxis: [
-    {
-      type: 'value'
-    }
-  ],
-  series: [
-    {
-      name: 'Direct',
-      type: 'bar',
-      barWidth: '60%',
-      data: value
-    }
-  ]
-};
-
+  	grid: {
+    	left: '3%',
+    	right: '4%',
+    	bottom: '3%',
+    	containLabel: true
+  	},
+  	xAxis: [
+	    {
+	      type: 'category',
+		  data: title,
+	      axisTick: {
+	        alignWithLabel: true
+	      }
+	    }
+  	],
+  	yAxis: [
+	    {
+	      type: 'value'
+	    }
+  	],
+  	series: [
+	    {
+	      name: 'Direct',
+	      type: 'bar',
+	      barWidth: '60%',
+	      data: value
+	    }
+  	]};
     if (option && typeof option === 'object') {
       myChart.setOption(option);
     }
-
     window.addEventListener('resize', myChart.resize);
 }
     
