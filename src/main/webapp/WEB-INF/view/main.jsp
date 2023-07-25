@@ -220,6 +220,7 @@
                                         계획 진행 현황
                                     </div>
                                     <div class="card-body"></div>
+                                    <!--<canvas id="PlanHalfChart" width="100%" height="70"></canvas>-->
                                 </div>
                             </div>
                             <div class="col-xl-6">
