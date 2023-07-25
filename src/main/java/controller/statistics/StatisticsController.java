@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import spring.dao.ApprovalPlan;
 import spring.dao.Issue;
 import spring.dao.LOT;
+import spring.dao.ProcessBean;
 
 @Controller
 @RequestMapping("/statistics")
@@ -76,5 +79,25 @@ public class StatisticsController {
 		String data = jsonInfo.toJSONString();
 		//System.out.print(data);
 		writer.print(data);
+	}
+	
+	@PostMapping("/inventorychart.do")
+	public void doChart_material(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		System.out.println("[timechart]");
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		System.out.println("[차트조회중]");
+		
+		List<LOT> materialQty = statisticsService.getInvenMaterQtyList();
+		JSONArray chart = new JSONArray();
+		for(LOT mt : materialQty) {
+			chart.add(mt.getMaterialName());
+			chart.add(mt.getQty());
+		}
+		String jsonInfo = chart.toJSONString();
+		System.out.println(jsonInfo);
+		writer.print(jsonInfo);
 	}
 }

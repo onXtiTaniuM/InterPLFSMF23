@@ -7,8 +7,10 @@ public class Material {
 	private int	price;
 	private String	unit;
 	
+	public Material() {
+	}
+	
 	public Material(String no, String name, int price, String unit) {
-		super();
 		this.no = no;
 		this.name = name;
 		this.price = price;
