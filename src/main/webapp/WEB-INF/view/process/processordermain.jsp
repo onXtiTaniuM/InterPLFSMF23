@@ -56,7 +56,6 @@
 		  			$("#lineSelect").attr("href", lineSelect);	
 		  			var form = $("")
 		        });
-	        	*/
 	        	
 		        $("#lineSelect").click(function() { // "lineSelect"가 클릭되었을때 함수 실행
 		        	var lineid = $("#lineid").val(); // "lineid의 value 값 저장"
@@ -66,6 +65,7 @@
 		  			$("#lineSelect").attr("href", lineSelect); // ID가 "lineSelect"인 태그의 "href" 속성을 lineSelect 변수값으로 교체
 		  			//alert($("#lineSelect").attr("href"));
 		        });
+		        */
 			});
         </script>
     
@@ -186,18 +186,16 @@
 	                                    		<td>${order.startDate} ~ ${order.endDate}</td>
 	                                    		<td>${order.name}</td>
 	                                    		<td>
-	                                    		<form id="lineForm" action="${path}/ORstart" method="get">
-	                                    			<select id = "lineid" name="lineid">
+	                                    			<select class="form-select">
 													  <option selected>라인선택</option>
 													  <option value="1">1번라인</option>
 													  <option value="2">2번라인</option>
 													  <option value="3">3번라인</option>
 													</select>
-												</form>
 												</td>
 	                                    		<td>
 	                                    			<button type="button" class="btn btn-success">
-	                                    				<a id="lineSelect" href="/SMFPlatform/ORstart?prodNo=${order.prodNo}&value="; style="text-decoration-line:none; color : white">공정</a>
+	                                    				<a href="/SMFPlatform/process"; style="text-decoration-line:none; color : white">공정</a>
 	                                    			</button>
 	                                    			<button type="button" class="btn btn-danger">
 	                                    			
@@ -238,6 +236,7 @@
      <script src="resources/js/chart-bar-produce2.js"></script>
      <script src="resources/js/chart-bar-produce3.js"></script>
      <script src="resources/js/chart-pie.js"></script>
+     <script src="resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/datatables-simple-demo.js"></script>
      <script>

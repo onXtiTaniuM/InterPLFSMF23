@@ -134,24 +134,23 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                    <div class = "row">
-                    	<div class="col-md-4">
-                        	<h1 class="mt-4">공정결과</h1>
-                        </div>
-                        <div class="col-md-4">
-                        	<h1 class="mt-4"></h1>
-                        </div>
-                        <div class="col-md-4">
-                 			 	<form id="procForm" action="${path}/process" method="get">
-				                	<select id="procid" name = "procid"> <!-- 공정선택 -->
-				                	
+	                    <div class = "row">
+	                    	<div class="col-md-4">
+	                        	<h1 class="mt-4">공정결과</h1>
+	                        </div>
+	                        <div class="col-md-4">
+	                        	<h1 class="mt-4"></h1>
+	                        </div>
+	                        <div class="col-md-4">
+	               			 	<form id="procForm" action="${path}/process" method="get">
+				                	<select id="procid" name = "procid"> <!-- 공정선택 -->    	
 				                		<option>공정선택</option> 
-				                		<option value = "${insertProdNo}">1공정</option>
+				                		<option value = "KBD001">1공정</option>
 								        <option value = "KBD003">2공정</option>
 								        <option value = "KC002">3공정</option>
 								    </select>     
 				                </form>
-				        </div>    
+					        </div>    
                         </div>
                     </div>
                       <div class="row" style="width:100%; padding-left: 10px;">
