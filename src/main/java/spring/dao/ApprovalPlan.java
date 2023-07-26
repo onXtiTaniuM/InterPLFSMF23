@@ -25,6 +25,11 @@ public class ApprovalPlan {
 		this.name = name;
 	}
 	
+	public ApprovalPlan(String prodname, int qty) {
+		this.prodname = prodname;
+		this.qty = qty;
+	}
+
 	public String getPlanid() {
 		return planid;
 	}

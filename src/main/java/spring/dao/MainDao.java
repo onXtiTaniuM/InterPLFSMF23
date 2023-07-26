@@ -336,7 +336,28 @@ public class MainDao {
 		
 		return results;
 	}
-
+	
+	public List<ApprovalPlan> selectPlanProdNQty() { //prodName, prodQty 조회
+		List<ApprovalPlan> result = jdbcTemplate.query(
+				"SELECT p.prodName, SUM(pp.prodQty) AS totalQty "
+				+ "FROM process_plan pp "
+				+ "JOIN product p ON pp.prodNo = p.prodNo "
+				+ "GROUP BY p.prodName, pp.prodNo "
+, 
+				new RowMapper<ApprovalPlan>() {
+					@Override
+					public ApprovalPlan mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ApprovalPlan planinfo = new ApprovalPlan(
+								rs.getString("prodname"),
+								rs.getInt("totalqty")
+								);
+						System.out.println("[MainDao.selectPlanProdNQty:planinfo=]"+planinfo);
+						return planinfo;
+					}
+				});
+		
+		return result;
+	}
 	public void planChecked(String planid) { //계획 결제 입력
 			jdbcTemplate.update(
 					"update process_plan set check_yn = 'Y' where planid = ?", planid);	
@@ -348,6 +369,8 @@ public class MainDao {
 					Integer.class);
 		return needCheckP != 0 ? true : false;
 	}
+	
+	
 	
 	/*-----------------------------------------------------------------Report Data-----------------------------------------------------------*/
 	

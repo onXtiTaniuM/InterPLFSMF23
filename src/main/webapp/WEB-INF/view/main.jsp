@@ -5,6 +5,12 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
+	<style>
+		#PlanHalfChart {
+		  width: 100%; 
+		  height: 100%; 
+		}
+	</style>
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -19,6 +25,7 @@
         <script src="${path}/resources/js/jquery-3.6.0.js"></script>
         <script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+        <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script>
 			function checkNoti(){
@@ -59,6 +66,7 @@
 	        		ajax: 'http://localhost:8584/SMFPlatform/statistics/planlist.json'
 	        	});
 	        	fn_invenchart();
+	        	fn_planhalfchart();
 	        });   
         </script>
     </head>
@@ -220,7 +228,7 @@
                                         계획 진행 현황
                                     </div>
                                     <div class="card-body"></div>
-                                    <!--<canvas id="PlanHalfChart" width="100%" height="70"></canvas>-->
+                                    <canvas id="PlanHalfChart"></canvas>
                                 </div>
                             </div>
                             <div class="col-xl-6">
@@ -249,5 +257,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/scripts.js"></script>
         <script src="${path}/resources/js/chart-bar-maininventory.js"></script>
+        <script src="${path}/resources/js/chart-pie-planhalfchart.js"></script>
     </body>
 </html>

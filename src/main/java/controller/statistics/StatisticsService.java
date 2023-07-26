@@ -45,7 +45,12 @@ public class StatisticsService {
 		return mainDao.selectPlanWithName();
 	}
 	
+	public List<ApprovalPlan> getPlanchartInfoList(){
+		return mainDao.selectPlanProdNQty();
+	}
+	
 	public List<LOT> getInvenMaterQtyList(){
 		return mainDao.selectEAMaterialQty();
 	}
+
 }

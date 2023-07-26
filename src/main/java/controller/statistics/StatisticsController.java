@@ -19,6 +19,7 @@ import spring.dao.ApprovalPlan;
 import spring.dao.Issue;
 import spring.dao.LOT;
 import spring.dao.ProcessBean;
+import spring.plan.PlanInfo;
 
 @Controller
 @RequestMapping("/statistics")
@@ -99,5 +100,28 @@ public class StatisticsController {
 		String jsonInfo = chart.toJSONString();
 		System.out.println(jsonInfo);
 		writer.print(jsonInfo);
+	}
+	
+	@PostMapping("/planhalfchart.do")
+	public void doChart_plan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		System.out.println("[planchart]");
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		JSONArray planArray = new JSONArray();
+		JSONObject jsonInfo = new JSONObject();
+		
+		List<ApprovalPlan> list = statisticsService.getPlanchartInfoList();
+		for(ApprovalPlan plan : list) {
+			JSONArray planInfo = new JSONArray();
+			planInfo.add(plan.getProdname());
+			planInfo.add(plan.getQty());
+			planArray.add(planInfo);
+		}		
+		//jsonInfo.put("data", planArray);
+		String jsoninfo = planArray.toJSONString();
+		System.out.println("[StatisticsController] planhalfchard.do:jsoninfo = "+jsoninfo);
+		writer.print(jsoninfo);
 	}
 }
