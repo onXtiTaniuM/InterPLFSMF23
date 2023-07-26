@@ -174,4 +174,77 @@ public class InvenController {
 		//System.out.print(data);
 		writer.print(data);
 	}
+	
+
+	@RequestMapping("/insertlot.do")
+	public void lotinsert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		LOT lotbean = new LOT();
+		
+		lotbean.setLotNo(request.getParameter("lot"));
+		lotbean.setProdNo(request.getParameter("prodno"));
+		lotbean.setMaterNo(request.getParameter("materno"));
+		lotbean.setQty(Integer.parseInt(request.getParameter("qty")));
+		lotbean.setWarehouseNo(request.getParameter("whseno"));
+		
+		invenService.insertlot(lotbean);
+		
+	}
+	
+	@RequestMapping("/updatelot.do")
+	public void lotupdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		LOT lotbean = new LOT();
+		lotbean.setLotNo(request.getParameter("lot"));
+		lotbean.setProdNo(request.getParameter("prodno"));
+		lotbean.setMaterNo(request.getParameter("materno"));
+		lotbean.setQty(Integer.parseInt(request.getParameter("qty")));
+		lotbean.setWarehouseNo(request.getParameter("whseno"));
+		
+		invenService.udatelot(lotbean);
+		
+	}
+	
+	@RequestMapping("/insertproduct.do")
+	public void productnsert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		Product prod = new Product(request.getParameter("prodno"),
+					request.getParameter("prodname"),
+					Integer.parseInt(request.getParameter("prodprice")),
+					request.getParameter("category"),
+					Integer.parseInt(request.getParameter("leadtime")));
+		
+		invenService.insertproduct(prod);
+	}
+	
+	@RequestMapping("/insertmaterial.do")
+	public void materinsert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		
+		Material mater = new Material(request.getParameter("materno"),
+					request.getParameter("matename"),
+					Integer.parseInt(request.getParameter("materprice")),
+					request.getParameter("unit"));
+		
+		invenService.insertmaterial(mater);
+	}
+	
+	@RequestMapping("/insertwh.do")
+	public void warehsinsert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		Warehouse wh = new Warehouse(request.getParameter("whseno"),
+					request.getParameter("whsename"),
+					request.getParameter("whseloc"));
+		
+		invenService.insertwarehouse(wh);
+	}
 }

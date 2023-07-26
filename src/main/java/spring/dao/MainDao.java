@@ -285,6 +285,102 @@ public class MainDao {
 		return results;
 	}
 	
+	public void insertprodlot(LOT lot) { 
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(
+						"insert into inventory (lot, prodno, qty, whseno) " +
+						"values (?, ?, ?, ?)");
+				pstmt.setString(1, lot.getLotNo());
+				pstmt.setString(2, lot.getProdNo());
+				pstmt.setInt(3, lot.getQty());
+				pstmt.setString(4, lot.getWarehouseNo());
+				return pstmt;
+			}
+		});
+	}
+	
+	public void insertmaterlot(LOT lot) { 
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(
+						"insert into inventory (lot, materno, qty, whseno) " +
+						"values (?, ?, ?, ?)");
+				pstmt.setString(1, lot.getLotNo());
+				pstmt.setString(2, lot.getMaterNo());
+				pstmt.setInt(3, lot.getQty());
+				pstmt.setString(4, lot.getWarehouseNo());
+				return pstmt;
+			}
+		});
+	}
+	
+	public void updatelot(LOT lot) { //정보 변경
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(
+						"update inventory set prodno = ?, materno = ?, qty = ?, whseno = ? where lot = ?");
+				pstmt.setString(1, lot.getProdNo());
+				pstmt.setString(2, lot.getMaterNo());
+				pstmt.setInt(3, lot.getQty());
+				pstmt.setString(4, lot.getWarehouseNo());
+				pstmt.setString(5, lot.getLotNo());
+				return pstmt;
+			}
+		});
+	}
+	
+	public void insertproduct(Product prod) { 
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(
+						"insert into product (prodno, prodname, prodprice, category, leadtime) " +
+						"values (?, ?, ?, ? ,?)");
+				pstmt.setString(1, prod.getProdno());
+				pstmt.setString(2, prod.getProdname());
+				pstmt.setInt(3, prod.getProdprice());
+				pstmt.setString(4, prod.getCategory());
+				pstmt.setInt(5, prod.getLeadtime());
+				return pstmt;
+			}
+		});
+	}
+	
+	public void insertmaterial(Material mater) { 
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(
+						"insert into material (materno, matername, materprice, unit) " +
+						"values (?, ?, ?, ?)");
+				pstmt.setString(1, mater.getNo());
+				pstmt.setString(2, mater.getName());
+				pstmt.setInt(3, mater.getPrice());
+				pstmt.setString(4, mater.getUnit());
+				return pstmt;
+			}
+		});
+	}
+	
+	public void insertwarehouse(Warehouse wh) { 
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(
+						"insert into inventory (whseno, whseloc, whsename) " +
+						"values (?, ?, ?)");
+				pstmt.setString(1, wh.getWareNo());
+				pstmt.setString(2, wh.getWareLocation());
+				pstmt.setString(3, wh.getWareName());
+				return pstmt;
+			}
+		});
+	}
+	
 	/*-----------------------------------------------------------------Plan Data-----------------------------------------------------------*/
 	
 	public List<ApprovalPlan> selectApprovalPlan(String check) { //미결제 계획 조회

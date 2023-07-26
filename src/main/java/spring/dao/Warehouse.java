@@ -10,6 +10,9 @@ public class Warehouse {
 	private String wareName;
 	private String wareLocation;
 	
+	public Warehouse() {
+	}
+	
 	public Warehouse(String wareNo, String wareName, String wareLocation) {
 		this.wareNo = wareNo;
 		this.wareName = wareName;

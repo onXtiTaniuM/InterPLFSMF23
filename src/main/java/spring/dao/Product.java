@@ -8,6 +8,9 @@ public class Product{
 	private String category;
 	private int leadtime;
 	
+	public Product() {
+	}
+	
 	public Product(String prodno, String prodname, int prodprice, String category, int leadtime) {
 		super();
 		this.prodno = prodno;
