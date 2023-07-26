@@ -68,6 +68,21 @@
 		        */
 			});
         </script>
+         <script>
+         $(document).ready(function() {
+		        $(".lineSelect").change(function() { // "lineSelect"가 클릭되었을때 함수 실행
+		        	var lineid = $(this).prop("id"); // "lineid의 value 값 저장"
+		            var sel = $("#line"+lineid).val();
+		        	//alert(sel);
+		  			var lineSelect = $(this).attr("href"); // ID가 "lineSelect"인 태그의 "href" 속성을 변수에 저장
+		  			lineSelect += sel; // 저장된 "href"의 속성에 lineid 값을 붙이기
+		  			$(this).attr("href", lineSelect); // ID가 "lineSelect"인 태그의 "href" 속성을 lineSelect 변수값으로 교체
+		  			//alert($("#lineSelect").attr("href"));
+		  		$("select option[value*='sel']").prop('disabled',true);
+		        });	
+		        
+			});
+	</script>
     
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
@@ -193,19 +208,26 @@
 	                                    		<td>${order.startDate} ~ ${order.endDate}</td>
 	                                    		<td>${order.name}</td>
 	                                    		<td>
-	                                    			<select class="form-select">
-													  <option selected>라인선택</option>
-													  <option value="1">1번라인</option>
-													  <option value="2">2번라인</option>
-													  <option value="3">3번라인</option>
+	                                    			<c:if test = "${order.lineID == null}">
+		                                    			<select id="lineordernum${order.num}" name="lineid"> <%--select id = lineid로 수정 --%>
+														  <option selected>라인선택</option>
+														  <option value="1">1번라인</option>
+														  <option value="2">2번라인</option>
+														  <option value="3">3번라인</option>
+														</select>
+													</c:if>
+													
+													<c:if test ="${order.lineID != null}">
+													<select id="lineordernum${order.num}" disabled> <%--select id = lineid로 수정 --%>
+													  <option selected>${order.lineID}번라인</option>
 													</select>
+													</c:if>
 												</td>
 	                                    		<td>
 	                                    			<button type="button" class="btn btn-success">
-	                                    				<a href="/SMFPlatform/process"; style="text-decoration-line:none; color : white">공정</a>
+	                                    				<a id="ordernum${order.num}" class="lineSelect" href="/SMFPlatform/ORstart?prodNo=${order.prodNo}&value=" style="text-decoration-line:none; color : white">공정</a>
 	                                    			</button>
 	                                    			<button type="button" class="btn btn-danger">
-	                                    			
 	                                    				<%--forEach 로 꺼낸 데이터들 중에서 항목에 해당하는 값 전송
 	                                    					a hef="" 로 Controller의 Mapping을 호출
 	                                    					호출할 때 파라미터의 값을 같이 전송
@@ -246,7 +268,6 @@
      <script src="resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/datatables-simple-demo.js"></script>
-     <script>
-	</script>
+    
   </body>
 </html>

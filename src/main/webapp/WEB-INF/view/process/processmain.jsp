@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="spring.auth.AuthInfo, java.util.List, spring.dao.ProcessBean" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<jsp:useBean id ="prod" class="spring.dao.ProcessDao"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +21,11 @@
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
         <script type="text/javascript" src="${path}/resources/js/jquery-3.6.0.js"></script>
     </head>
+    <%
+    	String oneline = prod.selectOneLine();
+    	String twoline = prod.selectTwoLine();
+    	String threeline = prod.selectThreeLine();
+    %>
      <%--드롭다운 메뉴 선택시 해당 value 값 ProcessController에 전송 --%> 
         <script>
 	        function checkNoti(){
@@ -141,23 +147,26 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-	                    <div class = "row">
-	                    	<div class="col-md-4">
-	                        	<h1 class="mt-4">공정결과</h1>
-	                        </div>
-	                        <div class="col-md-4">
-	                        	<h1 class="mt-4"></h1>
-	                        </div>
-	                        <div class="col-md-4">
-	               			 	<form id="procForm" action="${path}/process" method="get">
-				                	<select id="procid" name = "procid"> <!-- 공정선택 -->    	
+                    <div class = "row">
+                    	<div class="col-md-4">
+                        	<h1 class="mt-4">공정결과</h1>
+                        </div>
+                        <div class="col-md-4">
+                        	<h1 class="mt-4"></h1>
+                        </div>
+                        <div class="col-md-4">
+                 			 	<form id="procForm" action="${path}/process" method="get">
+				                	<select id="procid" name = "procid"> <!-- 공정선택 -->
 				                		<option>공정선택</option> 
-				                		<option value = "KBD001">1공정</option>
-								        <option value = "KBD003">2공정</option>
-								        <option value = "KC002">3공정</option>
+				                		<%--<option value = "${oneline}">1공정</option>
+								        <option value = "${twoline}">2공정</option>
+								        <option value = "${threeline}">3공정</option> --%>
+								        <option value = "<%=oneline%>">1공정</option>
+								        <option value = "<%=twoline%>">2공정</option>
+								        <option value = "<%=threeline%>">3공정</option>
 								    </select>     
 				                </form>
-					        </div>    
+				        </div>    
                         </div>
                     </div>
                       <div class="row" style="width:100%; padding-left: 10px;">
