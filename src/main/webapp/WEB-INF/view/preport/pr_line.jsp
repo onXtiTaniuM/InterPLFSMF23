@@ -54,7 +54,7 @@
         <script src="${path}/resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="${path}/main">SMF 4조</a>
+            <a class="navbar-brand ps-3" href="${path}/main">Platform Name</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
             <!-- Navbar Clock -->
@@ -116,10 +116,17 @@
                                     <a class="nav-link" href="${path}/processres">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="${path}/preport/pr_product">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fa fa-file"></i></div>
                                 보고서
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
+                            <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="${path}/preport/pr_product">상품별 보고서</a>
+                                    <a class="nav-link" href="${path}/preport/pr_line">라인별 보고서</a>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -131,66 +138,133 @@
             <!-- Inner Contents Area(main) -->
             <div id="layoutSidenav_content">
             	<main>
-		            <div id="fh5co-container">
-						<div id="fh5co-events" data-section="events"  data-stellar-background-ratio="0.5">
-							<div class="fh5co-overlay"></div>
-							<div class="container">
-								<div class="container-fluid px-4">
-			                        <h1 class="mt-4" "text-center">라인 선택</h1>
-			                        <ol class="breadcrumb mb-4">
-			                            <li class="breadcrumb-item active"></li>
-			                        </ol>
-			                    </div>
-								<div class="row">
-									<div class="col-md-3">
-										<div class="fh5co-event">
-											<h3>KBB01</h3>
-											<span class="fh5co-event-meta">키보드 라인</span>
-											<p>만들 수 있는 제품</p>
-											<p>KBD001(청축)</p>
-											<p>KBD002(갈축)</p>
-											<p>KBD003(적축, 흑축)</p>
-											<p><a href="${path}/preport/line?lineID=KBB01&planID=KBPL01">상세페이지</a></p>
-										</div>
-									</div>
-									<div class="col-md-3">
-										<div class="fh5co-event">
-											<h3>KBB02</h3>
-											<span class="fh5co-event-meta">키보드 라인</span>
-											<p>만들 수 있는 제품</p>
-											<p>KBD001(청축)</p>
-											<p>KBD002(갈축)</p>
-											<p>KBD003(적축, 흑축)</p>
-											<p><a href="${path}/preport/line?lineID=KBB02&planID=KBPL02">상세페이지</a></p>
-										</div>
-									</div>
-									<div class="col-md-3">
-										<div class="fh5co-event">
-											<h3>KCS01</h3>
-											<span class="fh5co-event-meta">키캡 라인</span>
-											<p>만들 수 있는 제품</p>
-											<p>KC001(염료승화)</p>
-											<p>KC002(이중사출)</p>
-											<br><br>
-											<p><a href="${path}/preport/line?lineID=KCS01&planID=KCPL02">상세페이지</a></p>
-										</div>
-									</div>
-									<div class="col-md-3">
-										<div class="fh5co-event">
-											<h3>KCS02</h3>
-											<span class="fh5co-event-meta">키캡 라인</span>
-											<p>만들 수 있는 제품</p>
-											<p>KC001(염료승화)</p>
-											<p>KC002(이중사출)</p>
-											<br><br>
-											<p><a href="${path}/preport/line?lineID=KCS02&planID=KCPL01">상세페이지</a></p>
-										</div>
-									</div>
-								</div>
-							</div>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4" "text-center">라인 선택</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active"></li>
+                        </ol>
+                    </div>
+	            	<div class="container-fluid px-4">
+	            		<div class="row text-center">
+	            			<div class="col-lg-3">
+	                           <div class="card mb-4">
+	                                <div class="card-header">
+	                                   <i class="fa-solid fa-timeline me-1"></i>
+	                                    KBB01
+	                                </div>
+	                                <div class="card-body">
+	                                	<p>키보드 라인</p>
+										<strong>만들 수 있는 제품</strong>
+										<p>KBD001(청축)</p>
+										<p>KBD002(갈축)</p>
+										<p>KBD003(적축, 흑축)</p>
+	                                </div>
+	                                <div class="card-footer small text-muted">
+	                                	<form action = "${path}/preport/line.do" method = "post">
+				                    		<span>계획코드</span>
+				                    		<select name="planID">
+						                    	<c:forEach var="lnames" items="${l_names}">
+						                    		<c:if test="${lnames.lineID == 'KBB01'}">
+						                        		<option value="${lnames.planID}">${lnames.planID}</option>
+						                        	</c:if>
+						                        </c:forEach>
+					                        </select>
+					                        <input type="hidden" name="lineID" value="KBB01">
+					                        <input type="submit" value="이동">
+				                        </form>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-3">
+	                           <div class="card mb-4">
+	                                <div class="card-header">
+	                                    <i class="fa-solid fa-timeline me-1"></i>
+	                                    KBB02
+	                                </div>
+	                                <div class="card-body">
+	                                	<p>키보드 라인</p>
+										<strong>만들 수 있는 제품</strong>
+										<p>KBD001(청축)</p>
+										<p>KBD002(갈축)</p>
+										<p>KBD003(적축, 흑축)</p>
+	                                </div>
+	                                <div class="card-footer small text-muted">
+	                                	<form action = "${path}/preport/line.do" method = "post">
+				                    		<span>계획코드</span>
+				                    		<select name="planID">
+						                    	<c:forEach var="lnames" items="${l_names}">
+						                    		<c:if test="${lnames.lineID == 'KBB02'}">
+						                        		<option value="${lnames.planID}">${lnames.planID}</option>
+						                        	</c:if>
+						                        </c:forEach>
+					                        </select>
+					                        <input type="hidden" name="lineID" value="KBB02">
+					                        <input type="submit" value="이동">
+				                        </form>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-3">
+	                           <div class="card mb-4">
+	                                <div class="card-header">
+	                                    <i class="fa-solid fa-timeline me-1"></i>
+	                                    KCS01
+	                                </div>
+	                                <div class="card-body">
+	                                	<p>키캡 라인</p>
+										<strong>만들 수 있는 제품</strong>
+										<p>KC001(염료승화)</p>
+										<p>KC002(이중사출)</p>
+										<br>
+	                                </div>
+	                                <div class="card-footer small text-muted">
+	                                	<form action = "${path}/preport/line.do" method = "post">
+				                    		<span>계획코드</span>
+				                    		<select name="planID">
+						                    	<c:forEach var="lnames" items="${l_names}">
+						                    		<c:if test="${lnames.lineID == 'KCS01'}">
+						                        		<option value="${lnames.planID}">${lnames.planID}</option>
+						                        	</c:if>
+						                        </c:forEach>
+					                        </select>
+					                        <input type="hidden" name="lineID" value="KCS01">
+					                        <input type="submit" value="이동">
+				                        </form>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-3">
+	                           <div class="card mb-4">
+	                                <div class="card-header">
+	                                    <i class="fa-solid fa-timeline me-1"></i>
+	                                    KCS02
+	                                </div>
+	                                <div class="card-body">
+	                                	<p>키캡 라인</p>
+										<strong>만들 수 있는 제품</strong>
+										<p>KC001(염료승화)</p>
+										<p>KC002(이중사출)</p>
+										<p></p>
+	                                </div>
+	                                <div class="card-footer small text-muted">
+	                                	<form action = "${path}/preport/line.do" method = "post">
+				                    		<span>계획코드</span>
+				                    		<select name="planID">
+						                    	<c:forEach var="lnames" items="${l_names}">
+						                    		<c:if test="${lnames.lineID == 'KCS02'}">
+						                        		<option value="${lnames.planID}">${lnames.planID}</option>
+						                        	</c:if>
+						                        </c:forEach>
+					                        </select>
+					                        <input type="hidden" name="lineID" value="KCS02">
+					                        <input type="submit" value="이동">
+				                        </form>
+	                                </div>
+	                            </div>
+	                        </div>
 						</div>
-					</div>
-				</main>
+	            	</div>
+            	</main>
 			</div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

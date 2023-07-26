@@ -50,7 +50,7 @@
         <script src="${path}/resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="${path}/main">SMF 4조</a>
+            <a class="navbar-brand ps-3" href="${path}/main">Platform Name</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
             <!-- Navbar Clock -->
@@ -112,10 +112,17 @@
                                     <a class="nav-link" href="${path}/processres">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="${path}/preport/pr_product">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fa fa-file"></i></div>
                                 보고서
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
+                            <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="${path}/preport/pr_product">상품별 보고서</a>
+                                    <a class="nav-link" href="${path}/preport/pr_line">라인별 보고서</a>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">

@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,16 +35,22 @@ public class Pr_ProductController {
 	P_NamesDao p_nameDao;
 	
 	@RequestMapping("/pr_product")
-	public String manage3() {
+	public String manage (Model model) {
+		
+		List<P_Names> p_names = P_NamesDao.selectAll();
+		List<P_PR> p_pr = P_PRDao.selectAll();
+		List<P_Issue> p_issue = P_IssueDao.selectAll();
+		List<P_Inven> p_inven = P_InvenDao.selectAll();
+		
+		model.addAttribute("p_names", p_names);
+		model.addAttribute("p_pr", p_pr);
+		model.addAttribute("p_issue", p_issue);
+		model.addAttribute("p_inven", p_inven);
+		
 		return "preport/pr_product";
 	}
-	
-	@RequestMapping("/pr_line")
-	public String manage4() {
-		return "preport/pr_line";
-	}
 
-	@RequestMapping("/product")
+	@RequestMapping("/product.do")
     public String manage(@RequestParam("prodNo") String prodNo, 
     		@RequestParam("planID") String planID,
     		Model model) {
@@ -61,16 +69,33 @@ public class Pr_ProductController {
 		return "preport/product";
 	}
 	
-	@RequestMapping("/line")
-    public String manage2(@RequestParam("lineID") String prodNo,
+	@GetMapping("/pr_line")
+	public String manage2 (Model model) {
+	
+		List<L_Names> l_names = L_NamesDao.selectAll();
+		List<L_PR> l_pr = L_PRDao.selectAll();
+		List<L_Issue> l_issue = L_IssueDao.selectAll();
+		List<L_Inven> l_inven = L_InvenDao.selectAll();
+		
+		model.addAttribute("l_names", l_names);
+		model.addAttribute("l_pr", l_pr);
+		model.addAttribute("l_issue", l_issue);
+		model.addAttribute("l_inven", l_inven);
+		
+		return "preport/pr_line";
+	}
+	
+	@PostMapping("/line.do")
+    public String manage2(@RequestParam("lineID") String lineID,
     		@RequestParam("planID") String planID,
     		Model model) {
-		System.out.println("/test : lineID=" + prodNo); // 결과 값 잘 받아오는지 확인
+		System.out.println("/line.do : lineID=" + lineID); // 결과 값 잘 받아오는지 확인
+		System.out.println("/line.do : planID=" + planID); // 결과 값 잘 받아오는지 확인
 	
-		List<L_Names> l_names = L_NamesDao.select(prodNo, planID);
-		List<L_PR> l_pr = L_PRDao.select(prodNo, planID);
-		List<L_Issue> l_issue = L_IssueDao.select(prodNo, planID);
-		List<L_Inven> l_inven = L_InvenDao.select(prodNo, planID);
+		List<L_Names> l_names = L_NamesDao.select(lineID, planID);
+		List<L_PR> l_pr = L_PRDao.select(lineID, planID);
+		List<L_Issue> l_issue = L_IssueDao.select(lineID, planID);
+		List<L_Inven> l_inven = L_InvenDao.select(lineID, planID);
 		
 		model.addAttribute("l_names", l_names);
 		model.addAttribute("l_pr", l_pr);

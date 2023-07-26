@@ -17,6 +17,25 @@ public class P_PRDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
+	static public List<P_PR> selectAll() { //p_pr 전체 조회
+		List<P_PR> results = jdbcTemplate.query(
+				"select * from p_pr", 
+				new RowMapper<P_PR>() {
+					@Override
+					public P_PR mapRow(ResultSet rs, int rowNum) throws SQLException {
+						P_PR p_pr = new P_PR(
+								rs.getString("PlanID"),
+								rs.getString("ProdNo"),
+								rs.getDate("startdate"),
+								rs.getDate("enddate"),
+								rs.getInt("passedQty"),
+								rs.getInt("failedQty"));
+						return p_pr;
+					}
+				});
+		return results;
+	}
+	
 	static public List<P_PR> select(String prodNo, String planID) { //p_pr 뷰 전체 조회 후 한건만 뽑아서 사용
 		List<P_PR> results = jdbcTemplate.query(
 				"select * from p_pr where prodNo = ? and planID = ?", 

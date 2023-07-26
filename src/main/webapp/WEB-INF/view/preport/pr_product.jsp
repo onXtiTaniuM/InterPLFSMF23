@@ -48,13 +48,12 @@
 	        });
 	   </script>
     </head>
-    
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
         <script src="${path}/resources/js/kor_clock.js"></script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="${path}/main">SMF 4조</a>
+            <a class="navbar-brand ps-3" href="${path}/main">Platform Name</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
             <!-- Navbar Clock -->
@@ -116,10 +115,17 @@
                                     <a class="nav-link" href="${path}/processres">공정결과</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="${path}/preport/pr_product">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fa fa-file"></i></div>
                                 보고서
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
+                            <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="${path}/preport/pr_product">상품별 보고서</a>
+                                    <a class="nav-link" href="${path}/preport/pr_line">라인별 보고서</a>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -131,72 +137,157 @@
             <!-- Inner Contents Area(main) -->
             <div id="layoutSidenav_content">
             	<main>
-		            <div id="fh5co-container">
-						<div id="fh5co-events" data-section="events"  data-stellar-background-ratio="0.5">
-							<div class="fh5co-overlay"></div>
-							<div class="container">
-								<div class="container-fluid px-4">
-			                        <h1 class="mt-4" >제품 선택</h1>
-			                        <ol class="breadcrumb mb-4">
-			                            <li class="breadcrumb-item active"></li>
-			                        </ol>
-			                    </div>
-								<div class="row">
-									<div class="col-md-4">
-										<div class="fh5co-event">
-											<h3>KBD001</h3>
-											<span class="fh5co-event-meta">청축 키보드</span>
-											<p>사용하는 라인</p>
-											<p>KBB01</p>
-											<p>KBB02</p>
-											<p><a href="${path}/preport/product?prodNo=KBD001&planID=KBPL01">상세페이지</a></p>
-										</div>
-									</div>
-									<div class="col-md-4">
-										<div class="fh5co-event">
-											<h3>KBD002</h3>
-											<span class="fh5co-event-meta">갈축 키보드</span>
-											<p>사용하는 라인</p>
-											<p>KBB01</p>
-											<p>KBB02</p>
-											<p><a href="${path}/preport/product?prodNo=KBD002&planID=KBPL03">상세페이지</a></p>
-										</div>
-									</div>
-									<div class="col-md-4">
-										<div class="fh5co-event">
-											<h3>KBD003</h3>
-											<span class="fh5co-event-meta">적축, 흑축 키보드</span>
-											<p>사용하는 라인</p>
-											<p>KBB01</p>
-											<p>KBB02</p>
-											<p><a href="${path}/preport/product?prodNo=KBD003&planID=KBPL02">상세페이지</a></p>
-										</div>
-									</div>
-									<div class="col-md-4">
-										<div class="fh5co-event">
-											<h3>KC001</h3>
-											<span class="fh5co-event-meta">염료승화 키캡</span>
-											<p>사용하는 라인</p>
-											<p>KCS01</p>
-											<p>KCS02</p>
-											<p><a href="${path}/preport/product?prodNo=KC001&planID=KCPL02">상세페이지</a></p>
-										</div>
-									</div>
-									<div class="col-md-4">
-										<div class="fh5co-event">
-											<h3>KC002</h3>
-											<span class="fh5co-event-meta">이중사출 키캡</span>
-											<p>사용하는 라인</p>
-											<p>KCS01</p>
-											<p>KCS02</p>
-											<p><a href="${path}/preport/product?prodNo=KC002&planID=KCPL01">상세페이지</a></p>
-										</div>
-									</div>
-								</div>
-							</div>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4" "text-center">제품 선택</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active"></li>
+                        </ol>
+                    </div>
+	            	<div class="container-fluid px-4">
+	            		<div class="row text-center">
+	            			<div class="col-lg-4">
+	                           <div class="card mb-4">
+	                                <div class="card-header">
+	                                    <i class="fa-solid fa-keyboard me-1"></i>
+	                                    KBD001
+	                                </div>
+	                                <div class="card-body">
+	                                	<p>청축 키보드</p>
+										<strong>사용하는 라인</strong>
+										<p>KBB01</p>
+										<p>KBB02</p>
+	                                </div>
+	                                <div class="card-footer small text-muted">
+	                                	<form action = "${path}/preport/product.do" method = "post">
+				                    		<span>계획코드</span>
+				                    		<select name="planID">
+						                    	<c:forEach var="pnames" items="${p_names}">
+						                    		<c:if test="${pnames.prodNo == 'KBD001'}">
+						                        		<option value="${pnames.planID}">${pnames.planID}</option>
+						                        	</c:if>
+						                        </c:forEach>
+					                        </select>
+					                        <input type="hidden" name="prodNo" value="KBD001">
+					                        <input type="submit" value="이동">
+				                        </form>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-4">
+	                           <div class="card mb-4">
+	                                <div class="card-header">
+	                                    <i class="fa-solid fa-keyboard me-1"></i>
+	                                    KBD002
+	                                </div>
+	                                <div class="card-body">
+	                                	<p>갈축 키보드</p>
+										<strong>사용하는 라인</strong>
+										<p>KBB01</p>
+										<p>KBB02</p>
+	                                </div>
+	                                <div class="card-footer small text-muted">
+	                                	<form action = "${path}/preport/product.do" method = "post">
+				                    		<span>계획코드</span>
+				                    		<select name="planID">
+						                    	<c:forEach var="pnames" items="${p_names}">
+						                    		<c:if test="${pnames.prodNo == 'KBD002'}">
+						                        		<option value="${pnames.planID}">${pnames.planID}</option>
+						                        	</c:if>
+						                        </c:forEach>
+					                        </select>
+					                        <input type="hidden" name="prodNo" value="KBD002">
+					                        <input type="submit" value="이동">
+				                        </form>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-4">
+	                           <div class="card mb-4">
+	                                <div class="card-header">
+	                                    <i class="fa-solid fa-keyboard me-1"></i>
+	                                     KBD003
+	                                </div>
+	                                <div class="card-body">
+	                                	<p>적축, 흑축 키보드</p>
+										<strong>사용하는 라인</strong>
+										<p>KBB01</p>
+										<p>KBB02</p>
+	                                </div>
+	                                <div class="card-footer small text-muted">
+	                                	<form action = "${path}/preport/product.do" method = "post">
+				                    		<span>계획코드</span>
+				                    		<select name="planID">
+						                    	<c:forEach var="pnames" items="${p_names}">
+						                    		<c:if test="${pnames.prodNo == 'KBD003'}">
+						                        		<option value="${pnames.planID}">${pnames.planID}</option>
+						                        	</c:if>
+						                        </c:forEach>
+					                        </select>
+					                        <input type="hidden" name="prodNo" value="KBD003">
+					                        <input type="submit" value="이동">
+				                        </form>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-4">
+	                           <div class="card mb-4">
+	                                <div class="card-header">
+	                                    <i class="fa-regular fa-keyboard me-1"></i>
+	                                    KC001
+	                                </div>
+	                                <div class="card-body">
+	                                	<p>염료승화 키캡</p>
+										<strong>사용하는 라인</strong>
+										<p>KCS01</p>
+										<p>KCS02</p>
+	                                </div>
+	                                <div class="card-footer small text-muted">
+	                                	<form action = "${path}/preport/product.do" method = "post">
+				                    		<span>계획코드</span>
+				                    		<select name="planID">
+						                    	<c:forEach var="pnames" items="${p_names}">
+						                    		<c:if test="${pnames.prodNo == 'KC001'}">
+						                        		<option value="${pnames.planID}">${pnames.planID}</option>
+						                        	</c:if>
+						                        </c:forEach>
+					                        </select>
+					                        <input type="hidden" name="prodNo" value="KC001">
+					                        <input type="submit" value="이동">
+				                        </form>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-4">
+	                           <div class="card mb-4">
+	                                <div class="card-header">
+	                                    <i class="fa-regular fa-keyboard me-1"></i>
+	                                    KC002
+	                                </div>
+	                                <div class="card-body">
+	                                	<p>이중사출 키캡</p>
+										<strong>사용하는 라인</strong>
+										<p>KCS01</p>
+										<p>KCS02</p>
+	                                </div>
+	                                <div class="card-footer small text-muted">
+	                                	<form action = "${path}/preport/product.do" method = "post">
+				                    		<span>계획코드</span>
+				                    		<select name="planID">
+						                    	<c:forEach var="pnames" items="${p_names}">
+						                    		<c:if test="${pnames.prodNo == 'KC002'}">
+						                        		<option value="${pnames.planID}">${pnames.planID}</option>
+						                        	</c:if>
+						                        </c:forEach>
+					                        </select>
+					                        <input type="hidden" name="prodNo" value="KC002">
+					                        <input type="submit" value="이동">
+				                        </form>
+	                                </div>
+	                            </div>
+	                        </div>
 						</div>
-					</div>
-				</main>
+	            	</div>
+            	</main>
 			</div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

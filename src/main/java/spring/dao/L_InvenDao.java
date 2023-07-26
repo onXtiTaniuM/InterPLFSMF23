@@ -16,28 +16,28 @@ public class L_InvenDao {
 	public L_InvenDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-	/*
-	static public List<P_Inven> selectAll() { //process_res 전체 조회
-		List<P_Inven> results = jdbcTemplate.query(
-				"select * from KBD001_Inven", 
-				new RowMapper<P_Inven>() {
+
+	static public List<L_Inven> selectAll() { //l_inven 전체 조회
+		List<L_Inven> results = jdbcTemplate.query(
+				"select * from l_inven", 
+				new RowMapper<L_Inven>() {
 					@Override
-					public P_Inven mapRow(ResultSet rs, int rowNum) throws SQLException {
-						P_Inven kbd001_inven = new P_Inven(
+					public L_Inven mapRow(ResultSet rs, int rowNum) throws SQLException {
+						L_Inven l_inven = new L_Inven(
 								rs.getString("PlanID"),
+								rs.getString("LineID"),
 								rs.getString("ProdNo"),
 								rs.getString("materNo"),
 								rs.getString("materName"),
 								rs.getInt("materPrice"),
 								rs.getInt("materQty"));
-						return kbd001_inven;
+						return l_inven;
 					}
 				});
 		return results;
 	}
-	*/
 	
-	public static List<L_Inven> select(String lineID, String planID) { //p_inven 뷰에서 전체 조회 후 한 건만 뽑아서 조회
+	public static List<L_Inven> select(String lineID, String planID) { //l_inven 뷰에서 lineID, planID을 조건으로 받아올 수 있도록 함 
 		List<L_Inven> results = jdbcTemplate.query(
 				"select * from l_inven where lineID = ? and planID = ?", 
 				new RowMapper<L_Inven>() {
