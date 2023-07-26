@@ -6,19 +6,38 @@ import org.springframework.context.annotation.Configuration;
 
 import controller.login.LogoutController;
 import controller.manage.ManageController;
-import controller.plan.PReportController;
+import controller.plan.BomController;
 import controller.plan.PlanController;
+import controller.preport.Pr_ProductController;
 import controller.process.ProcessController;
+import controller.setting.SettingController;
+import controller.statistics.StatisticsController;
+import controller.statistics.StatisticsService;
 import controller.TestController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
 import spring.auth.AuthService;
+import spring.dao.ProcessDao;
+import spring.inventory.InventoryService;
+import spring.manage.ManageService;
 
 @Configuration
 public class ControllerConfig {
+	
+	@Autowired
+	private ProcessDao processDao;
 
 	@Autowired
 	private AuthService authService;
+	
+	@Autowired
+	private ManageService manageService;
+	
+	@Autowired
+	private InventoryService inventoryService;
+	
+	@Autowired
+	private StatisticsService statisticsService;
 	
 	@Bean
 	public LoginController loginController() {
@@ -34,7 +53,9 @@ public class ControllerConfig {
 	
 	@Bean
 	public ManageController manageController() {
-		return new ManageController();
+		ManageController controller = new ManageController();
+		controller.setManageS(manageService);
+		return controller;
 	}
 	
 	@Bean
@@ -43,26 +64,39 @@ public class ControllerConfig {
 	}
 	
 	@Bean
+	public BomController bomController() {
+		return new BomController();
+	}
+	
+	@Bean
 	public InvenController invenController() {
-		return new InvenController();
+		InvenController controller = new InvenController();
+		controller.setInvenService(inventoryService);
+		return controller;
 	}
 	
 	@Bean
 	public ProcessController processController() {
-		return new ProcessController();
+		return new ProcessController(processDao);
 	}
 	
 	@Bean
-	public PReportController processreportController() {
-		return new PReportController();
+	public SettingController settingsController() {
+		SettingController controller = new SettingController();
+		controller.setManageService(manageService);
+		return controller;
 	}
 	
-	//Bean For Test Page. Will Not Use.
 	@Bean
-	public TestController testController() {
-		return new TestController();
+	public Pr_ProductController pr_productController() {
+		return new Pr_ProductController();
 	}
 	
-	
+	@Bean
+	public StatisticsController statisticsController() {
+		StatisticsController controller = new StatisticsController();
+		controller.setStatisticsService(statisticsService);
+		return controller;
+	}
 	
 }
