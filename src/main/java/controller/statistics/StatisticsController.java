@@ -102,6 +102,44 @@ public class StatisticsController {
 		writer.print(jsonInfo);
 	}
 	
+	@RequestMapping("/planidarray.json")
+	public void planidArray(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		System.out.println("[차트조회중]");
+		
+		List<ApprovalPlan> plan = statisticsService.getPlanList();
+		JSONArray chart = new JSONArray();
+		for(ApprovalPlan planid : plan) {
+			chart.add(planid.getPlanid());
+		}
+		
+		String jsonInfo = chart.toJSONString();
+		System.out.println(jsonInfo);
+		writer.print(jsonInfo);
+	}
+	
+	@RequestMapping("/planpercentage.json")
+	public void planpercentage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		String planid = request.getParameter("planno");
+
+		double[] percentage = statisticsService.getPlanpercentage(planid);
+		JSONArray chart = new JSONArray();
+		chart.add(percentage[0]);
+		chart.add(percentage[1]);
+		chart.add(percentage[2]);
+		
+		String jsonInfo = chart.toJSONString();
+		System.out.println(jsonInfo);
+		writer.print(jsonInfo);
+	}
+	
 	@PostMapping("/planhalfchart.do")
 	public void doChart_plan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		System.out.println("[planchart]");
@@ -124,4 +162,6 @@ public class StatisticsController {
 		System.out.println("[StatisticsController] planhalfchard.do:jsoninfo = "+jsoninfo);
 		writer.print(jsoninfo);
 	}
+	
+	
 }

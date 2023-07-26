@@ -12,6 +12,8 @@ public class ApprovalPlan {
 	private String rank;
 	private String name;
 	
+	public ApprovalPlan() {}
+	
 	public ApprovalPlan(String planid, String lineid, String prodname, int qty, 
 			LocalDateTime startdate,LocalDateTime enddate, String rank, String name) {
 

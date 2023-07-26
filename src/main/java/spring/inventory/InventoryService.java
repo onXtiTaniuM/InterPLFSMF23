@@ -39,4 +39,28 @@ public class InventoryService {
 	public LOT lotData(String lot) {
 		return mainDao.selectLOT(lot);
 	}
+
+	public void insertlot(LOT lotbean) {
+		if (lotbean.getProdNo() != null) {
+			mainDao.insertprodlot(lotbean);
+		}else {
+			mainDao.insertmaterlot(lotbean);
+		}
+	}
+
+	public void udatelot(LOT lotbean) {
+		mainDao.updatelot(lotbean);
+	}
+	
+	public void insertproduct(Product prod) {
+		mainDao.insertproduct(prod);
+	}
+	
+	public void insertmaterial(Material mater) {
+		mainDao.insertmaterial(mater);
+	}
+	
+	public void insertwarehouse(Warehouse whse) {
+		mainDao.insertwarehouse(whse);
+	}
 }
