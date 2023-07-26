@@ -406,7 +406,7 @@ function insertLot(){
 	if(isempty(targetlot[0].value)||isempty(targetqty[0].value)||isempty(targetwhseno[0].value)){
 		alert("누락된 필드가 있습니다");
 		return;
-	}else if(!isempty(targetprodno[0].value) && !isempty(targetmaterno[0].value)){
+	}else if(isempty(targetprodno[0].value) && isempty(targetmaterno[0].value)){
 		alert("누락된 필드가 있습니다");
 		return;
 	}else{
@@ -444,7 +444,7 @@ function updateLot(){
 	if(isempty(targetqty[0].value)||isempty(targetwhseno[0].value)){
 		alert("누락된 필드가 있습니다");
 		return;
-	}else if(!isempty(targetprodno[0].value) && !isempty(targetmaterno[0].value)){
+	}else if(isempty(targetprodno[0].value) && isempty(targetmaterno[0].value)){
 		alert("누락된 필드가 있습니다");
 		return;
 	}else{
