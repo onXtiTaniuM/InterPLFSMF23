@@ -54,7 +54,7 @@
 	        	var issuetable = new DataTable('#issueList', {
 	        		searching: false,
 	        		paging: false,
-	        		scrollY: '350px',
+	        		scrollY: '460px',
 	        		info: false,
 	        		ajax: 'http://localhost:8584/SMFPlatform/statistics/issuelist.json'
 	        	});
@@ -192,15 +192,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area me-1"></i>
-                                        생산 라인 현황
-                                    </div>
-                                    <div class="card-body"></div>
-                                </div>
-                            </div>
+                            <div class="col-xl-6"> 
+								<div class="card mb-4"> 
+									<div class="card-header"> 
+										<i class="fas fa-chart-area me-1"></i> 
+										계획 진행 현황 
+									</div> 
+									<div class="card-body text-center" style="content-align-center"> 
+									 <h2 id="pertitle">plan</h2> 
+									 <canvas id="planprogress" width="450" height="450"></canvas> 
+									</div> 
+								</div> 
+							</div>
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
