@@ -2,18 +2,18 @@ package spring.auth;
 
 import exeptions.WrongIdPasswordException;
 import spring.dao.User;
-import spring.dao.UserDao;
+import spring.dao.MainDao;
 
 public class AuthService {
 
-	private UserDao userDao;
+	private MainDao mainDao;
 
-	public void setuserDao(UserDao userDao) {
-		this.userDao = userDao;
+	public void setmainDao(MainDao mainDao) {
+		this.mainDao = mainDao;
 	}
 
 	public AuthInfo authenticate(String id, String password) {
-		User user = userDao.selectById(id);
+		User user = mainDao.selectById(id);
 		if (user == null) {
 			throw new WrongIdPasswordException();
 		}

@@ -2,7 +2,7 @@ package spring.dao;
 
 public class UserRegisterService {
 
-	public UserRegisterService(UserDao userDao) {
+	public UserRegisterService(MainDao userDao) {
 		// TODO Auto-generated constructor stub
 	}
 
