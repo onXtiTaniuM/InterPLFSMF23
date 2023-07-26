@@ -15,11 +15,15 @@
         <title>재고관리</title>
         <link href="${path}/resources/css/styles.css" rel="stylesheet" />
         <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+		<link href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css" rel="stylesheet" />
+		<link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet" />
 		<link href="${path}/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" >
         <script src="${path}/resources/js/jquery-3.6.0.js"></script>
         <script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
  		 <!-- script for jq link -->
         <script type="text/javascript" src="${path}/resources/jqwidgets/jqxcore.js"></script>
     	<script type="text/javascript" src="${path}/resources/jqwidgets/jqxbuttons.js"></script>
@@ -62,6 +66,7 @@
 	        //lot table id init
 	        var inventorylist
 	        var popinventorylist
+    		var manageprodlist;
 	        
 	        // lot table reload
 	        function reloadinvenList() {
@@ -74,6 +79,7 @@
     		var lotdata = {lot : "KB0016"}; 
     		function reloadprodList() {
 				productlist.ajax.reload();
+				manageprodlist.ajax.reload();
     		};
     		
     		//popup elements
@@ -362,10 +368,36 @@
 		        		alert("자재 코드 " + data[0] + " 복사완료");
         			});
 	        	});
+	        	manageprodlist = new DataTable('#manageprodtable', { //init datatable
+	        		scrollCollapse: true,
+	        		paging: false,
+	        	    scrollY: '250px',
+	    		    ajax: {
+	        	    	type: "POST",
+	        	    	data: function() {
+	        	    		return lotdata;
+	        	    	},
+	        	    	url: 'http://localhost:8584/SMFPlatform/inventory/prodlotlist.json'
+	        	    },
+	        	    buttons: [
+	        	        {
+	        	            text: 'Select all',
+	        	            action: function () {
+	        	            	manageprodlist.rows().select();
+	        	            }
+	        	        },
+	        	        {
+	        	            text: 'Select none',
+	        	            action: function () {
+	        	            	manageprodlist.rows().deselect();
+	        	            }
+	        	        }
+	        	    ],
+	        	    dom: 'Bfrtip',
+	        	    select: true
+	    		});
 	        	checkNoti();
-	        	
 	        });   
-
         </script>   
     </head>
     <body class="sb-nav-fixed">
@@ -606,6 +638,17 @@
 						            </span>
 								</div>
 								<div style="overflow: hidden;" id="windowContent">
+									<table id="manageprodtable" class="display" style="width:100%">
+		                    			<thead>
+								            <tr>
+								                <th>LOT</th>
+								                <th>상품 이름</th>
+								                <th>SerialNo</th>
+								                <th>PricessID</th>
+								                <th>QC</th>
+								            </tr>
+								        </thead>
+                    				</table>
 								</div>
 		                    </div>
 	                    </div>
