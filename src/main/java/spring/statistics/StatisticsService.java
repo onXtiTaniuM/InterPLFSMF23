@@ -1,4 +1,4 @@
-package controller.statistics;
+package spring.statistics;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -59,18 +59,18 @@ public class StatisticsService {
 		double qcp = (double)mainDao.countQcPass(procid);
 		double qcf = (double)mainDao.countQcFail(procid);
 		
-		System.out.println(target);
-		System.out.println(qcp);
-		System.out.println(qcf);
+//		System.out.println(target);
+//		System.out.println(qcp);
+//		System.out.println(qcf);
 		
 		double total = (qcp+qcf)/target*100;
 		double qcpp = qcp/target*100;
 		double qcfp = qcf/target*100;
 		
 		double[] percents = {Math.round(total*100)/100.0,Math.round(qcpp*100)/100.0,Math.round(qcfp*100)/100.0};
-		System.out.println(percents[0]);
-		System.out.println(percents[1]);
-		System.out.println(percents[2]);
+//		System.out.println(percents[0]);
+//		System.out.println(percents[1]);
+//		System.out.println(percents[2]);
 		return percents;
 	}
 }

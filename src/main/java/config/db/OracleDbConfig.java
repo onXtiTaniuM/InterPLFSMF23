@@ -8,7 +8,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import config.db.OracleInfo;
-import controller.statistics.StatisticsService;
 import spring.auth.AuthService;
 import spring.dao.MainDao;
 import spring.dao.L_InvenDao;
@@ -24,6 +23,7 @@ import spring.dao.ProcessDao;
 import spring.dao.UserRegisterService;
 import spring.inventory.InventoryService;
 import spring.manage.ManageService;
+import spring.statistics.StatisticsService;
 
 @Configuration
 @EnableTransactionManagement

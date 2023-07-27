@@ -25,7 +25,6 @@
         <script src="${path}/resources/js/jquery-3.6.0.js"></script>
         <script src="${path}/resources/js/jquery.dataTables.js"></script>
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
-        <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script>
 			function checkNoti(){

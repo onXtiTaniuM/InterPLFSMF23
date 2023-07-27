@@ -12,13 +12,13 @@ import controller.preport.Pr_ProductController;
 import controller.process.ProcessController;
 import controller.setting.SettingController;
 import controller.statistics.StatisticsController;
-import controller.statistics.StatisticsService;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
 import spring.auth.AuthService;
 import spring.dao.ProcessDao;
 import spring.inventory.InventoryService;
 import spring.manage.ManageService;
+import spring.statistics.StatisticsService;
 
 @Configuration
 public class ControllerConfig {

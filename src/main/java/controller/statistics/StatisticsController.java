@@ -20,6 +20,7 @@ import spring.dao.Issue;
 import spring.dao.LOT;
 import spring.dao.ProcessBean;
 import spring.plan.PlanInfo;
+import spring.statistics.StatisticsService;
 
 @Controller
 @RequestMapping("/statistics")

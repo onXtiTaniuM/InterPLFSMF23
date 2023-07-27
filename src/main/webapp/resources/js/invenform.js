@@ -561,7 +561,7 @@ function insertWhse(){
             }
 }
 
-function isempty(value){
+function isempty(value){ //옵셔널체이닝에 의한 경고
 	if(!!value?.trim()) {
 	  return false;
 	} else {
