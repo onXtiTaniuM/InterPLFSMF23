@@ -10,7 +10,7 @@ var idcount;
 	$.ajax({
 		type:"post",
 		async:false,  
-		url:"${path}/statistics/planidarray.json",
+		url:"http://localhost:8584/SMFPlatform/statistics/planidarray.json",
 		success:function (data,textStatus) {
 			planidlist = JSON.parse(data);
 			idcount = planidlist.length;
@@ -130,7 +130,7 @@ function planprogresspercent(){
 		type:"post",
 		async:false,
 		data: {planno : planid},  
-		url:"${path}/statistics/planpercentage.json",
+		url:"http://localhost:8584/SMFPlatform/statistics/planpercentage.json",
 		success:function (data,textStatus) {
 			percentage = JSON.parse(data);
 		},

@@ -25,7 +25,7 @@ function fn_chart1(_procid) {
 	$.ajax({
 		type:"post",
 		async:false,  
-		url:"${path}/process1",
+		url:"http://localhost:8584/SMFPlatform/process1",
 		data : { procid : _procid },
 		success:function (data,textStatus) {
 			var jsonVals = JSON.parse(data);

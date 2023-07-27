@@ -69,7 +69,7 @@ function fn_chart5(_procid) {
 	$.ajax({
 		type:"post",
 		async:false,  
-		url:"${path}/process5",
+		url:"http://localhost:8584/SMFPlatform/process5",
 		data : { procid : _procid },
 		success:function (data,textStatus) {
 			var jsonVals = JSON.parse(data);

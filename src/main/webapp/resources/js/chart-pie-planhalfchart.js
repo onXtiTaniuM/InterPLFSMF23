@@ -93,7 +93,7 @@ function fn_planhalfchart() {
 	$.ajax({
 		type:"post",
 		async:false,  
-		url:"${path}/statistics/planhalfchart.do",
+		url:"http://localhost:8584/SMFPlatform/statistics/planhalfchart.do",
 		success:function (data,textStatus) {
 			var jsonVals = JSON.parse(data);
 			// alert(jsonVals);
