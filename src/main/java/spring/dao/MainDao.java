@@ -649,8 +649,9 @@ public class MainDao {
 	
 	public List<Issue> selectAllIssue() { //Material 전체조회
 		List<Issue> results = jdbcTemplate.query(
-				"SELECT * FROM PROCESS_ISSUE pi LEFT JOIN PROCESS_order po ON pi.PLANID = po.PLANID "
-				+ "LEFT JOIN ISSUE i ON i.ISSUENO = pi.ISSUENO", 
+				"SELECT * FROM PROCESS_ISSUE pi LEFT JOIN PROCESS po ON pi.PLANID = po.PLANID "
+				+ "LEFT JOIN ISSUE i ON i.ISSUENO = pi.ISSUENO "
+				+ "LEFT JOIN process_plan pp oN pi.PLANID = pp.PLANID", 
 				new RowMapper<Issue>() {
 					@Override
 					public Issue mapRow(ResultSet rs, int rowNum) throws SQLException {
