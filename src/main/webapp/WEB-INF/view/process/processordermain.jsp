@@ -76,7 +76,12 @@
 		  			var lineSelect = $(this).attr("href"); // ID가 "lineSelect"인 태그의 "href" 속성을 변수에 저장
 		  			lineSelect += sel; // 저장된 "href"의 속성에 lineid 값을 붙이기
 		  			$(this).attr("href", lineSelect); // ID가 "lineSelect"인 태그의 "href" 속성을 lineSelect 변수값으로 교체
-		        });	
+		        });
+        	    $(".cancel").click(function(){
+					var cancel = $(this).prop("id");
+					alert(cancel+"번 공정을 취소하셨습니다.");
+		        })
+				
 		        
 			});
 	</script>
@@ -231,6 +236,9 @@
 	                                    			</c:if>
 	                                    			<c:if test="${order.proCheck == 'Y'}">
 		                                    				<a id="lineSelected"; style="text-decoration-line:none; color : black">진행중</a>
+		                                    					<button type="button" class="btn btn-danger">
+		                                    				<a id="${order.num}" class="cancel" href="/SMFPlatform/ORCancel?num=${order.num}"; style="text-decoration-line:none; color : white">취소</a>
+		                                    			</button>
 	                                    			</c:if>
 	                                    		</td>
 	                                    	</tr>

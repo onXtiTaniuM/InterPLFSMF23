@@ -52,6 +52,16 @@ private ProcessDao processDao;
 		model.addAttribute("orderlist", orderlist);
 		return "process/processordermain";
 	}
+	@GetMapping("/ORCancel")
+	public String cancel(Model model, @RequestParam("num") Integer num) {
+		System.out.println("[ProcessOrController] cancel: prodNo=" + num);
+		processDao.cancel(num);
+		System.out.println("cancel 완료");
+		
+		List<ProcessBean>orderlist = processDao.select_plan();
+		model.addAttribute("orderlist", orderlist);
+		return "process/processordermain";
+	}
 	
 	@GetMapping("/ORstart")
 	public String insertLine(Model model, @RequestParam("prodNo") String prodNo,@RequestParam("value") String value) {
@@ -196,6 +206,8 @@ private ProcessDao processDao;
 		System.out.println(jsonInfo);
 		writer.print(jsonInfo);
 	}
+	
+
 	
 	@ExceptionHandler({EmptyResultDataAccessException.class})
 	public  String emptyResultDataAccessException() {
