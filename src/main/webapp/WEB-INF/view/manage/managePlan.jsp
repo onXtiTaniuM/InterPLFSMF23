@@ -41,7 +41,7 @@
 			function checkNoti(){
 				$.ajax({
 	       			type:"post",  
-	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
+	       			url:"${path}/manage/noticheck.do",
 	       			success:function (data, textStatus) {
 						if(JSON.parse(data)){
 							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
@@ -68,7 +68,7 @@
     			$.ajax({
 	       			type:"post",  
 	       			async:false,
-	       			url:"http://localhost:8584/SMFPlatform/manage/approveplan.do",
+	       			url:"${path}/manage/approveplan.do",
 	       			data:{planid:planid},
 	       			success:function (data, textStatus) {
 						alert("승인하였습니다.");
@@ -92,7 +92,7 @@
         	//page ready js script
 	    	$(document).ready(function () {
 	    		planlist = new DataTable('#planlist', { //init datatable
-	    		    ajax: 'http://localhost:8584/SMFPlatform/manage/notcheckedprocess.json' ,
+	    		    ajax: '${path}/manage/notcheckedprocess.json' ,
 	    		    paging: false,
 	    		    columnDefs: [
 	    		        {

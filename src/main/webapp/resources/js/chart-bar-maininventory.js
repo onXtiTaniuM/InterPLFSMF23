@@ -70,7 +70,7 @@ function fn_invenchart() {
 	$.ajax({
 		type:"post",
 		async:false,  
-		url:"http://localhost:8584/SMFPlatform/statistics/inventorychart.do",
+		url:"${path}/statistics/inventorychart.do",
 		success:function (data,textStatus) {
 			var jsonVals = JSON.parse(data);
 			// alert(jsonVals);

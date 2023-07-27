@@ -303,7 +303,7 @@
         	$.ajax({
         		type:"get",
         		async: false,
-        		url: "http://localhost:8584/SMFPlatform/ajax/prodVal.do",
+        		url: "${path}/ajax/prodVal.do",
         		dataType: "text",
         		data:{prodVal:prodVal}, // ex: 'KBD001'
         		success: function(data,textStatus){   			        			

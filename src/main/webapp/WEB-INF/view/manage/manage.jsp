@@ -22,7 +22,7 @@
 			function checkNoti(){
 				$.ajax({
 	       			type:"post",  
-	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
+	       			url:"${path}/manage/noticheck.do",
 	       			success:function (data, textStatus) {
 						if(JSON.parse(data)){
 							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'

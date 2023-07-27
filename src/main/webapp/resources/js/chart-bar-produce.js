@@ -82,7 +82,7 @@ function fn_chart3(_procid) {
 	$.ajax({
 		type:"post",
 		async:false,  
-		url:"http://localhost:8584/SMFPlatform/process3",
+		url:"${path}/process3",
 		data : { procid : _procid },
 		success:function (data,textStatus) {
 			var jsonVals = JSON.parse(data);

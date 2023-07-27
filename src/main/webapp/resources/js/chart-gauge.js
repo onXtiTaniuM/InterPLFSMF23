@@ -81,7 +81,7 @@ function fn_chart(_procid) {
 	$.ajax({
 		type:"post",
 		async:false,  
-		url:"http://localhost:8584/SMFPlatform/process",
+		url:"${path}/process",
 		success:function (data,textStatus) {
 			var jsonVals = JSON.parse(data);
 			// alert(jsonVals);

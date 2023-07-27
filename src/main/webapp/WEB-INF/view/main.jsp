@@ -31,7 +31,7 @@
 			function checkNoti(){
 				$.ajax({
 	       			type:"post",  
-	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
+	       			url:"${path}/manage/noticheck.do",
 	       			success:function (data, textStatus) {
 						if(JSON.parse(data)){
 							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
@@ -56,14 +56,14 @@
 	        		paging: false,
 	        		scrollY: '460px',
 	        		info: false,
-	        		ajax: 'http://localhost:8584/SMFPlatform/statistics/issuelist.json'
+	        		ajax: '${path}/statistics/issuelist.json'
 	        	});
 	        	var plantable = new DataTable('#planList',{
 	        		searching: false,
 	        		paging: false,
 	        		scrollY: '350px',
 	        		info: false,
-	        		ajax: 'http://localhost:8584/SMFPlatform/statistics/planlist.json'
+	        		ajax: '${path}/statistics/planlist.json'
 	        	});
 	        	fn_invenchart();
 	        	fn_planhalfchart();

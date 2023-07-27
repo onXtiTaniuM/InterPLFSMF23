@@ -15,12 +15,12 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>공정명령</title>
-        <link href="resources/css/styles.css" rel="stylesheet" />
-        <link href="resources/css/customstyle.css" rel="stylesheet" />
+        <link href="${path}/resources/css/styles.css" rel="stylesheet" />
+        <link href="${path}/resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
-        <script type="text/javascript" src="resources/js/jquery-3.6.0.js"></script>
+        <script type="text/javascript" src="${path}/resources/js/jquery-3.6.0.js"></script>
     </head>
     <%-- attr --%>
     <%-- select 태그에서 선택한 값의 value 값을 <a></a> 태그에 실어서 보내기 위함 --%>
@@ -29,7 +29,7 @@
 	    function checkNoti(){
 			$.ajax({
 	   			type:"post",  
-	   			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
+	   			url:"${path}/manage/noticheck.do",
 	   			success:function (data, textStatus) {
 					if(JSON.parse(data)){
 						document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'

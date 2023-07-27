@@ -47,7 +47,7 @@
 			function checkNoti(){
 				$.ajax({
 	       			type:"post",  
-	       			url:"http://localhost:8584/SMFPlatform/manage/noticheck.do",
+	       			url:"${path}/manage/noticheck.do",
 	       			success:function (data, textStatus) {
 						if(JSON.parse(data)){
 							document.getElementById("notification-icon").innerHTML = '<i class="fa fa-bell"></i>'
@@ -296,7 +296,7 @@
 	        		scrollCollapse: true,
 	        	    scrollY: '210px',
 	        	    pageLength: 25,
-	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/lotlist.json'
+	    		    ajax: '${path}/inventory/lotlist.json'
 	    		});
 	        	inventorylist.on('click', 'tbody tr', function () {	//datatable click func
 			        let data = inventorylist.row(this).data();
@@ -314,7 +314,7 @@
 	        	    	data: function() {
 	        	    		return lotdata;
 	        	    	},
-	        	    	url: 'http://localhost:8584/SMFPlatform/inventory/prodlotlist.json'
+	        	    	url: '${path}/inventory/prodlotlist.json'
 	        	    }
 	    		});
 	        	
@@ -323,7 +323,7 @@
 	        		paging: false,
 	        		info: false,
 	        	    scrollY: '210px',
-	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/lotlist.json'
+	    		    ajax: '${path}/inventory/lotlist.json'
 	    		});
 	        	popinventorylist.on('click', 'tbody tr', function () {
 	        		let data = popinventorylist.row(this).data();
@@ -334,7 +334,7 @@
 	        		paging: false,
 	        		info: false,
 	        	    scrollY: '135px',
-	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/warehouselist.json'
+	    		    ajax: '${path}/inventory/warehouselist.json'
 	    		});
 	        	warehouselist.on('click', 'tbody tr', function () {
 	        		let data = warehouselist.row(this).data();
@@ -347,7 +347,7 @@
 	        		paging: false,
 	        		info: false,
 	        	    scrollY: '135px',
-	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/productnolist.json'
+	    		    ajax: '${path}/inventory/productnolist.json'
 	    		});
 	        	productdblist.on('click', 'tbody tr', function () {
 	        		let data = productdblist.row(this).data();
@@ -360,7 +360,7 @@
 	        		paging: false,
 	        		info: false,
 	        	    scrollY: '135px',
-	    		    ajax: 'http://localhost:8584/SMFPlatform/inventory/materialnolist.json'
+	    		    ajax: '${path}/inventory/materialnolist.json'
 	    		});
 	        	materiallist.on('click', 'tbody tr', function () {
 	        		let data = materiallist.row(this).data();
@@ -377,7 +377,7 @@
 	        	    	data: function() {
 	        	    		return lotdata;
 	        	    	},
-	        	    	url: 'http://localhost:8584/SMFPlatform/inventory/prodlotlist.json'
+	        	    	url: '${path}/inventory/prodlotlist.json'
 	        	    },
 	        	    buttons: [
 	        	        {
