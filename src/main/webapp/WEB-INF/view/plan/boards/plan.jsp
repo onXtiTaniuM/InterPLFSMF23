@@ -109,10 +109,6 @@
 		          		 $('#writePost').click(function () {
 		                       $('#window').jqxWindow('open');
 		                   });
-		          		 
-		          		$('#read').click(function () {
-		                    $('#window').jqxWindow('open');
-		                });
 		          	 	}
 		            
 		            //Creating the demo window

@@ -70,15 +70,12 @@
         </script>
          <script>
          $(document).ready(function() {
-		        $(".lineSelect").change(function() { // "lineSelect"가 클릭되었을때 함수 실행
+        	 $(".lineSelect").click(function() { // "lineSelect"가 클릭되었을때 함수 실행
 		        	var lineid = $(this).prop("id"); // "lineid의 value 값 저장"
 		            var sel = $("#line"+lineid).val();
-		        	//alert(sel);
 		  			var lineSelect = $(this).attr("href"); // ID가 "lineSelect"인 태그의 "href" 속성을 변수에 저장
 		  			lineSelect += sel; // 저장된 "href"의 속성에 lineid 값을 붙이기
 		  			$(this).attr("href", lineSelect); // ID가 "lineSelect"인 태그의 "href" 속성을 lineSelect 변수값으로 교체
-		  			//alert($("#lineSelect").attr("href"));
-		  		$("select option[value*='sel']").prop('disabled',true);
 		        });	
 		        
 			});
@@ -224,16 +221,17 @@
 													</c:if>
 												</td>
 	                                    		<td>
-	                                    			<button type="button" class="btn btn-success">
-	                                    				<a id="ordernum${order.num}" class="lineSelect" href="/SMFPlatform/ORstart?prodNo=${order.prodNo}&value=" style="text-decoration-line:none; color : white">공정</a>
-	                                    			</button>
-	                                    			<button type="button" class="btn btn-danger">
-	                                    				<%--forEach 로 꺼낸 데이터들 중에서 항목에 해당하는 값 전송
-	                                    					a hef="" 로 Controller의 Mapping을 호출
-	                                    					호출할 때 파라미터의 값을 같이 전송
-	                                    					Controller에서는 @RequestParm으로 넘어온 데이터 받기--%>
-	                                    				<a href="/SMFPlatform/ORDelete?num=${order.num}"; style="text-decoration-line:none; color : white">삭제</a>
-	                                    			</button>
+	                                    			<c:if test="${order.proCheck != 'Y'}">
+		                                    			<button type="button" class="btn btn-success">
+		                                    				<a id="ordernum${order.num}" class="lineSelect" href="/SMFPlatform/ORstart?prodNo=${order.prodNo}&value="; style="text-decoration-line:none; color : white">공정</a> 
+		                                    			</button>
+		                                    			<button type="button" class="btn btn-danger">
+		                                    				<a href="/SMFPlatform/ORDelete?num=${order.num}"; style="text-decoration-line:none; color : white">삭제</a>
+		                                    			</button>
+	                                    			</c:if>
+	                                    			<c:if test="${order.proCheck == 'Y'}">
+		                                    				<a id="lineSelected"; style="text-decoration-line:none; color : black">진행중</a>
+	                                    			</c:if>
 	                                    		</td>
 	                                    	</tr>
                                     	</c:forEach>
