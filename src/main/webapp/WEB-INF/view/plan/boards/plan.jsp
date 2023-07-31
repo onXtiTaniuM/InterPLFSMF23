@@ -281,7 +281,7 @@
 		    var prodNoInput = document.getElementById('prodNoInput');
 		    
 		    //옵션추가
-		    prodNoInput.value = selectedOption.text;
+		    prodNoInput.value = selectedOption.value;
 		    console.log(prodNoInput.value);    
 		}
 		

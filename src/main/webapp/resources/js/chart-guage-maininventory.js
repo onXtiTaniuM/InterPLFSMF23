@@ -23,6 +23,10 @@ var idcount;
 		}
 	});	 
 })();
+idrotation();
+$("#pertitle").text(planid);
+planprogresspercent();
+
 
 function idrotation(){
 	if(planid == planidlist[idcount-1]){

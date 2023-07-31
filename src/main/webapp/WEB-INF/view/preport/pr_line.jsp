@@ -210,7 +210,7 @@
 	                                    <i class="fa-solid fa-timeline me-1"></i>
 	                                    KCS01
 	                                </div>
-	                                <div class="card-body">
+	                                <div class="card-body"  style = "height: 215px">
 	                                	<p>키캡 라인</p>
 										<strong>만들 수 있는 제품</strong>
 										<p>KC001(염료승화)</p>
@@ -239,7 +239,7 @@
 	                                    <i class="fa-solid fa-timeline me-1"></i>
 	                                    KCS02
 	                                </div>
-	                                <div class="card-body">
+	                                <div class="card-body"  style = "height: 215px">
 	                                	<p>키캡 라인</p>
 										<strong>만들 수 있는 제품</strong>
 										<p>KC001(염료승화)</p>
@@ -273,16 +273,6 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/chart-pie-demo.js"></script>
         <script src="${path}/resources/js/datatables-simple-demo.js"></script>
-        
-        <div>
-        <form>
-	<p>계획번호 선택</p>
-	<select name = "planID">
-	<c:forEach var="lnames" items="${l_names}">
-		<option value="${lnames.planID}">${lnames.planID}</option>
-	</c:forEach>
-	</select>
-</form>
-        </div>
+
     </body>
 </html>

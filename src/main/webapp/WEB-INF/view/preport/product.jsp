@@ -208,11 +208,11 @@
                         	<!-- 이슈확인 게시판 -->
                             <div class="col-lg-7">
                                 <div class="card mb-4">
-                                    <div class="card-header">
+                                     <div class="card-header">
                                     	<i class="fa fa-history me-1"></i>
 	                                    발생한 이슈
 	                                </div>
-	                                <div class="card-body">
+	                                <div class="card-body"  style= "overflow-y: scroll; height: 320px;">
 		                                <div class="table-responsive">
 						                	<table class="table text-nowrap mb-0 align-middle">
 						                    	<thead class="text-dark fs-4">
