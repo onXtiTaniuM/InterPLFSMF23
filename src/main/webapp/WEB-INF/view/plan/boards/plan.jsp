@@ -281,7 +281,7 @@
 		    var prodNoInput = document.getElementById('prodNoInput');
 		    
 		    //옵션추가
-		    prodNoInput.value = selectedOption.text;
+		    prodNoInput.value = selectedOption.value;
 		    console.log(prodNoInput.value);    
 		}
 		
@@ -303,7 +303,7 @@
         	$.ajax({
         		type:"get",
         		async: false,
-        		url: "${path}/ajax/prodVal.do",
+        		url: "http://localhost:8584/SMFPlatform/ajax/prodVal.do",
         		dataType: "text",
         		data:{prodVal:prodVal}, // ex: 'KBD001'
         		success: function(data,textStatus){   			        			

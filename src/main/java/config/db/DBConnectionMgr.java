@@ -36,8 +36,8 @@ final static int MAX_DBPOOLING = 10;
     private Vector connections = new Vector(MAX_DBPOOLING);
     final static String _driver = "oracle.jdbc.driver.OracleDriver";
     final static String _url = "jdbc:oracle:thin:@localhost:1521:xe";
-    private String _user = "HELLOUSER";	
-    private String _password = "HELLOUSER";
+    private String _user = "IPLF";	
+    private String _password = "IPLF";
     
     private boolean _traceOn = false;
     private boolean initialized = false;

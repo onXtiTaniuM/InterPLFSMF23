@@ -296,16 +296,5 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="${path}/resources/js/chart-pie-demo.js"></script>
         <script src="${path}/resources/js/datatables-simple-demo.js"></script>
-        
-        <div>
-        <form>
-	<p>계획번호 선택</p>
-	<select name = "planID">
-	<c:forEach var="lnames" items="${l_names}">
-		<option value="${lnames.planID}">${lnames.planID}</option>
-	</c:forEach>
-	</select>
-</form>
-        </div>
     </body>
 </html>

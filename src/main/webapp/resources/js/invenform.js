@@ -376,7 +376,7 @@ function initMaterForm(){
 function lotfiller(lotno){
 	$.ajax({
               type: 'POST',
-              url: '${path}/inventory/lotdata.json',
+              url: 'http://localhost:8584/SMFPlatform/inventory/lotdata.json',
               dataType: 'json',
               async: false,
               data:{lot:lotno},
@@ -412,7 +412,7 @@ function insertLot(){
 	}else{
 		$.ajax({
 	              type: 'POST',
-	              url: '${path}/inventory/insertlot.do',
+	              url: 'http://localhost:8584/SMFPlatform/inventory/insertlot.do',
 	              async: false,
 	              data:formdata,
 	              success: function(data) {
@@ -450,7 +450,7 @@ function updateLot(){
 	}else{
 		$.ajax({
 	              type: 'POST',
-	              url: '${path}/inventory/updatelot.do',
+	              url: 'http://localhost:8584/SMFPlatform/inventory/updatelot.do',
 	              async: false,
 	              data:formdata,
 	              success: function(data) {
@@ -484,7 +484,7 @@ function insertProduct(){
 	}else{
 		$.ajax({
 	              type: 'POST',
-	              url: '${path}/inventory/insertproduct.do',
+	              url: 'http://localhost:8584/SMFPlatform/inventory/insertproduct.do',
 	              async: false,
 	              data:formdata,
 	              success: function(data) {
@@ -516,7 +516,7 @@ function insertMaterial(){
 	}else{
 		$.ajax({
 	              type: 'POST',
-	              url: '${path}/inventory/insertmaterial.do',
+	              url: 'http://localhost:8584/SMFPlatform/inventory/insertmaterial.do',
 	              async: false,
 	              data:formdata,
 	              success: function(data) {
@@ -546,7 +546,7 @@ function insertWhse(){
 	}else{
 		$.ajax({
 	              type: 'POST',
-	              url: '${path}/inventory/insertwh.do',
+	              url: 'http://localhost:8584/SMFPlatform/inventory/insertwh.do',
 	              async: false,
 	              data:{lot:lotno},
 	              success: function(data) {
