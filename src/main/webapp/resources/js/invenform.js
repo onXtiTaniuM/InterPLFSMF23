@@ -417,8 +417,7 @@ function insertLot(){
 	              data:formdata,
 	              success: function(data) {
 	              	alert("입력 완료!");
-					inventorylist.ajax.reload();
-					popinventorylist.ajax.reload();
+					reloadinvenList();
 					$("#lotinsertform").jqxForm("val",{lotno: null,prodno: null,materno: null,qty: null,whseno: null});
 	              },
 	              error: function(xhr, status, error) {
@@ -455,7 +454,7 @@ function updateLot(){
 	              data:formdata,
 	              success: function(data) {
 	               	alert("입력 완료!");
-					popinventorylist.ajax.reload();
+					reloadinvenList();
 					$("#lotupdateform").jqxForm("val",{lotno: null,prodno: null,materno: null,qty: null,whseno: null});
 	              },
 	              error: function(xhr, status, error) {
