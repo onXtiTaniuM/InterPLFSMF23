@@ -73,4 +73,11 @@ public class StatisticsService {
 //		System.out.println(percents[2]);
 		return percents;
 	}
+	
+	public boolean planResultChecker(String planid) {
+		if(mainDao.countResultProdwithPid(planid) != 0) {
+			return true;
+		}
+		return false;
+	}
 }

@@ -688,4 +688,12 @@ public class MainDao {
 		String result = jdbcTemplate.queryForObject("SELECT processid FROM process where planid = ?", where, String.class);
 		return result;
 	}
+
+	public int countResultProdwithPid(String planid) {
+		Object[] where = new Object[] {planid};
+		int count = jdbcTemplate.queryForObject(
+				"select count(*) from  result_prod rp left join process pc on rp.processid=pc.processid where pc.planid = ?", where,
+					Integer.class);
+		return count;
+	}
 }

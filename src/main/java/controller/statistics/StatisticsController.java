@@ -114,7 +114,9 @@ public class StatisticsController {
 		List<ApprovalPlan> plan = statisticsService.getPlanList();
 		JSONArray chart = new JSONArray();
 		for(ApprovalPlan planid : plan) {
-			chart.add(planid.getPlanid());
+			if(statisticsService.planResultChecker(planid.getPlanid())) {
+				chart.add(planid.getPlanid());
+			}
 		}
 		
 		String jsonInfo = chart.toJSONString();
