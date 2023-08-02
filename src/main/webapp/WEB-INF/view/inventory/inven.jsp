@@ -656,6 +656,8 @@
 								            </tr>
 								        </thead>
                     				</table>
+                    				<hr>
+                    				<div id='prodmanageform' style="width: auto; height: auto;"></div>
 								</div>
 		                    </div>
 	                    </div>
